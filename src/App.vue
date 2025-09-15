@@ -1,84 +1,139 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-tr from-indigo-600 via-fuchsia-500 to-pink-400 flex flex-col">
-    <nav class="flex justify-between items-center py-6 px-8">
-      <div class="flex items-center gap-2">
-        <img class="h-10 w-10" src="https://delhimetrorail.com/static/media/logo-passenger.d3afd408.svg" alt="DMRC Logo" />
-        <span class="font-bold text-white text-xl tracking-tight">DMRC Crew</span>
+  <div class="min-h-screen bg-gray-100 flex flex-col">
+    <!-- Navbar -->
+    <nav class="bg-red-700 text-white shadow">
+      <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+        <h1 class="text-xl font-bold">DMRC Portal</h1>
+        <div>
+          <template v-if="!isLoggedIn">
+            <button @click="openLogin" class="px-4 py-2 rounded hover:bg-red-800">Login</button>
+            <button @click="openSignup" class="ml-2 px-4 py-2 rounded border border-white hover:bg-white hover:text-red-700">Sign Up</button>
+          </template>
+          <template v-else>
+            <span class="mr-4">Welcome, {{ userEmail }}</span>
+            <button @click="logout" class="px-4 py-2 rounded bg-white text-red-700 hover:bg-gray-200">Logout</button>
+          </template>
+        </div>
       </div>
-      <a href="#" class="hover:underline text-white text-base font-medium transition">Learn More</a>
     </nav>
 
-    <main class="flex-1 flex flex-col-reverse md:flex-row items-center justify-center px-6 md:px-12 pb-6 md:pb-0 gap-10 md:gap-20">
-      <!-- Left: Hero Content -->
-      <section class="max-w-xl">
-        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white drop-shadow-lg mb-6 leading-tight">
-
-          <br>
-          <span class="inline-block bg-white bg-opacity-30 px-3 py-1 mt-3 mb-2 rounded-md text-fuchsia-100 shadow-lg animate-pulse">
-            Optimize DMRC Crew Scheduling Effortlessly.
-          </span>
-          <br>
-        </h1>
-        <p class="text-lg md:text-xl text-white/90 mb-8 drop-shadow">
-          Modern. Automated. Human-centric. Empower team efficiency across all metro lines with seamless, intelligent crew management!
-        </p>
-        <button
-          @click="enterSoftware"
-          :disabled="loading"
-          class="relative inline-flex items-center px-7 py-3 rounded-full bg-white/90 hover:bg-white text-fuchsia-600 shadow-lg font-semibold text-lg transition-all group"
-        >
-          <span v-if="!loading" class="group-hover:scale-105 transition">Enter Software</span>
-          <svg v-else class="animate-spin ml-2 h-5 w-5" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 0116 0"/>
-          </svg>
-        </button>
-        <p class="text-xs text-fuchsia-50 mt-5 mb-1 transition-opacity animate-fadeIn">Try it now. No login required!</p>
-      </section>
-      <!-- Right: Hero Illustration -->
-      <section class="flex-shrink-0">
-        <video
-          src="/Free Metro Train Animation Animation by Divyesh 8D  LottieFiles.mp4"
-          autoplay
-          loop
-          muted
-          playsinline
-          class="w-80 md:w-96 rounded-2xl shadow-2xl bg-white/10 animate-slideInUp"
-        ></video>
-      </section>
-
+    <!-- Page Content -->
+    <main class="flex-1">
+      <router-view />
     </main>
 
-    <footer class="text-center text-white/70 py-6 text-xs tracking-wide">
-      Made with <span class="text-pink-200">&hearts;</span> using Vue.js 3 + Tailwind CSS &mdash; {{ year }}
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 text-center py-6">
+      © {{ new Date().getFullYear() }} Delhi Metro Rail Corporation. All rights reserved.
     </footer>
+
+    <!-- Login / Signup Modals -->
+    <div v-if="showLogin" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+        <h2 class="text-lg font-semibold text-red-700 mb-4">Login</h2>
+        <form @submit.prevent="login">
+          <input v-model="loginEmail" type="email" placeholder="Email" class="w-full mb-3 p-2 border rounded" required />
+          <input v-model="loginPassword" type="password" placeholder="Password" class="w-full mb-3 p-2 border rounded" required />
+          <button type="submit" class="w-full py-2 bg-red-700 text-white rounded hover:bg-red-800">Login</button>
+        </form>
+        <p v-if="loginError" class="text-red-600 text-sm mt-2">{{ loginError }}</p>
+        <button @click="showLogin = false" class="mt-4 text-sm text-gray-500 hover:underline">Close</button>
+      </div>
+    </div>
+
+    <div v-if="showSignup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+      <div class="bg-white rounded-lg shadow-lg p-6 w-96">
+        <h2 class="text-lg font-semibold text-red-700 mb-4">Sign Up</h2>
+        <form @submit.prevent="signup">
+          <input v-model="signupEmail" type="email" placeholder="Email" class="w-full mb-3 p-2 border rounded" required />
+          <input v-model="signupPassword" type="password" placeholder="Password" class="w-full mb-3 p-2 border rounded" required />
+          <button type="submit" class="w-full py-2 bg-red-700 text-white rounded hover:bg-red-800">Sign Up</button>
+        </form>
+        <p v-if="signupError" class="text-red-600 text-sm mt-2">{{ signupError }}</p>
+        <button @click="showSignup = false" class="mt-4 text-sm text-gray-500 hover:underline">Close</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue'
-const year = new Date().getFullYear()
-const loading = ref(false)
+import { ref, onMounted } from "vue"
+import { useRouter } from "vue-router"
+import axios from "axios"
 
-const enterSoftware = () => {
-  loading.value = true
-  setTimeout(() => {
-    loading.value = false
-    alert('Loading next page...')
-  }, 1300)
+const router = useRouter()
+
+const isLoggedIn = ref(false)
+const userEmail = ref("")
+const token = ref("")
+
+// modal visibility
+const showLogin = ref(false)
+const showSignup = ref(false)
+
+// login form
+const loginEmail = ref("")
+const loginPassword = ref("")
+const loginError = ref("")
+
+// signup form
+const signupEmail = ref("")
+const signupPassword = ref("")
+const signupError = ref("")
+
+const openLogin = () => { showLogin.value = true; showSignup.value = false }
+const openSignup = () => { showSignup.value = true; showLogin.value = false }
+
+const login = async () => {
+  loginError.value = ""
+  try {
+    const res = await axios.post("http://127.0.0.1:8000/login", {
+      email: loginEmail.value,
+      password: loginPassword.value,
+    })
+    token.value = res.data.access_token
+    userEmail.value = loginEmail.value
+    isLoggedIn.value = true
+    localStorage.setItem("token", token.value)
+    localStorage.setItem("userEmail", userEmail.value)
+    showLogin.value = false
+    router.push("/metro-home")
+  } catch (err) {
+    loginError.value = err.response?.data?.detail || "Login failed."
+  }
 }
+
+const signup = async () => {
+  signupError.value = ""
+  try {
+    await axios.post("http://127.0.0.1:8000/signup", {
+      email: signupEmail.value,
+      password: signupPassword.value,
+    })
+    alert("Signup successful! Please log in.")
+    showSignup.value = false
+    showLogin.value = true
+  } catch (err) {
+    signupError.value = err.response?.data?.detail || "Signup failed."
+  }
+}
+
+const logout = () => {
+  isLoggedIn.value = false
+  token.value = ""
+  userEmail.value = ""
+  localStorage.removeItem("token")
+  localStorage.removeItem("userEmail")
+  router.push("/")
+}
+
+onMounted(() => {
+  const savedToken = localStorage.getItem("token")
+  const savedEmail = localStorage.getItem("userEmail")
+  if (savedToken && savedEmail) {
+    token.value = savedToken
+    userEmail.value = savedEmail
+    isLoggedIn.value = true
+  }
+})
 </script>
-
-<style scoped>
-@keyframes fadeIn {
-  0% { opacity: 0 }
-  100% { opacity: 1 }
-}
-.animate-fadeIn { animation: fadeIn 1.8s cubic-bezier(.4,0,.2,1) 0.35s both; }
-
-@keyframes slideInUp {
-  from { opacity: 0; transform: translateY(40px);}
-  to { opacity: 1; transform: none;}
-}
-.animate-slideInUp { animation: slideInUp 2s ease-out 0.2s both; }
-</style>
