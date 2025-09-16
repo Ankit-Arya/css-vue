@@ -1,13 +1,34 @@
 <template>
-  <section class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-red-600 to-blue-900 text-white">
-    <div class="max-w-lg w-full text-center p-8 rounded-xl shadow-lg bg-opacity-80 bg-black">
-      <h1 class="text-4xl font-bold mb-4 tracking-wide">Welcome to DMRC Metro METROHOME REDIRECT</h1>
-      <p class="mb-8 text-xl">Explore metro routes, recharge smart cards, and get instant support. Fast. Secure. Modern.</p>
-      <div class="grid gap-4">
-        <button class="w-full px-4 py-2 bg-blue-600 rounded hover:bg-blue-700 transition">Explore Routes</button>
-        <button class="w-full px-4 py-2 bg-red-600 rounded hover:bg-red-700 transition">Smart Cards</button>
-        <button class="w-full px-4 py-2 bg-gray-800 rounded hover:bg-gray-900 transition">Customer Care</button>
+  <section class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-red-700 via-gray-900 to-blue-900 text-white">
+    <div class="max-w-lg w-full text-center p-8 rounded-xl shadow-2xl bg-black bg-opacity-70">
+      <!-- Title -->
+      <h1 class="text-4xl font-extrabold mb-6 tracking-wide text-red-400">
+        Welcome to DMRC
+      </h1>
+      <p class="mb-10 text-lg text-gray-200">
+        Choose an option to continue your metro experience
+      </p>
+
+      <!-- Buttons -->
+      <div class="grid gap-5">
+        <RouterLink 
+          to="/demo" 
+          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 transition"
+        >
+          🎥 Watch Demo
+        </RouterLink>
+
+        <RouterLink 
+          to="/trip-charting" 
+          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 transition"
+        >
+          🚇 Enter Trip Charting Solution
+        </RouterLink>
       </div>
     </div>
   </section>
 </template>
+
+<script setup>
+// No special logic yet; just UI + routing
+</script>

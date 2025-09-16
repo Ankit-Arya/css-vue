@@ -1,21 +1,47 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex flex-col">
-    <!-- Navbar -->
-    <nav class="bg-red-700 text-white shadow">
-      <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-        <h1 class="text-xl font-bold">DMRC Portal</h1>
-        <div>
-          <template v-if="!isLoggedIn">
-            <button @click="openLogin" class="px-4 py-2 rounded hover:bg-red-800">Login</button>
-            <button @click="openSignup" class="ml-2 px-4 py-2 rounded border border-white hover:bg-white hover:text-red-700">Sign Up</button>
-          </template>
-          <template v-else>
-            <span class="mr-4">Welcome, {{ userEmail }}</span>
-            <button @click="logout" class="px-4 py-2 rounded bg-white text-red-700 hover:bg-gray-200">Logout</button>
-          </template>
-        </div>
-      </div>
-    </nav>
+<!-- Navbar -->
+<nav class="bg-red-700 text-white shadow">
+  <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+    <!-- Home link -->
+    <RouterLink to="/" class="text-xl font-bold hover:text-gray-200 transition">
+      DMRC Portal
+    </RouterLink>
+
+    <div>
+      <template v-if="!isLoggedIn">
+        <button @click="openLogin" class="px-4 py-2 rounded hover:bg-red-800">
+          Login
+        </button>
+        <button
+          @click="openSignup"
+          class="ml-2 px-4 py-2 rounded border border-white hover:bg-white hover:text-red-700"
+        >
+          Sign Up
+        </button>
+      </template>
+
+      <template v-else>
+        <span class="mr-4">Welcome, {{ userEmail }}</span>
+            <!-- New buttons for logged-in user -->
+      <RouterLink
+        to="/metro-home"
+        class="px-3 py-1 rounded border border-white hover:bg-blue-300 transition text-white text-sm"
+      >
+        Work Space
+      </RouterLink>
+
+      <button
+        @click="logout"
+        class="ml-2 px-3 py-1 rounded border border-white hover:bg-gray-900 transition text-white text-sm"
+      >
+        Logout
+      </button>
+
+      </template>
+    </div>
+  </div>
+</nav>
 
     <!-- Page Content -->
     <main class="flex-1">

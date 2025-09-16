@@ -16,10 +16,13 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Landing from '../views/Landing.vue'
 import MetroHome from '../views/MetroHome.vue'
+import Demo from '../views/Demo.vue'
 
 const routes = [
   { path: '/', name: 'Landing', component: Landing },
   { path: '/metro-home', name: 'MetroHome', component: MetroHome },
+  { path: '/demo', name: 'Demo', component: Demo },
+  // { path: '/trip-charting', name: 'TripCharting', component: TripCharting }
 ]
 
 const router = createRouter({
