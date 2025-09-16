@@ -1,75 +1,117 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-100">
-    <!-- Hero Section -->
-    <header class="relative bg-gradient-to-r from-red-700 via-red-800 to-blue-900 text-white py-16 shadow-lg">
-      <div class="max-w-6xl mx-auto text-center px-6">
-        <!-- Logo -->
-        <img src="/dmrc-logo.png" alt="DMRC Logo" class="mx-auto mb-6 h-20 w-auto animate-fadeIn" />
+  <div class="min-h-screen flex flex-col bg-gray-50">
+    <!-- Hero / Header Section -->
+    <header
+      class="bg-gradient-to-r from-red-700 via-red-800 to-blue-900 text-white text-center py-16 shadow-lg relative"
+    >
+      <!-- Logo -->
+      <!-- <div class="absolute top-6 left-6 flex items-center space-x-3">
+        <img
+          src="https://www.dmrcsmartcard.com/images/logo.png"
+          alt="DMRC Logo"
+          class="h-12 w-12 object-contain animate-pulse"
+        />
+        <span class="text-xl font-bold tracking-wide">Delhi Metro Rail Corporation</span>
+      </div> -->
 
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-4 tracking-wide animate-slideDown">
-          Delhi Metro Rail Corporation
-        </h1>
-        <p class="text-lg md:text-xl text-gray-200 max-w-3xl mx-auto animate-fadeIn delay-200">
-          Efficient Operations • Employee Management • Optimized Trip Charting • Comprehensive Reports
-        </p>
-      </div>
+      <!-- Main Heading -->
+      <h1 class="text-4xl font-extrabold mb-4 animate-fadeIn">
+        Welcome to DMRC Enterprise Portal
+      </h1>
+      <p class="text-lg max-w-2xl mx-auto animate-fadeIn delay-200">
+        Powering metro operations, employee management, and optimization with
+        secure, scalable digital solutions.
+      </p>
     </header>
 
-    <!-- Features Section -->
-    <main class="flex-1 max-w-6xl mx-auto py-16 px-6 grid gap-8 md:grid-cols-3">
-      <!-- Feature Card -->
+    <!-- Main Content -->
+    <main
+      class="flex-1 max-w-6xl mx-auto py-16 px-6 grid md:grid-cols-3 gap-8"
+    >
+      <!-- Card 1 -->
       <div
-        v-for="feature in features"
-        :key="feature.title"
-        class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transform hover:-translate-y-1 transition duration-300"
+        class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition transform hover:-translate-y-1"
       >
-        <div class="flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
-          <component :is="feature.icon" class="h-6 w-6 text-red-700" />
+        <div
+          class="flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4 text-red-700 text-2xl"
+        >
+          📊
         </div>
-        <h3 class="text-xl font-semibold text-red-700 mb-2">{{ feature.title }}</h3>
-        <p class="text-gray-600">{{ feature.description }}</p>
+        <h3 class="text-xl font-semibold text-red-700 mb-2">
+          Trip Charting
+        </h3>
+        <p class="text-gray-600">
+          Upload timetables, optimize stepping back, and generate detailed trip
+          charts.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div
+        class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition transform hover:-translate-y-1"
+      >
+        <div
+          class="flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4 text-blue-700 text-2xl"
+        >
+          👥
+        </div>
+        <h3 class="text-xl font-semibold text-blue-700 mb-2">
+          Employee Management
+        </h3>
+        <p class="text-gray-600">
+          Manage shifts, schedules, and employee data seamlessly across the
+          network.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div
+        class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition transform hover:-translate-y-1"
+      >
+        <div
+          class="flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4 text-green-700 text-2xl"
+        >
+          📑
+        </div>
+        <h3 class="text-xl font-semibold text-green-700 mb-2">
+          Reports & Analytics
+        </h3>
+        <p class="text-gray-600">
+          Generate operational insights, optimize performance, and view
+          compliance reports.
+        </p>
       </div>
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-400 text-center py-6 mt-auto">
-      <p>&copy; {{ new Date().getFullYear() }} Delhi Metro Rail Corporation. All Rights Reserved.</p>
+    <footer class="bg-gray-900 text-gray-300 text-center py-6 text-sm">
+      © {{ new Date().getFullYear() }} Delhi Metro Rail Corporation. All Rights
+      Reserved.
     </footer>
   </div>
 </template>
 
 <script setup>
-import { ChartBarIcon, UsersIcon, ClipboardDocumentListIcon } from "@heroicons/vue/24/outline"
-
-const features = [
-  {
-    title: "Trip Charting",
-    description: "Generate and optimize metro trip charts with real-time simulation and reporting.",
-    icon: ChartBarIcon,
-  },
-  {
-    title: "Employee Management",
-    description: "Manage crew schedules, duties, and performance seamlessly in one place.",
-    icon: UsersIcon,
-  },
-  {
-    title: "Reports & Analytics",
-    description: "Access detailed operational reports and insights for better decision making.",
-    icon: ClipboardDocumentListIcon,
-  },
-]
+// no external icons needed
 </script>
 
 <style>
-/* Animations for subtle professionalism */
+/* Custom Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
+
+.animate-fadeIn {
+  animation: fadeIn 0.8s ease-in-out forwards;
 }
-.animate-fadeIn { animation: fadeIn 0.8s ease forwards; }
-.animate-slideDown { animation: slideDown 1s ease forwards; }
+.delay-200 {
+  animation-delay: 0.2s;
+}
 </style>
