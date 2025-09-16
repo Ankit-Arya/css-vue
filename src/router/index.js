@@ -22,7 +22,8 @@ const routes = [
   { path: '/', name: 'Landing', component: Landing },
   { path: '/metro-home', name: 'MetroHome', component: MetroHome },
   { path: '/demo', name: 'Demo', component: Demo },
-  // { path: '/trip-charting', name: 'TripCharting', component: TripCharting }
+  { path: '/trip-charting', name: 'TripCharting', component: TripCharting },
+  { path: '/trip-charting-status', name: 'TripChartingStatus', component: TripChartingStatus },
 ]
 
 const router = createRouter({
