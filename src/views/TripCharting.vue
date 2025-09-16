@@ -1,48 +1,49 @@
 <template>
-  <section class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-900 via-gray-900 to-red-700 text-white p-6">
-    <div class="w-full max-w-3xl bg-black bg-opacity-70 rounded-xl shadow-2xl p-8">
-
-      <h1 class="text-3xl font-extrabold text-center mb-6 text-red-400 animate-pulse">
-        🚇 DMRC Trip Charting
-      </h1>
+  <section class="min-h-screen flex flex-col items-center justify-start bg-gray-900 text-white p-6">
+    <div class="w-full max-w-4xl mt-10 bg-gray-800 rounded-xl shadow-xl p-8">
+      
+      <!-- Header -->
+      <h1 class="text-3xl font-bold text-center mb-6 text-red-500">DMRC Trip Charting Solution</h1>
       <p class="text-center text-gray-300 mb-8">
-        Upload your real timetable and input stepping back values for simulation.
+        Upload the timetable file and configure stepping back times for accurate trip chart generation.
       </p>
 
-      <!-- File Upload -->
-      <div
-        class="border-2 border-dashed border-gray-500 hover:border-red-400 rounded-lg p-6 text-center cursor-pointer transition mb-6"
-        @dragover.prevent
-        @drop.prevent="handleDrop"
-      >
-        <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" />
-        <p class="text-lg">
-          📂 <span class="font-semibold">Drag & drop</span> your timetable or <span class="text-blue-400 underline cursor-pointer" @click="triggerFileInput">browse</span>
-        </p>
-        <p v-if="fileName" class="mt-3 text-green-400 font-medium animate-fadeIn">
-          ✅ {{ fileName }} selected
-        </p>
+      <!-- File Upload Section -->
+      <div class="mb-6">
+        <label class="block mb-2 font-semibold text-gray-200">Timetable File</label>
+        <div
+          class="border-2 border-gray-600 hover:border-red-500 rounded-lg p-6 text-center cursor-pointer transition bg-gray-700"
+          @dragover.prevent
+          @drop.prevent="handleDrop"
+          @click="triggerFileInput"
+        >
+          <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" />
+          <p class="text-gray-300">
+            Drag & drop your timetable here, or click to browse
+          </p>
+        </div>
+        <p v-if="fileName" class="mt-2 text-green-400 font-medium">{{ fileName }} selected</p>
       </div>
 
-      <!-- Stepping Back Entries -->
-      <div class="mb-4">
-        <h2 class="text-lg font-semibold mb-2 text-blue-400">Stepping Back Entries</h2>
-        <div v-for="(entry, idx) in form.steppingBack" :key="idx" class="bg-gray-800 p-4 rounded-lg mb-2 relative">
-          <input v-model="entry.station" placeholder="Station Name" class="w-full mb-1 p-2 rounded bg-gray-900 border border-gray-600" />
-          <div class="grid grid-cols-2 gap-2">
-            <input v-model="entry.start" type="time" class="p-2 rounded bg-gray-900 border border-gray-600" />
-            <input v-model="entry.end" type="time" class="p-2 rounded bg-gray-900 border border-gray-600" />
+      <!-- Stepping Back Entries Section -->
+      <div class="mb-6">
+        <label class="block mb-2 font-semibold text-gray-200">Stepping Back Entries</label>
+        <div v-for="(entry, idx) in form.steppingBack" :key="idx" class="bg-gray-700 p-4 rounded mb-2 relative border border-gray-600">
+          <div class="grid grid-cols-3 gap-4">
+            <input v-model="entry.station" placeholder="Station Name" class="p-2 rounded bg-gray-800 border border-gray-600 w-full" />
+            <input v-model="entry.start" type="time" class="p-2 rounded bg-gray-800 border border-gray-600 w-full" />
+            <input v-model="entry.end" type="time" class="p-2 rounded bg-gray-800 border border-gray-600 w-full" />
           </div>
-          <button type="button" @click="removeEntry(idx)" class="absolute top-2 right-2 text-red-400 hover:text-red-600">✖</button>
+          <button type="button" @click="removeEntry(idx)" class="absolute top-2 right-2 text-red-400 hover:text-red-600 font-bold">✖</button>
         </div>
-        <button type="button" @click="addEntry" class="w-full py-2 rounded bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 mt-2 font-semibold">
-          ➕ Add Entry
+        <button type="button" @click="addEntry" class="mt-2 py-2 px-4 rounded bg-blue-600 hover:bg-blue-700 transition font-semibold">
+          ➕ Add Stepping Back Entry
         </button>
       </div>
 
-      <!-- Submit -->
-      <button @click="submitSimulation" class="w-full py-3 rounded-lg bg-gradient-to-r from-red-600 to-blue-700 hover:from-red-700 hover:to-blue-800 text-lg font-semibold transition">
-        🚀 Submit Simulation
+      <!-- Submit Button -->
+      <button @click="submitSimulation" class="w-full py-3 rounded bg-gradient-to-r from-red-600 to-blue-700 hover:from-red-700 hover:to-blue-800 text-lg font-semibold transition">
+        Submit Trip Chart Simulation
       </button>
 
     </div>
@@ -56,21 +57,20 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 const fileInput = ref(null)
 const fileName = ref('')
-const form = reactive({
-  steppingBack: []
-})
+const form = reactive({ steppingBack: [] })
 
 const triggerFileInput = () => fileInput.value.click()
 const handleFileUpload = (e) => { if(e.target.files[0]) fileName.value = e.target.files[0].name }
 const handleDrop = (e) => { if(e.dataTransfer.files[0]) fileName.value = e.dataTransfer.files[0].name }
 
 const addEntry = () => form.steppingBack.push({ station: '', start: '', end: '' })
-const removeEntry = (idx) => form.steppingBack.splice(idx,1)
+const removeEntry = (idx) => form.steppingBack.splice(idx, 1)
 
 const submitSimulation = async () => {
-  if(!fileName.value) { alert('Please upload a timetable file'); return }
+  if (!fileName.value) { alert('Please upload a timetable file'); return }
+
   const payload = {
-    user_id: '123', // can be dynamic in real app
+    user_id: '123', // replace with real user ID from login
     file_name: fileName.value,
     stepping_back: form.steppingBack
   }
@@ -82,9 +82,9 @@ const submitSimulation = async () => {
       body: JSON.stringify(payload)
     })
     const data = await res.json()
-    const executionId = data.execution_id
-    router.push({ name: 'TripChartingStatus', params: { executionId } })
-  } catch(err) {
+    if (!data.execution_id) throw new Error('No execution ID returned')
+    router.push({ name: 'TripChartingStatus', params: { executionId: data.execution_id } })
+  } catch (err) {
     console.error('Submission failed', err)
     alert('Failed to submit simulation')
   }
@@ -92,6 +92,7 @@ const submitSimulation = async () => {
 </script>
 
 <style>
+/* subtle fade-in for file selection */
 .animate-fadeIn { animation: fadeIn 0.6s ease-in-out forwards; }
-@keyframes fadeIn { from { opacity:0; transform:translateY(10px) } to { opacity:1; transform:translateY(0) } }
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 </style>
