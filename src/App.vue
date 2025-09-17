@@ -83,53 +83,65 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, watch, computed  } from "vue"
 import { useRouter } from "vue-router"
 import axios from "axios"
+import { useAuthStore } from './stores/auth.js'  // adjust path if needed
 
 const router = useRouter()
+const auth = useAuthStore()
 
-const isLoggedIn = ref(false)
-const userEmail = ref("")
-const token = ref("")
-
-// modal visibility
+// Modal visibility (local state)
 const showLogin = ref(false)
 const showSignup = ref(false)
 
-// login form
+// Login form
 const loginEmail = ref("")
 const loginPassword = ref("")
 const loginError = ref("")
 
-// signup form
+// Signup form
 const signupEmail = ref("")
 const signupPassword = ref("")
 const signupError = ref("")
 
-const openLogin = () => { showLogin.value = true; showSignup.value = false }
-const openSignup = () => { showSignup.value = true; showLogin.value = false }
+// Modal open/close
+const openLogin = () => {
+  console.log('Opening login modal')
+  showLogin.value = true
+  showSignup.value = false
+}
 
+const openSignup = () => {
+  console.log('Opening signup modal')
+  showSignup.value = true
+  showLogin.value = false
+}
+
+// Login method (updates Pinia store)
 const login = async () => {
+  console.log('Login attempt with', loginEmail.value)
   loginError.value = ""
   try {
     const res = await axios.post("http://127.0.0.1:8000/login", {
       email: loginEmail.value,
       password: loginPassword.value,
     })
-    token.value = res.data.access_token
-    userEmail.value = loginEmail.value
-    isLoggedIn.value = true
-    localStorage.setItem("token", token.value)
-    localStorage.setItem("userEmail", userEmail.value)
+    console.log('Login success response:', res.data)
+
+    auth.login(res.data.access_token)  // <-- Use Pinia store action
+
     showLogin.value = false
     router.push("/metro-home")
   } catch (err) {
+    console.error('Login error:', err)
     loginError.value = err.response?.data?.detail || "Login failed."
   }
 }
 
+// Signup method (same as before)
 const signup = async () => {
+  console.log('Signup attempt with', signupEmail.value)
   signupError.value = ""
   try {
     await axios.post("http://127.0.0.1:8000/signup", {
@@ -140,26 +152,39 @@ const signup = async () => {
     showSignup.value = false
     showLogin.value = true
   } catch (err) {
+    console.error('Signup error:', err)
     signupError.value = err.response?.data?.detail || "Signup failed."
   }
 }
 
+// Logout method (Pinia store)
 const logout = () => {
-  isLoggedIn.value = false
-  token.value = ""
-  userEmail.value = ""
-  localStorage.removeItem("token")
-  localStorage.removeItem("userEmail")
+  console.log('Logout called')
+  auth.logout()
   router.push("/")
+  console.log('After logout: loggedIn?', auth.isLoggedIn)
 }
 
+// Initialize auth state on mount (use Pinia's initFromStorage)
 onMounted(() => {
-  const savedToken = localStorage.getItem("token")
-  const savedEmail = localStorage.getItem("userEmail")
-  if (savedToken && savedEmail) {
-    token.value = savedToken
-    userEmail.value = savedEmail
-    isLoggedIn.value = true
-  }
+  console.log('App mounted, initializing auth from storage')
+  auth.initFromStorage()
+})
+
+// Expose reactive Pinia properties for template use
+const isLoggedIn = computed(() => auth.isLoggedIn)
+const userEmail = computed(() => auth.user?.username || "")
+
+// Optional: watch for debugging
+watch(() => auth.isLoggedIn, (val) => {
+  console.log('Pinia isLoggedIn changed:', val)
+})
+watch(() => auth.token, (val) => {
+  console.log('Pinia token changed:', val)
+})
+watch(() => auth.user, (val) => {
+  console.log('Pinia user changed:', val)
 })
 </script>
+
+

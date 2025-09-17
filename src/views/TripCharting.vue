@@ -50,7 +50,7 @@
   </section>
 </template>
 
-<script setup>
+<!-- <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -80,6 +80,62 @@ const submitSimulation = async () => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
+    })
+    const data = await res.json()
+    if (!data.execution_id) throw new Error('No execution ID returned')
+    router.push({ name: 'TripChartingStatus', params: { executionId: data.execution_id } })
+  } catch (err) {
+    console.error('Submission failed', err)
+    alert('Failed to submit simulation')
+  }
+}
+</script> -->
+<script setup>
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const router = useRouter()
+const fileInput = ref(null)
+const fileObj = ref(null)
+const fileName = ref('')
+const form = reactive({ steppingBack: [] })
+const auth = useAuthStore()
+
+const triggerFileInput = () => fileInput.value.click()
+const handleFileUpload = (e) => {
+  if (e.target.files[0]) {
+    fileObj.value = e.target.files[0]
+    fileName.value = e.target.files[0].name
+  }
+}
+const handleDrop = (e) => {
+  if (e.dataTransfer.files[0]) {
+    fileObj.value = e.dataTransfer.files[0]
+    fileName.value = e.dataTransfer.files[0].name
+  }
+}
+
+const addEntry = () => form.steppingBack.push({ station: '', start: '', end: '' })
+const removeEntry = (idx) => form.steppingBack.splice(idx, 1)
+
+const submitSimulation = async () => {
+  if (!fileObj.value) {
+    alert('Please upload a timetable file')
+    return
+  }
+  const executionId = crypto.randomUUID()
+  const payload = new FormData()
+  payload.append('execution_id', executionId)
+  payload.append('file', fileObj.value)
+  payload.append('user_id', auth.user?.id || '')
+  payload.append('user_name', auth.user?.username || '')
+  payload.append('stepping_back', JSON.stringify(form.steppingBack))
+
+  try {
+    const res = await fetch('http://localhost:8000/simulate', {
+      method: 'POST',
+      body: payload,
     })
     const data = await res.json()
     if (!data.execution_id) throw new Error('No execution ID returned')
