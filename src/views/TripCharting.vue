@@ -50,46 +50,6 @@
   </section>
 </template>
 
-<!-- <script setup>
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
-const fileInput = ref(null)
-const fileName = ref('')
-const form = reactive({ steppingBack: [] })
-
-const triggerFileInput = () => fileInput.value.click()
-const handleFileUpload = (e) => { if(e.target.files[0]) fileName.value = e.target.files[0].name }
-const handleDrop = (e) => { if(e.dataTransfer.files[0]) fileName.value = e.dataTransfer.files[0].name }
-
-const addEntry = () => form.steppingBack.push({ station: '', start: '', end: '' })
-const removeEntry = (idx) => form.steppingBack.splice(idx, 1)
-
-const submitSimulation = async () => {
-  if (!fileName.value) { alert('Please upload a timetable file'); return }
-
-  const payload = {
-    user_id: '123', // replace with real user ID from login
-    file_name: fileName.value,
-    stepping_back: form.steppingBack
-  }
-
-  try {
-    const res = await fetch('http://localhost:8000/simulate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
-    })
-    const data = await res.json()
-    if (!data.execution_id) throw new Error('No execution ID returned')
-    router.push({ name: 'TripChartingStatus', params: { executionId: data.execution_id } })
-  } catch (err) {
-    console.error('Submission failed', err)
-    alert('Failed to submit simulation')
-  }
-}
-</script> -->
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'

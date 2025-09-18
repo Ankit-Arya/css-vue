@@ -12,7 +12,13 @@ const routes = [
   { path: '/metro-home', name: 'MetroHome', component: MetroHome },
   { path: '/demo', name: 'Demo', component: Demo },
   { path: '/trip-charting', name: 'TripCharting', component: TripCharting, meta: { requiresAuth: true }},
-  { path: '/trip-charting-status', name: 'TripChartingStatus', component: TripChartingStatus, meta: { requiresAuth: true }},
+  // { path: '/trip-charting-status', name: 'TripChartingStatus', component: TripChartingStatus, meta: { requiresAuth: true }},
+  { 
+    path: '/trip-charting-status/:executionId', 
+    name: 'TripChartingStatus', 
+    component: TripChartingStatus, 
+    meta: { requiresAuth: true } 
+  }
 ]
 
 const router = createRouter({
