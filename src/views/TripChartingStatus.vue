@@ -22,30 +22,99 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+// import { ref, onMounted } from 'vue'
+// import { useRoute } from 'vue-router'
+
+// const route = useRoute()
+// const executionId = route.params.executionId
+// const steps = ref([])
+
+// const fetchStatus = async () => {
+//   try {
+//     const res = await fetch(`http://localhost:8000/status/${executionId}`)
+//     const data = await res.json()
+//     steps.value = data.steps
+//   } catch(err) {
+//     console.error('Failed to fetch status', err)
+//   }
+// }
+
+// onMounted(() => {
+//   fetchStatus()
+//   setInterval(fetchStatus, 2000) // poll every 2s
+// })
+
+
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const executionId = route.params.executionId
+
+// ✅ executionId comes from /status/:executionId in router config
+const executionId = ref(route.params.executionId)
+
 const steps = ref([])
+let polling = null
 
 const fetchStatus = async () => {
   try {
-    const res = await fetch(`http://localhost:8000/status/${executionId}`)
+    // ✅ use executionId.value
+    const res = await fetch(`http://localhost:8000/status/${executionId.value}`)
+    if (!res.ok) throw new Error('Bad response from server')
     const data = await res.json()
     steps.value = data.steps
-  } catch(err) {
+
+    // Stop polling if finished or error
+    const hasError = data.steps.some(s => s.status === 'error')
+    const allCompleted = data.steps.every(s => s.status === 'completed')
+
+    if (hasError || allCompleted) {
+      clearInterval(polling)
+      polling = null
+
+      if (allCompleted) {
+        downloadOutputFile()
+      }
+    }
+  } catch (err) {
     console.error('Failed to fetch status', err)
+    clearInterval(polling)
+    polling = null
+  }
+}
+
+const downloadOutputFile = async () => {
+  try {
+    const res = await fetch(`http://localhost:8000/download/${executionId.value}`)
+    if (!res.ok) throw new Error('File not ready')
+    const blob = await res.blob()
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `trip_chart_${executionId.value}.csv` // or .xlsx depending on backend
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    window.URL.revokeObjectURL(url)
+  } catch (err) {
+    console.error('Download failed:', err)
   }
 }
 
 onMounted(() => {
+  console.log('Route params:', route.params) // ✅ Debug
   fetchStatus()
-  setInterval(fetchStatus, 2000) // poll every 2s
+  polling = setInterval(fetchStatus, 2000)
 })
+
+onUnmounted(() => {
+  if (polling) clearInterval(polling)
+})
+
 </script>
 
 <style>
 .animate-spin { animation: spin 1s linear infinite; }
 @keyframes spin { 0% { transform: rotate(0deg) } 100% { transform: rotate(360deg) } }
 </style>
+
