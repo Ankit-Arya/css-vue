@@ -1,47 +1,58 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex flex-col">
 <!-- Navbar -->
-<nav class="bg-red-700 text-white shadow">
-  <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
-    <!-- Home link -->
-    <RouterLink to="/" class="text-xl font-bold hover:text-gray-200 transition">
-      DMRC Portal
-    </RouterLink>
+  <nav class="bg-gray-900 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
+      
+      <!-- Left: Logo + Title -->
+      <div class="flex items-center space-x-3">
+        <img
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Delhi_Metro_logo.svg/640px-Delhi_Metro_logo.svg.png"
+          alt="DMRC Logo"
+          class="h-10 w-10 object-contain"
+        />
+        <RouterLink to="/" class="text-lg font-semibold tracking-wide hover:text-gray-300 transition">
+          DMRC Portal
+        </RouterLink>
+      </div>
 
-    <div>
-      <template v-if="!isLoggedIn">
-        <button @click="openLogin" class="px-4 py-2 rounded hover:bg-red-800">
-          Login
-        </button>
-        <button
-          @click="openSignup"
-          class="ml-2 px-4 py-2 rounded border border-white hover:bg-white hover:text-red-700"
-        >
-          Sign Up
-        </button>
-      </template>
+      <!-- Right: Auth Controls -->
+      <div class="flex items-center">
+        <template v-if="!isLoggedIn">
+          <button
+            @click="openLogin"
+            class="px-4 py-2 text-sm rounded bg-gray-800 hover:bg-gray-700 transition"
+          >
+            Login
+          </button>
+          <button
+            @click="openSignup"
+            class="ml-2 px-4 py-2 text-sm rounded border border-gray-400 hover:bg-white hover:text-gray-900 transition"
+          >
+            Sign Up
+          </button>
+        </template>
 
-      <template v-else>
-        <span class="mr-4">Welcome, {{ userEmail }}</span>
-            <!-- New buttons for logged-in user -->
-      <RouterLink
-        to="/metro-home"
-        class="px-3 py-1 rounded border border-white hover:bg-blue-300 transition text-white text-sm"
-      >
-        Work Space
-      </RouterLink>
+        <template v-else>
+          <span class="mr-4 text-sm text-gray-300">Welcome, {{ userEmail }}</span>
+          
+          <RouterLink
+            to="/metro-home"
+            class="px-3 py-2 rounded bg-blue-600 hover:bg-blue-700 text-white text-sm transition"
+          >
+            Work Space
+          </RouterLink>
 
-      <button
-        @click="logout"
-        class="ml-2 px-3 py-1 rounded border border-white hover:bg-gray-900 transition text-white text-sm"
-      >
-        Logout
-      </button>
-
-      </template>
+          <button
+            @click="logout"
+            class="ml-2 px-3 py-2 rounded bg-red-600 hover:bg-red-700 text-white text-sm transition"
+          >
+            Logout
+          </button>
+        </template>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
     <!-- Page Content -->
     <main class="flex-1">
@@ -173,7 +184,8 @@ onMounted(() => {
 
 // Expose reactive Pinia properties for template use
 const isLoggedIn = computed(() => auth.isLoggedIn)
-const userEmail = computed(() => auth.user?.username || "")
+const userEmail = computed(() => auth.user?.email || "")
+
 
 // Optional: watch for debugging
 watch(() => auth.isLoggedIn, (val) => {

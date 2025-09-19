@@ -1,8 +1,8 @@
 <template>
-  <section class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-red-700 via-gray-900 to-blue-900 text-white">
-    <div class="max-w-lg w-full text-center p-8 rounded-xl shadow-2xl bg-black bg-opacity-70">
+  <section class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-gray-900 via-slate-800 to-gray-700 text-white">
+    <div class="max-w-lg w-full text-center p-8 rounded-xl shadow-2xl bg-white bg-opacity-10 backdrop-blur-sm border border-gray-600">
       <!-- Title -->
-      <h1 class="text-4xl font-extrabold mb-6 tracking-wide text-red-400">
+      <h1 class="text-4xl font-extrabold mb-6 tracking-wide text-red-500">
         Welcome to DMRC
       </h1>
       <p class="mb-10 text-lg text-gray-200">
@@ -13,14 +13,14 @@
       <div class="grid gap-5">
         <RouterLink 
           to="/demo" 
-          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-blue-600 to-blue-800 hover:from-blue-700 hover:to-blue-900 transition"
+          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 transition duration-300"
         >
           🎥 Watch Demo
         </RouterLink>
 
         <RouterLink 
           to="/trip-charting" 
-          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-red-600 to-red-800 hover:from-red-700 hover:to-red-900 transition"
+          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300"
         >
           🚇 Enter Trip Charting Solution
         </RouterLink>
@@ -30,5 +30,5 @@
 </template>
 
 <script setup>
-// No special logic yet; just UI + routing
+// No special logic needed for this page
 </script>
