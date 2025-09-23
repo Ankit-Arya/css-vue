@@ -15,7 +15,7 @@
           DMRC Portal
         </RouterLink>
       </div>
-
+ 
       <!-- Right: Auth Controls -->
       <div class="flex items-center">
         <template v-if="!isLoggedIn">

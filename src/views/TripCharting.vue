@@ -90,6 +90,7 @@ const submitSimulation = async () => {
   payload.append('file', fileObj.value)
   payload.append('user_id', auth.user?.id || '')
   payload.append('user_name', auth.user?.username || '')
+  payload.append('user_name', auth.user?.email || '')
   payload.append('stepping_back', JSON.stringify(form.steppingBack))
 
   try {

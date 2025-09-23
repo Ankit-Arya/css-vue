@@ -6,6 +6,7 @@ import MetroHome from '../views/MetroHome.vue'
 import Demo from '../views/Demo.vue'
 import TripCharting from '../views/TripCharting.vue'
 import TripChartingStatus from '../views/TripChartingStatus.vue'
+import DownloadTripChart from '../views/DownloadTripChart.vue'
 
 const routes = [
   { path: '/', name: 'Landing', component: Landing },
@@ -17,6 +18,12 @@ const routes = [
     path: '/trip-charting-status/:executionId', 
     name: 'TripChartingStatus', 
     component: TripChartingStatus, 
+    meta: { requiresAuth: true } 
+  },
+  { 
+    path: '/download-trip-chart', 
+    name: 'DownloadTripChart', 
+    component: DownloadTripChart, 
     meta: { requiresAuth: true } 
   }
 ]

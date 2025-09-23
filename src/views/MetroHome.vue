@@ -24,6 +24,12 @@
         >
           🚇 Enter Trip Charting Solution
         </RouterLink>
+        <RouterLink 
+          to="/download-trip-chart" 
+          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 transition duration-300"
+        >
+          📥 Download Report by Execution ID
+        </RouterLink>
       </div>
     </div>
   </section>
