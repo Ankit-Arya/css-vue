@@ -11,8 +11,8 @@
           alt="DMRC Logo"
           class="h-10 w-10 object-contain"
         />
-        <RouterLink to="/" class="text-lg font-semibold tracking-wide hover:text-gray-300 transition">
-          DMRC Portal
+        <RouterLink to="/" class="text-2xl font-bold  tracking-wide hover:text-gray-300 transition">
+          DMRC
         </RouterLink>
       </div>
  

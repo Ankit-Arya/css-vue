@@ -7,12 +7,13 @@ import Demo from '../views/Demo.vue'
 import TripCharting from '../views/TripCharting.vue'
 import TripChartingStatus from '../views/TripChartingStatus.vue'
 import DownloadTripChart from '../views/DownloadTripChart.vue'
+import SelectLine from '../views/SelectLine.vue'
 
 const routes = [
   { path: '/', name: 'Landing', component: Landing },
   { path: '/metro-home', name: 'MetroHome', component: MetroHome },
   { path: '/demo', name: 'Demo', component: Demo },
-  { path: '/trip-charting', name: 'TripCharting', component: TripCharting, meta: { requiresAuth: true }},
+  { path: '/trip-charting-red', name: 'TripCharting', component: TripCharting, meta: { requiresAuth: true }},
   // { path: '/trip-charting-status', name: 'TripChartingStatus', component: TripChartingStatus, meta: { requiresAuth: true }},
   { 
     path: '/trip-charting-status/:executionId', 
@@ -24,6 +25,12 @@ const routes = [
     path: '/download-trip-chart', 
     name: 'DownloadTripChart', 
     component: DownloadTripChart, 
+    meta: { requiresAuth: true } 
+  },
+  { 
+    path: '/select-line', 
+    name: 'SelectLine', 
+    component: SelectLine, 
     meta: { requiresAuth: true } 
   }
 ]
