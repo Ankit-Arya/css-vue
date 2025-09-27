@@ -1,102 +1,65 @@
 <template>
-  <div class="min-h-screen flex flex-col bg-gray-50">
-    <!-- Hero / Header Section -->
-    <header
-      class="bg-gradient-to-r from-red-700 via-red-800 to-blue-900 text-white text-center py-16 shadow-lg relative"
-    >
-      <!-- Logo -->
-      <!-- <div class="absolute top-6 left-6 flex items-center space-x-3">
-        <img
-          src="https://www.dmrcsmartcard.com/images/logo.png"
-          alt="DMRC Logo"
-          class="h-12 w-12 object-contain animate-pulse"
-        />
-        <span class="text-xl font-bold tracking-wide">Delhi Metro Rail Corporation</span>
-      </div> -->
+  <div class="min-h-screen bg-gray-100 flex flex-col">
+    <!-- Header / Hero Section -->
+    <header class="bg-gradient-to-r from-gray-900 via-red-800 to-gray-700 text-white py-16 px-6 shadow-lg relative">
 
-      <!-- Main Heading -->
-      <h1 class="text-4xl font-extrabold mb-4 animate-fadeIn">
-        Welcome to DMRC Enterprise Portal
-      </h1>
-      <p class="text-lg max-w-2xl mx-auto animate-fadeIn delay-200">
-        Powering metro operations, employee management, and optimization with
-        secure, scalable digital solutions.
-      </p>
+
+      <!-- Heading -->
+      <div class="text-center max-w-4xl mx-auto">
+        <h1 class="text-4xl font-extrabold mb-4 animate-fadeIn">Crew Scheduling Software</h1>
+        <p class="text-lg text-gray-200 animate-fadeIn delay-200">
+          Designed and developed by the CSS Cell at DMRC, this fast, efficient and user-friendly system is transforming crew scheduling.
+        </p>
+      </div>
     </header>
 
-    <!-- Main Content -->
-    <main
-      class="flex-1 max-w-6xl mx-auto py-16 px-6 grid md:grid-cols-3 gap-8"
-    >
-      <!-- Card 1 -->
-      <div
-        class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition transform hover:-translate-y-1"
-      >
-        <div
-          class="flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4 text-red-700 text-2xl"
-        >
-          📊
+    <!-- Animated Highlights Section -->
+    <section class="flex-1 max-w-5xl mx-auto py-16 px-6 space-y-12">
+      <!-- Highlight 1 -->
+      <div class="bg-white rounded-xl shadow-md p-8 flex items-center space-x-6 animate-slideInLeft">
+        <div class="text-5xl text-red-700">📘</div>
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-2">100+ Trip Charts Generated</h3>
+          <p class="text-gray-600">Enabling better planning and smoother operations across the network.</p>
         </div>
-        <h3 class="text-xl font-semibold text-red-700 mb-2">
-          Trip Charting
-        </h3>
-        <p class="text-gray-600">
-          Upload timetables, optimize stepping back, and generate detailed trip
-          charts.
-        </p>
       </div>
 
-      <!-- Card 2 -->
-      <div
-        class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition transform hover:-translate-y-1"
-      >
-        <div
-          class="flex items-center justify-center h-12 w-12 rounded-full bg-blue-100 mb-4 text-blue-700 text-2xl"
-        >
-          👥
+      <!-- Highlight 2 -->
+      <div class="bg-white rounded-xl shadow-md p-8 flex items-center space-x-6 animate-slideInRight">
+        <div class="text-5xl text-blue-700">💼</div>
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-2">Manpower Cost Savings</h3>
+          <p class="text-gray-600">Automation has saved hundreds of hours in manual planning and coordination.</p>
         </div>
-        <h3 class="text-xl font-semibold text-blue-700 mb-2">
-          Employee Management
-        </h3>
-        <p class="text-gray-600">
-          Manage shifts, schedules, and employee data seamlessly across the
-          network.
-        </p>
       </div>
 
-      <!-- Card 3 -->
-      <div
-        class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition transform hover:-translate-y-1"
-      >
-        <div
-          class="flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4 text-green-700 text-2xl"
-        >
-          📑
+      <!-- Highlight 3 -->
+      <div class="bg-white rounded-xl shadow-md p-8 flex items-center space-x-6 animate-slideInLeft">
+        <div class="text-5xl text-green-700">📄</div>
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-2">Crew Control & TO Reports</h3>
+          <p class="text-gray-600">Instantly generate reports for crew management and train operations in a few clicks.</p>
         </div>
-        <h3 class="text-xl font-semibold text-green-700 mb-2">
-          Reports & Analytics
-        </h3>
-        <p class="text-gray-600">
-          Generate operational insights, optimize performance, and view
-          compliance reports.
-        </p>
       </div>
-    </main>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-gray-300 text-center py-6 text-sm">
-      © {{ new Date().getFullYear() }} Delhi Metro Rail Corporation. All Rights
-      Reserved.
-    </footer>
+      <!-- Highlight 4 -->
+      <div class="bg-white rounded-xl shadow-md p-8 flex items-center space-x-6 animate-slideInRight">
+        <div class="text-5xl text-purple-700">⚡</div>
+        <div>
+          <h3 class="text-2xl font-semibold text-gray-800 mb-2">Fast, Efficient, Scalable</h3>
+          <p class="text-gray-600">Built for the scale of DMRC with enterprise-grade performance.</p>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
 <script setup>
-// no external icons needed
+// No script needed for static animations
 </script>
 
 <style>
-/* Custom Animations */
+/* Keyframes */
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -108,10 +71,41 @@
   }
 }
 
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Animation Classes */
 .animate-fadeIn {
   animation: fadeIn 0.8s ease-in-out forwards;
 }
 .delay-200 {
   animation-delay: 0.2s;
+}
+
+.animate-slideInLeft {
+  animation: slideInLeft 0.8s ease-out both;
+}
+
+.animate-slideInRight {
+  animation: slideInRight 0.8s ease-out both;
 }
 </style>

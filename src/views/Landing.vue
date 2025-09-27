@@ -2,15 +2,7 @@
   <div class="min-h-screen bg-gray-100 flex flex-col">
     <!-- Header / Hero Section -->
     <header class="bg-gradient-to-r from-gray-900 via-red-800 to-gray-700 text-white py-16 px-6 shadow-lg relative">
-      <!-- DMRC Branding -->
-      <!-- <div class="absolute top-6 left-6 flex items-center space-x-4">
-        <img
-          src="https://www.dmrcsmartcard.com/images/logo.png"
-          alt="DMRC Logo"
-          class="h-12 w-12 object-contain animate-pulse"
-        />
-        <span class="text-xl font-bold tracking-wide">Delhi Metro Rail Corporation</span>
-      </div> -->
+
 
       <!-- Heading -->
       <div class="text-center max-w-4xl mx-auto">

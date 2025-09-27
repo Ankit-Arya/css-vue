@@ -201,6 +201,8 @@ const getStatusMessage = (step) => {
       return `${step.name} — Queued`
     case 'error':
       return `${step.name} — Failed to complete`
+    case 'cancelled':
+      return `${step.name} — Aborted by user`
     default:
       return `${step.name} — Unknown status`
   }
