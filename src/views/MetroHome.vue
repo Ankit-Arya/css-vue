@@ -1,76 +1,108 @@
 <template>
-  <section class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-gray-900 via-slate-800 to-gray-700 text-white">
-    <div class="max-w-lg w-full text-center p-8 rounded-xl shadow-2xl bg-white bg-opacity-10 backdrop-blur-sm border border-gray-600">
-      <!-- Title -->
-      <h1 class="text-4xl font-extrabold mb-6 tracking-wide text-red-500">
-        Welcome to DMRC
-      </h1>
-      <p class="mb-10 text-lg text-gray-200">
-        Choose an option to continue your metro experience
-      </p>
+  <div class="min-h-screen flex flex-col">
+    <!-- Hero / Welcome Section -->
+    <header class="relative overflow-hidden py-20 px-6 text-center bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300">
+      <!-- Decorative circles -->
+      <div class="absolute -top-16 -left-16 w-64 h-64 bg-blue-400 rounded-full opacity-20 blur-3xl animate-pulse"></div>
+      <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-indigo-400 rounded-full opacity-20 blur-3xl animate-pulse"></div>
 
-      <!-- Buttons -->
-      <div class="grid gap-5">
-        <RouterLink 
-          to="/demo" 
-          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 transition duration-300"
-        >
-          🎥 Watch Demo
-        </RouterLink>
-
-        <!-- <RouterLink 
-          to="/trip-charting" 
-          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300"
-        >
-          🚇 Enter Trip Charting Solution
-        </RouterLink> -->
-        <RouterLink 
-          to="/select-line" 
-          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 transition duration-300"
-        >
-          🚇 Enter Trip Charting Solution
-        </RouterLink>
-        <RouterLink 
-          to="/download-trip-chart" 
-          class="block w-full px-6 py-3 text-lg font-semibold rounded-lg bg-gradient-to-r from-green-500 to-green-700 hover:from-green-600 hover:to-green-800 transition duration-300"
-        >
-          📥 Download Report by Execution ID
-        </RouterLink>
+      <div class="relative z-10 max-w-3xl mx-auto">
+        <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-gray-900 animate-fadeInUp">
+          Welcome to <span class="text-blue-700">DMRC</span>
+        </h1>
+        <p class="text-lg md:text-xl text-gray-700 font-light animate-fadeInUp delay-200">
+          Choose an option to continue your metro experience
+        </p>
       </div>
-    
-       <!-- Execution ID Input for Status Check -->
-      <div class="border-t border-gray-500 pt-6">
-        <h2 class="text-xl font-semibold mb-4 text-gray-300">🔍 Check Simulation Status</h2>
-        
+    </header>
+
+    <!-- Action Buttons Section -->
+    <section class="bg-gradient-to-br from-white via-blue-50 to-blue-100 py-16 px-6">
+      <div class="max-w-6xl mx-auto">
+        <ul class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Watch Demo -->
+          <li>
+            <RouterLink
+              to="/demo"
+              class="group flex flex-col items-center justify-center h-48 p-8 rounded-xl shadow-md border-2 border-blue-200 bg-white hover:bg-blue-50 transition transform hover:-translate-y-2 hover:shadow-lg hover:animate-pulse"
+            >
+              <div class="text-5xl mb-4 text-blue-600 group-hover:scale-110 transition">
+                🎥
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800 text-center">
+                Watch Demo
+              </h3>
+            </RouterLink>
+          </li>
+
+          <!-- Enter Trip Charting -->
+          <li>
+            <RouterLink
+              to="/select-line"
+              class="group flex flex-col items-center justify-center h-48 p-8 rounded-xl shadow-md border-2 border-red-200 bg-white hover:bg-red-50 transition transform hover:-translate-y-2 hover:shadow-lg hover:animate-pulse"
+            >
+              <div class="text-5xl mb-4 text-red-600 group-hover:scale-110 transition">
+                🚇
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800 text-center">
+                Enter Trip Charting Solution
+              </h3>
+            </RouterLink>
+          </li>
+
+          <!-- Download Report -->
+          <li>
+            <RouterLink
+              to="/download-trip-chart"
+              class="group flex flex-col items-center justify-center h-48 p-8 rounded-xl shadow-md border-2 border-green-200 bg-white hover:bg-green-50 transition transform hover:-translate-y-2 hover:shadow-lg hover:animate-pulse"
+            >
+              <div class="text-5xl mb-4 text-green-600 group-hover:scale-110 transition">
+                📥
+              </div>
+              <h3 class="text-xl font-semibold text-gray-800 text-center">
+                Download Report by Execution ID
+              </h3>
+            </RouterLink>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Status Check Section -->
+    <section class="bg-gradient-to-r from-gray-50 via-blue-50 to-blue-100 py-16 px-6">
+      <div class="max-w-3xl mx-auto text-center bg-white/90 backdrop-blur-sm rounded-xl shadow-md border border-gray-200 p-10">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6 animate-fadeInUp">
+          🔍 Check Simulation Status
+        </h2>
+
         <div class="flex flex-col sm:flex-row items-center gap-4">
           <input
             v-model="executionIdInput"
             type="text"
             placeholder="Enter Execution ID"
-            class="w-full px-4 py-2 rounded-lg bg-gray-800 border border-gray-600 text-white focus:outline-none focus:ring-2 focus:ring-red-400"
+            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
           <button
             @click="goToStatus"
-            class="w-full sm:w-auto px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
             :disabled="!executionIdInput.trim()"
           >
             Check
           </button>
-
           <button
             @click="cancelSimulation"
-            class="px-4 py-2 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
             :disabled="!executionIdInput.trim() || isCancelling"
           >
             Cancel
           </button>
         </div>
 
-        <p v-if="errorMsg" class="mt-3 text-red-400 text-sm">{{ errorMsg }}</p>
+        <p v-if="errorMsg" class="mt-4 text-red-500">{{ errorMsg }}</p>
+        <p v-if="successMsg" class="mt-4 text-green-600">{{ successMsg }}</p>
       </div>
-    </div>
-    <!-- </div> -->
-  </section>
+    </section>
+  </div>
 </template>
 
 <script setup>
@@ -89,8 +121,6 @@ const goToStatus = () => {
     errorMsg.value = 'Please enter a valid Execution ID.'
     return
   }
-
-  // Clear error and navigate
   errorMsg.value = ''
   router.push({ name: 'TripChartingStatus', params: { executionId: id } })
 }

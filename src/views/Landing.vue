@@ -1,111 +1,90 @@
 <template>
-  <div class="min-h-screen bg-gray-100 flex flex-col">
+  <div class="min-h-screen bg-gray-50 flex flex-col">
     <!-- Header / Hero Section -->
-    <header class="bg-gradient-to-r from-gray-900 via-red-800 to-gray-700 text-white py-16 px-6 shadow-lg relative">
+    <header class="relative overflow-hidden py-12 px-6 bg-gradient-to-br from-indigo-900 via-blue-900 to-teal-800 text-white shadow-2xl">
+<!-- <header class="relative overflow-hidden py-12 px-6 bg-gradient-to-br from-indigo-300 via-blue-200 to-teal-200 text-gray-900 shadow-lg"> -->
 
+      <!-- Floating circles -->
+      <div class="absolute -top-32 -left-32 w-80 h-80 bg-indigo-500 rounded-full opacity-20 blur-3xl animate-spin"></div>
+      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-teal-400 rounded-full opacity-15 blur-3xl animate-[spin_90s_linear_infinite]"></div>
 
       <!-- Heading -->
-      <div class="text-center max-w-4xl mx-auto">
-        <h1 class="text-4xl font-extrabold mb-4 animate-fadeIn">Crew Scheduling Software</h1>
-        <p class="text-lg text-gray-200 animate-fadeIn delay-200">
-          Designed and developed by the CSS Cell at DMRC, this fast, efficient and user-friendly system is transforming crew scheduling.
+      <div class="text-center relative z-10 max-w-5xl mx-auto">
+        <p class="mb-3 text-sm font-medium tracking-widest uppercase text-gray-300 animate-pulse">
+          A DMRC CSS Cell Innovation
         </p>
+
+        <h1 class="text-5xl md:text-7xl font-black mb-4 leading-snug drop-shadow-lg transform transition-transform duration-700 hover:scale-105">
+          <span class="block text-teal-400">Next-Gen</span> Crew Scheduling
+        </h1>
+
+        <p class="text-lg md:text-2xl text-gray-300 font-light max-w-3xl mx-auto animate-pulse">
+          The DMRC-developed system redefining operational management for high-demand environments.
+        </p>
+
+        <a href="#features" class="mt-8 inline-flex items-center text-teal-400 hover:text-teal-300 transition-colors font-semibold group">
+          Explore Features
+          <svg class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </a>
       </div>
     </header>
 
-    <!-- Animated Highlights Section -->
-    <section class="flex-1 max-w-5xl mx-auto py-16 px-6 space-y-12">
-      <!-- Highlight 1 -->
-      <div class="bg-white rounded-xl shadow-md p-8 flex items-center space-x-6 animate-slideInLeft">
-        <div class="text-5xl text-red-700">📘</div>
-        <div>
-          <h3 class="text-2xl font-semibold text-gray-800 mb-2">100+ Trip Charts Generated</h3>
-          <p class="text-gray-600">Enabling better planning and smoother operations across the network.</p>
-        </div>
-      </div>
+    <!-- Highlights Section -->
+    <section class="flex-1 max-w-6xl mx-auto py-16 px-6">
+      <ul class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Highlight 1 -->
+        <li>
+          <div class="group border-2 border-blue-200 rounded-xl p-8 flex items-center space-x-6 relative transition-colors duration-300 hover:bg-blue-100 hover:shadow-lg">
+            <div class="text-5xl text-blue-700">📘</div>
+            <div>
+              <h3 class="text-2xl font-semibold text-gray-800 mb-2">100+ Trip Charts Generated</h3>
+              <p class="text-gray-600">Enabling better planning and smoother operations across the network.</p>
+            </div>
+          </div>
+        </li>
 
-      <!-- Highlight 2 -->
-      <div class="bg-white rounded-xl shadow-md p-8 flex items-center space-x-6 animate-slideInRight">
-        <div class="text-5xl text-blue-700">💼</div>
-        <div>
-          <h3 class="text-2xl font-semibold text-gray-800 mb-2">Manpower Cost Savings</h3>
-          <p class="text-gray-600">Automation has saved hundreds of hours in manual planning and coordination.</p>
-        </div>
-      </div>
+        <!-- Highlight 2 -->
+        <li>
+          <div class="group border-2 border-orange-200 rounded-xl p-8 flex items-center space-x-6 relative transition-colors duration-300 hover:bg-orange-100 hover:shadow-lg">
+            <div class="text-5xl text-orange-700">💼</div>
+            <div>
+              <h3 class="text-2xl font-semibold text-gray-800 mb-2">Manpower Cost Savings</h3>
+              <p class="text-gray-600">Automation has saved hundreds of hours in manual planning and coordination.</p>
+            </div>
+          </div>
+        </li>
 
-      <!-- Highlight 3 -->
-      <div class="bg-white rounded-xl shadow-md p-8 flex items-center space-x-6 animate-slideInLeft">
-        <div class="text-5xl text-green-700">📄</div>
-        <div>
-          <h3 class="text-2xl font-semibold text-gray-800 mb-2">Crew Control & TO Reports</h3>
-          <p class="text-gray-600">Instantly generate reports for crew management and train operations in a few clicks.</p>
-        </div>
-      </div>
+        <!-- Highlight 3 -->
+        <li>
+          <div class="group border-2 border-green-200 rounded-xl p-8 flex items-center space-x-6 relative transition-colors duration-300 hover:bg-green-100 hover:shadow-lg">
+            <div class="text-5xl text-green-700">📄</div>
+            <div>
+              <h3 class="text-2xl font-semibold text-gray-800 mb-2">Crew Control & TO Reports</h3>
+              <p class="text-gray-600">Instantly generate reports for crew management and train operations in a few clicks.</p>
+            </div>
+          </div>
+        </li>
 
-      <!-- Highlight 4 -->
-      <div class="bg-white rounded-xl shadow-md p-8 flex items-center space-x-6 animate-slideInRight">
-        <div class="text-5xl text-purple-700">⚡</div>
-        <div>
-          <h3 class="text-2xl font-semibold text-gray-800 mb-2">Fast, Efficient, Scalable</h3>
-          <p class="text-gray-600">Built for the scale of DMRC with enterprise-grade performance.</p>
-        </div>
-      </div>
+        <!-- Highlight 4 -->
+        <li>
+          <div class="group border-2 border-purple-200 rounded-xl p-8 flex items-center space-x-6 relative transition-colors duration-300 hover:bg-purple-100 hover:shadow-lg">
+            <div class="text-5xl text-purple-700">⚡</div>
+            <div>
+              <h3 class="text-2xl font-semibold text-gray-800 mb-2">Fast, Efficient, Scalable</h3>
+              <p class="text-gray-600">Built for the scale of DMRC with enterprise-grade performance.</p>
+            </div>
+          </div>
+        </li>
+      </ul>
     </section>
   </div>
 </template>
+
+
 
 <script setup>
 // No script needed for static animations
 </script>
 
-<style>
-/* Keyframes */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-/* Animation Classes */
-.animate-fadeIn {
-  animation: fadeIn 0.8s ease-in-out forwards;
-}
-.delay-200 {
-  animation-delay: 0.2s;
-}
-
-.animate-slideInLeft {
-  animation: slideInLeft 0.8s ease-out both;
-}
-
-.animate-slideInRight {
-  animation: slideInRight 0.8s ease-out both;
-}
-</style>
