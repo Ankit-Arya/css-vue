@@ -1,54 +1,71 @@
 <template>
-  <section class="min-h-screen flex flex-col items-center justify-start bg-gray-900 text-white p-6">
-    <div class="w-full max-w-4xl mt-10 bg-gray-800 rounded-xl shadow-xl p-8">
-      
-      <!-- Header -->
-      <h1 class="text-3xl font-bold text-center mb-6 text-red-500">DMRC Trip Charting Solution</h1>
-      <p class="text-center text-gray-300 mb-8">
-        Upload the timetable file and configure stepping back times for accurate trip chart generation.
-      </p>
+  <div class="min-h-screen flex flex-col">
+    <!-- Hero / Welcome Section -->
+    <header class="relative overflow-hidden py-20 px-6 text-center bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300">
+      <!-- Decorative Circles -->
+      <div class="absolute -top-16 -left-16 w-64 h-64 bg-blue-400 rounded-full opacity-20 blur-3xl animate-pulse"></div>
+      <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-indigo-400 rounded-full opacity-20 blur-3xl animate-pulse"></div>
 
-      <!-- File Upload Section -->
-      <div class="mb-6">
-        <label class="block mb-2 font-semibold text-gray-200">Timetable File</label>
-        <div
-          class="border-2 border-gray-600 hover:border-red-500 rounded-lg p-6 text-center cursor-pointer transition bg-gray-700"
-          @dragover.prevent
-          @drop.prevent="handleDrop"
-          @click="triggerFileInput"
-        >
-          <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" />
-          <p class="text-gray-300">
-            Drag & drop your timetable here, or click to browse
-          </p>
-        </div>
-        <p v-if="fileName" class="mt-2 text-green-400 font-medium">{{ fileName }} selected</p>
+      <div class="relative z-10 max-w-3xl mx-auto">
+        <h1 class="text-5xl font-extrabold text-gray-900 mb-4 animate-fadeInUp">
+          DMRC Trip Charting
+        </h1>
+        <p class="text-lg text-gray-800 animate-fadeInUp delay-150">
+          Upload timetable and configure stepping back timings
+        </p>
       </div>
+    </header>
 
-      <!-- Stepping Back Entries Section -->
-      <div class="mb-6">
-        <label class="block mb-2 font-semibold text-gray-200">Stepping Back Entries</label>
-        <div v-for="(entry, idx) in form.steppingBack" :key="idx" class="bg-gray-700 p-4 rounded mb-2 relative border border-gray-600">
-          <div class="grid grid-cols-3 gap-4">
-            <input v-model="entry.station" placeholder="Station Name" class="p-2 rounded bg-gray-800 border border-gray-600 w-full" />
-            <input v-model="entry.start" type="time" class="p-2 rounded bg-gray-800 border border-gray-600 w-full" />
-            <input v-model="entry.end" type="time" class="p-2 rounded bg-gray-800 border border-gray-600 w-full" />
+    <!-- Upload + Form Section -->
+    <section class="bg-gradient-to-br from-white via-blue-50 to-blue-100 py-16 px-6">
+      <div class="max-w-5xl mx-auto space-y-12">
+        
+        <!-- File Upload -->
+        <div>
+          <h2 class="text-2xl font-bold text-blue-800 mb-4">📁 Upload Timetable</h2>
+          <div
+            class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-6 text-center cursor-pointer bg-white transition hover:bg-blue-50"
+            @dragover.prevent
+            @drop.prevent="handleDrop"
+            @click="triggerFileInput"
+          >
+            <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" />
+            <p class="text-gray-600">
+              Drag & drop your timetable file here, or click to browse
+            </p>
+            <p v-if="fileName" class="mt-2 text-green-600 font-medium">{{ fileName }} selected</p>
           </div>
-          <button type="button" @click="removeEntry(idx)" class="absolute top-2 right-2 text-red-400 hover:text-red-600 font-bold">✖</button>
         </div>
-        <button type="button" @click="addEntry" class="mt-2 py-2 px-4 rounded bg-blue-600 hover:bg-blue-700 transition font-semibold">
-          ➕ Add Stepping Back Entry
-        </button>
+
+        <!-- Stepping Back Entries -->
+        <div>
+          <h2 class="text-2xl font-bold text-blue-800 mb-4">🕒 Stepping Back Configuration</h2>
+          <p class="text-gray-600 mb-4">Add stations and times where stepping back logic applies.</p>
+          <div v-for="(entry, idx) in form.steppingBack" :key="idx" class="bg-white p-4 rounded border border-blue-200 shadow-sm mb-4 relative">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <input v-model="entry.station" placeholder="Station Name" class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200" />
+              <input v-model="entry.start" type="time" class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200" />
+              <input v-model="entry.end" type="time" class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200" />
+            </div>
+            <button type="button" @click="removeEntry(idx)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold text-xl">×</button>
+          </div>
+          <button type="button" @click="addEntry" class="mt-2 py-2 px-4 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
+            ➕ Add Stepping Back Entry
+          </button>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button @click="submitSimulation" class="px-8 py-3 rounded bg-gradient-to-r from-red-600 to-blue-700 hover:from-red-700 hover:to-blue-800 text-white text-lg font-semibold transition">
+            Submit Trip Chart Simulation
+          </button>
+        </div>
       </div>
-
-      <!-- Submit Button -->
-      <button @click="submitSimulation" class="w-full py-3 rounded bg-gradient-to-r from-red-600 to-blue-700 hover:from-red-700 hover:to-blue-800 text-lg font-semibold transition">
-        Submit Trip Chart Simulation
-      </button>
-
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
+
+
 
 <script setup>
 import { ref, reactive } from 'vue'

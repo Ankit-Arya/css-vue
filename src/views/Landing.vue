@@ -34,49 +34,71 @@
     <!-- Highlights Section -->
     <section class="flex-1 max-w-6xl mx-auto py-16 px-6">
       <ul class="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- Highlight 1 -->
-        <li>
-          <div class="group border-2 border-blue-200 rounded-xl p-8 flex items-center space-x-6 relative transition-colors duration-300 hover:bg-blue-100 hover:shadow-lg">
-            <div class="text-5xl text-blue-700">📘</div>
-            <div>
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">100+ Trip Charts Generated</h3>
-              <p class="text-gray-600">Enabling better planning and smoother operations across the network.</p>
-            </div>
-          </div>
-        </li>
+<!-- Highlight 1 -->
+<li>
+  <div class="group border-2 border-blue-200 rounded-xl p-8 flex items-center space-x-6 relative transition-all duration-300 hover:bg-blue-600 hover:shadow-lg">
+    <div class="text-5xl text-blue-700 group-hover:text-white transition-colors duration-300">📘</div>
+    <div>
+      <h3 class="text-2xl font-semibold text-gray-800 group-hover:text-white transition-colors duration-300 mb-2">
+        100+ Trip Charts Generated
+      </h3>
+      <p class="text-gray-600 group-hover:text-blue-100 transition-colors duration-300">
+        Enabling better planning and smoother operations across the network.
+      </p>
+    </div>
+  </div>
+</li>
 
-        <!-- Highlight 2 -->
-        <li>
-          <div class="group border-2 border-orange-200 rounded-xl p-8 flex items-center space-x-6 relative transition-colors duration-300 hover:bg-orange-100 hover:shadow-lg">
-            <div class="text-5xl text-orange-700">💼</div>
-            <div>
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">Manpower Cost Savings</h3>
-              <p class="text-gray-600">Automation has saved hundreds of hours in manual planning and coordination.</p>
-            </div>
-          </div>
-        </li>
+<!-- Highlight 2 -->
+<li>
+  <div class="group border-2 border-orange-200 rounded-xl p-8 flex items-center space-x-6 relative transition-all duration-300 hover:bg-orange-500 hover:shadow-lg">
+    <div class="text-5xl text-orange-700 group-hover:text-white transition-colors duration-300">💼</div>
+    <div>
+      <h3 class="text-2xl font-semibold text-gray-800 group-hover:text-white transition-colors duration-300 mb-2">
+        Manpower Cost Savings
+      </h3>
+      <p class="text-gray-600 group-hover:text-orange-100 transition-colors duration-300">
+        Automation has saved hundreds of hours in manual planning and coordination.
+      </p>
+    </div>
+  </div>
+</li>
 
-        <!-- Highlight 3 -->
-        <li>
-          <div class="group border-2 border-green-200 rounded-xl p-8 flex items-center space-x-6 relative transition-colors duration-300 hover:bg-green-100 hover:shadow-lg">
-            <div class="text-5xl text-green-700">📄</div>
-            <div>
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">Crew Control & TO Reports</h3>
-              <p class="text-gray-600">Instantly generate reports for crew management and train operations in a few clicks.</p>
-            </div>
-          </div>
-        </li>
+<!-- Highlight 3 -->
+<li>
+  <div class="group border-2 border-green-200 rounded-xl p-8 flex items-center space-x-6 relative transition-all duration-300 hover:bg-green-600 hover:shadow-lg">
+    <div class="text-5xl text-green-700 group-hover:text-white transition-colors duration-300">📄</div>
+    <div>
+      <h3 class="text-2xl font-semibold text-gray-800 group-hover:text-white transition-colors duration-300 mb-2">
+        Crew Control & TO Reports
+      </h3>
+      <p class="text-gray-600 group-hover:text-green-100 transition-colors duration-300">
+        Instantly generate reports for crew management and train operations in a few clicks.
+      </p>
+    </div>
+  </div>
+</li>
 
         <!-- Highlight 4 -->
-        <li>
-          <div class="group border-2 border-purple-200 rounded-xl p-8 flex items-center space-x-6 relative transition-colors duration-300 hover:bg-purple-100 hover:shadow-lg">
-            <div class="text-5xl text-purple-700">⚡</div>
-            <div>
-              <h3 class="text-2xl font-semibold text-gray-800 mb-2">Fast, Efficient, Scalable</h3>
-              <p class="text-gray-600">Built for the scale of DMRC with enterprise-grade performance.</p>
-            </div>
-          </div>
-        </li>
+<li>
+  <div class="group border-2 border-purple-200 rounded-xl p-8 flex items-center space-x-6 relative transition-all duration-300 hover:bg-purple-600 hover:shadow-lg">
+    <!-- Icon -->
+    <div class="text-5xl text-purple-700 group-hover:text-white transition-colors duration-300">
+      ⚡
+    </div>
+
+    <!-- Text Content -->
+    <div>
+      <h3 class="text-2xl font-semibold text-gray-800 group-hover:text-white transition-colors duration-300 mb-2">
+        Fast, Efficient, Scalable
+      </h3>
+      <p class="text-gray-600 group-hover:text-purple-100 transition-colors duration-300">
+        Built for the scale of DMRC with enterprise-grade performance.
+      </p>
+    </div>
+  </div>
+</li>
+
       </ul>
     </section>
   </div>

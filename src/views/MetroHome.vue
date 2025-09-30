@@ -2,7 +2,6 @@
   <div class="min-h-screen flex flex-col">
     <!-- Hero / Welcome Section -->
     <header class="relative overflow-hidden py-20 px-6 text-center bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300">
-      <!-- Decorative circles -->
       <div class="absolute -top-16 -left-16 w-64 h-64 bg-blue-400 rounded-full opacity-20 blur-3xl animate-pulse"></div>
       <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-indigo-400 rounded-full opacity-20 blur-3xl animate-pulse"></div>
 
@@ -26,12 +25,8 @@
               to="/demo"
               class="group flex flex-col items-center justify-center h-48 p-8 rounded-xl shadow-md border-2 border-blue-200 bg-white hover:bg-blue-50 transition transform hover:-translate-y-2 hover:shadow-lg hover:animate-pulse"
             >
-              <div class="text-5xl mb-4 text-blue-600 group-hover:scale-110 transition">
-                🎥
-              </div>
-              <h3 class="text-xl font-semibold text-gray-800 text-center">
-                Watch Demo
-              </h3>
+              <div class="text-5xl mb-4 text-blue-600 group-hover:scale-110 transition">🎥</div>
+              <h3 class="text-xl font-semibold text-gray-800 text-center">Watch Demo</h3>
             </RouterLink>
           </li>
 
@@ -41,12 +36,8 @@
               to="/select-line"
               class="group flex flex-col items-center justify-center h-48 p-8 rounded-xl shadow-md border-2 border-red-200 bg-white hover:bg-red-50 transition transform hover:-translate-y-2 hover:shadow-lg hover:animate-pulse"
             >
-              <div class="text-5xl mb-4 text-red-600 group-hover:scale-110 transition">
-                🚇
-              </div>
-              <h3 class="text-xl font-semibold text-gray-800 text-center">
-                Enter Trip Charting Solution
-              </h3>
+              <div class="text-5xl mb-4 text-red-600 group-hover:scale-110 transition">🚇</div>
+              <h3 class="text-xl font-semibold text-gray-800 text-center">Enter Trip Charting Solution</h3>
             </RouterLink>
           </li>
 
@@ -56,12 +47,8 @@
               to="/download-trip-chart"
               class="group flex flex-col items-center justify-center h-48 p-8 rounded-xl shadow-md border-2 border-green-200 bg-white hover:bg-green-50 transition transform hover:-translate-y-2 hover:shadow-lg hover:animate-pulse"
             >
-              <div class="text-5xl mb-4 text-green-600 group-hover:scale-110 transition">
-                📥
-              </div>
-              <h3 class="text-xl font-semibold text-gray-800 text-center">
-                Download Report by Execution ID
-              </h3>
+              <div class="text-5xl mb-4 text-green-600 group-hover:scale-110 transition">📥</div>
+              <h3 class="text-xl font-semibold text-gray-800 text-center">Download Report by Execution ID</h3>
             </RouterLink>
           </li>
         </ul>
@@ -90,12 +77,41 @@
             Check
           </button>
           <button
-            @click="cancelSimulation"
+            @click="showConfirmModal = true"
             class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
             :disabled="!executionIdInput.trim() || isCancelling"
           >
             Cancel
           </button>
+        </div>
+
+        <!-- Confirmation Modal (Placed outside the button row) -->
+        <div
+          v-if="showConfirmModal"
+          class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
+        >
+          <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 border border-red-200 text-center animate-fadeInUp">
+            <h2 class="text-xl font-semibold text-red-600 mb-4">Abort Simulation?</h2>
+            <p class="text-gray-700 mb-6">
+              This will permanently terminate the ongoing simulation process associated with Execution ID
+              <strong>{{ executionIdInput }}</strong>. Are you sure you want to continue?
+            </p>
+
+            <div class="flex justify-center gap-4">
+              <button
+                @click="confirmAbort"
+                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold"
+              >
+                Yes, Abort
+              </button>
+              <button
+                @click="showConfirmModal = false"
+                class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg font-semibold"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
         </div>
 
         <p v-if="errorMsg" class="mt-4 text-red-500">{{ errorMsg }}</p>
@@ -105,15 +121,18 @@
   </div>
 </template>
 
+
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+
 const executionIdInput = ref('')
 const errorMsg = ref('')
 const successMsg = ref('')
 const isCancelling = ref(false)
+const showConfirmModal = ref(false)
 
 const goToStatus = () => {
   const id = executionIdInput.value.trim()
@@ -123,6 +142,11 @@ const goToStatus = () => {
   }
   errorMsg.value = ''
   router.push({ name: 'TripChartingStatus', params: { executionId: id } })
+}
+
+const confirmAbort = async () => {
+  showConfirmModal.value = false
+  await cancelSimulation()
 }
 
 const cancelSimulation = async () => {

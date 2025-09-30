@@ -8,11 +8,20 @@ import TripCharting from '../views/TripCharting.vue'
 import TripChartingStatus from '../views/TripChartingStatus.vue'
 import DownloadTripChart from '../views/DownloadTripChart.vue'
 import SelectLine from '../views/SelectLine.vue'
+import Faq from '@/views/Faq.vue'
+import ContactUs from '@/views/ContactUs.vue'
+import Disclaimer from '@/views/Disclaimer.vue'
+import PrivacyPolicy from '@/views/PrivacyPolicy.vue'
 
 const routes = [
+
   { path: '/', name: 'Landing', component: Landing },
   { path: '/metro-home', name: 'MetroHome', component: MetroHome },
   { path: '/demo', name: 'Demo', component: Demo },
+  { path: '/faq', component: Faq },
+  { path: '/contact-us', component: ContactUs },
+  { path: '/disclaimer', component: Disclaimer },
+  { path: '/privacy-policy', component: PrivacyPolicy },
   { path: '/trip-charting-red', name: 'TripCharting', component: TripCharting, meta: { requiresAuth: true }},
   // { path: '/trip-charting-status', name: 'TripChartingStatus', component: TripChartingStatus, meta: { requiresAuth: true }},
   { 
