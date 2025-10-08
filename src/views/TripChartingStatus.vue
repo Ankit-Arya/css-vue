@@ -106,10 +106,10 @@ onUnmounted(() => {
 
       <div class="relative z-10 max-w-3xl mx-auto">
         <h1 class="text-5xl font-extrabold mb-4 text-gray-900 animate-fadeInUp">
-          🛠️ Simulation Status
+          🛠️ Execution Status
         </h1>
         <p class="text-lg text-gray-800 animate-fadeInUp delay-150">
-          Real-time status of your Trip Chart Simulation
+          Real-time status of your Trip Chart Processing
         </p>
       </div>
     </header>

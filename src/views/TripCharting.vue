@@ -24,13 +24,13 @@
         <div>
           <h2 class="text-2xl font-bold text-blue-800 mb-4">📁 Upload Timetable</h2>
           <div
-            class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-6 text-center cursor-pointer bg-white transition hover:bg-blue-50"
+            class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-6 text-center cursor-pointer bg-white transition hover:bg-blue-300 py-20"
             @dragover.prevent
             @drop.prevent="handleDrop"
             @click="triggerFileInput"
           >
             <input type="file" ref="fileInput" class="hidden" @change="handleFileUpload" />
-            <p class="text-gray-600">
+            <p class="text-gray-600 text-2xl">
               Drag & drop your timetable file here, or click to browse
             </p>
             <p v-if="fileName" class="mt-2 text-green-600 font-medium">{{ fileName }} selected</p>
@@ -50,15 +50,23 @@
             <button type="button" @click="removeEntry(idx)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold text-xl">×</button>
           </div>
           <button type="button" @click="addEntry" class="mt-2 py-2 px-4 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
-            ➕ Add Stepping Back Entry
+           Add Stepping Back Entry
           </button>
         </div>
 
         <!-- Submit Button -->
         <div class="text-center">
-          <button @click="submitSimulation" class="px-8 py-3 rounded bg-gradient-to-r from-red-600 to-blue-700 hover:from-red-700 hover:to-blue-800 text-white text-lg font-semibold transition">
-            Submit Trip Chart Simulation
+          <button
+            @click="submitSimulation"
+            class="px-8 py-3 rounded-md bg-emerald-600 hover:bg-emerald-700 
+                  text-white text-lg font-semibold shadow-sm hover:shadow-md 
+                  transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-emerald-300"
+          >
+            Submit 
           </button>
+
+
+
         </div>
       </div>
     </section>

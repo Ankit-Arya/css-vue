@@ -1,89 +1,112 @@
 <template>
-  <div class="min-h-screen bg-slate-900 text-gray-200 flex items-center justify-center px-4 py-8">
-    <transition name="fade" appear>
-      <div class="w-full max-w-5xl bg-slate-800 shadow-2xl rounded-2xl overflow-hidden border border-slate-700">
-        
-        <!-- Header -->
-        <header class="px-8 py-6 border-b border-slate-700">
-          <h1 class="text-3xl font-bold text-white">🚇 DMRC Trip Charting</h1>
-          <p class="text-sm text-slate-400 mt-1">Select a metro line to proceed</p>
-        </header>
+  <div class="min-h-screen bg-white text-gray-900 flex flex-col items-center justify-start px-4 py-12">
+    <!-- Title -->
+    <h1 class="text-3xl md:text-4xl font-bold mb-10 text-center">
+      🚇 Select a Metro Line to Proceed
+    </h1>
 
-        <!-- Grid of Lines -->
-        <main class="p-8">
-          <transition-group name="card-fade" tag="div" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <!-- <button
-              v-for="line in lines"
-              :key="line.name"
-              @click="goToTripChart(line.path)"
-              :class="[
-                'w-full py-5 px-6 rounded-xl font-semibold text-lg text-white flex items-center justify-center shadow-lg transition transform duration-300',
-                line.class,
-                'hover:scale-105 hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-white focus:ring-opacity-30'
-              ]"
-            >
-              {{ line.name }}
-            </button> -->
-            <button
-            v-for="line in lines"
-            :key="line.name"
-            :disabled="line.locked"
-            @click="!line.locked && goToTripChart(line.path)"
-            :class="[
-                'w-full py-5 px-6 rounded-xl font-semibold text-lg flex items-center justify-center transition duration-300',
-                line.class,
-                {
-                'opacity-40 cursor-not-allowed': line.locked,
-                'text-white hover:scale-105 hover:shadow-xl': !line.locked
-                }
-            ]"
-            >
-            {{ line.name }}
-            </button>
-
-          </transition-group>
-        </main>
+    <!-- Grid of Metro Lines -->
+    <div class="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div
+        v-for="line in lines"
+        :key="line.name"
+        @click="!line.locked && goToTripChart(line.path)"
+        :class="[
+          'group rounded-xl p-6 text-xl font-semibold flex items-center justify-center border-2 transition-all duration-300 shadow-sm',
+          line.border,
+          {
+            'cursor-not-allowed opacity-50': line.locked,
+            'cursor-pointer hover:scale-[1.02] hover:shadow-md': !line.locked,
+            [line.hover]: !line.locked,
+            [line.textHover]: !line.locked,
+          }
+        ]"
+      >
+        {{ line.name }}
       </div>
-    </transition>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { useRouter } from 'vue-router'
-
 const router = useRouter()
 
 const lines = [
-  { name: 'Red Line', path: 'red', class: 'bg-red-600 hover:bg-red-700' },
-  { name: 'Blue Line', path: 'blue', class: 'bg-blue-600 hover:bg-blue-700', locked: true },
-  { name: 'Yellow Line', path: 'yellow', class: 'bg-yellow-400 text-black hover:bg-yellow-300', locked: true },
-  { name: 'Green Line', path: 'green', class: 'bg-green-600 hover:bg-green-700', locked: true },
-  { name: 'Pink Line', path: 'pink', class: 'bg-pink-500 hover:bg-pink-600', locked: true },
-  { name: 'Magenta Line', path: 'magenta', class: 'bg-purple-600 hover:bg-purple-700', locked: true },
-  { name: 'Orange Line', path: 'orange', class: 'bg-orange-500 text-black hover:bg-orange-400', locked: true },
-  { name: 'Aqua Line', path: 'aqua', class: 'bg-cyan-500 text-black hover:bg-cyan-400', locked: true }
+  {
+    name: 'Red Line',
+    path: 'red',
+    border: 'border-red-300',
+    hover: 'hover:bg-red-600',
+    textHover: 'hover:text-white',
+  },
+  {
+    name: 'Blue Line',
+    path: 'blue',
+    border: 'border-blue-300',
+    hover: 'hover:bg-blue-600',
+    textHover: 'hover:text-white',
+    locked: true,
+  },
+  {
+    name: 'Yellow Line',
+    path: 'yellow',
+    border: 'border-yellow-300',
+    hover: 'hover:bg-yellow-400',
+    textHover: 'hover:text-black',
+    locked: true,
+  },
+  {
+    name: 'Green Line',
+    path: 'green',
+    border: 'border-green-300',
+    hover: 'hover:bg-green-600',
+    textHover: 'hover:text-white',
+    locked: true,
+  },
+  {
+    name: 'Pink Line',
+    path: 'pink',
+    border: 'border-pink-300',
+    hover: 'hover:bg-pink-500',
+    textHover: 'hover:text-white',
+    locked: true,
+  },
+  {
+    name: 'Magenta Line',
+    path: 'magenta',
+    border: 'border-purple-300',
+    hover: 'hover:bg-purple-600',
+    textHover: 'hover:text-white',
+    locked: true,
+  },
+  {
+    name: 'Orange Line',
+    path: 'orange',
+    border: 'border-orange-300',
+    hover: 'hover:bg-orange-500',
+    textHover: 'hover:text-black',
+    locked: true,
+  },
+  {
+    name: 'Aqua Line',
+    path: 'aqua',
+    border: 'border-cyan-300',
+    hover: 'hover:bg-cyan-500',
+    textHover: 'hover:text-black',
+    locked: true,
+  },
+  {
+    name: 'Golden Line (Coming Soon)',
+    path: 'golden',
+    border: 'border-yellow-400',
+    hover: 'hover:bg-yellow-500',
+    textHover: 'hover:text-black',
+    locked: true,
+  },
 ]
 
 function goToTripChart(linePath) {
   router.push(`/trip-charting-${linePath}`)
 }
 </script>
-
-<style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.4s ease;
-}
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-}
-
-.card-fade-enter-active {
-  transition: all 0.4s ease;
-}
-.card-fade-enter-from {
-  opacity: 0;
-  transform: translateY(12px);
-}
-</style>

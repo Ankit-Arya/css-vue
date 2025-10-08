@@ -9,121 +9,131 @@
         <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-gray-900 animate-fadeInUp">
           Welcome to <span class="text-blue-700">DMRC</span>
         </h1>
-        <p class="text-lg md:text-xl text-gray-700 font-light animate-fadeInUp delay-200">
+        <p class="text-2xl md:text-2xl text-gray-700 font-light animate-fadeInUp delay-200">
           Choose an option to continue your metro experience
         </p>
       </div>
     </header>
 
     <!-- Action Buttons Section -->
-    <section class="bg-gradient-to-br from-white via-blue-50 to-blue-100 py-16 px-6">
-      <div class="max-w-6xl mx-auto">
-        <ul class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <!-- Watch Demo -->
-          <li>
-            <RouterLink
-              to="/demo"
-              class="group flex flex-col items-center justify-center h-48 p-8 rounded-xl shadow-md border-2 border-blue-200 bg-white hover:bg-blue-50 transition transform hover:-translate-y-2 hover:shadow-lg hover:animate-pulse"
-            >
-              <div class="text-5xl mb-4 text-blue-600 group-hover:scale-110 transition">🎥</div>
-              <h3 class="text-xl font-semibold text-gray-800 text-center">Watch Demo</h3>
-            </RouterLink>
-          </li>
 
-          <!-- Enter Trip Charting -->
-          <li>
-            <RouterLink
-              to="/select-line"
-              class="group flex flex-col items-center justify-center h-48 p-8 rounded-xl shadow-md border-2 border-red-200 bg-white hover:bg-red-50 transition transform hover:-translate-y-2 hover:shadow-lg hover:animate-pulse"
-            >
-              <div class="text-5xl mb-4 text-red-600 group-hover:scale-110 transition">🚇</div>
-              <h3 class="text-xl font-semibold text-gray-800 text-center">Enter Trip Charting Solution</h3>
-            </RouterLink>
-          </li>
-
-          <!-- Download Report -->
-          <li>
-            <RouterLink
-              to="/download-trip-chart"
-              class="group flex flex-col items-center justify-center h-48 p-8 rounded-xl shadow-md border-2 border-green-200 bg-white hover:bg-green-50 transition transform hover:-translate-y-2 hover:shadow-lg hover:animate-pulse"
-            >
-              <div class="text-5xl mb-4 text-green-600 group-hover:scale-110 transition">📥</div>
-              <h3 class="text-xl font-semibold text-gray-800 text-center">Download Report by Execution ID</h3>
-            </RouterLink>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- Status Check Section -->
-    <section class="bg-gradient-to-r from-gray-50 via-blue-50 to-blue-100 py-16 px-6">
-      <div class="max-w-3xl mx-auto text-center bg-white/90 backdrop-blur-sm rounded-xl shadow-md border border-gray-200 p-10">
-        <h2 class="text-3xl font-bold text-gray-900 mb-6 animate-fadeInUp">
-          🔍 Check Simulation Status
-        </h2>
-
-        <div class="flex flex-col sm:flex-row items-center gap-4">
-          <input
-            v-model="executionIdInput"
-            type="text"
-            placeholder="Enter Execution ID"
-            class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
-          />
-          <button
-            @click="goToStatus"
-            class="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
-            :disabled="!executionIdInput.trim()"
-          >
-            Check
-          </button>
-          <button
-            @click="showConfirmModal = true"
-            class="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
-            :disabled="!executionIdInput.trim() || isCancelling"
-          >
-            Cancel
-          </button>
-        </div>
-
-        <!-- Confirmation Modal (Placed outside the button row) -->
-        <div
-          v-if="showConfirmModal"
-          class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
+<section class="bg-gradient-to-br from-white via-blue-50 to-blue-100 py-12 px-4">
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+    
+    <!-- LEFT: Notice Board - Full Height -->
+    <div class="order-3 lg:order-1 bg-white flex flex-col border border-gray-200 rounded-xl shadow-md p-6 h-full max-h-[40rem] overflow-y-auto">
+      <h2 class="text-xl font-semibold text-gray-800 mb-4">📢 Live Notice Board</h2>
+      <ul class="space-y-4">
+        <li
+          v-for="notice in liveNotices"
+          :key="notice.id"
+          class="border-l-4 border-blue-600 pl-4 py-2 bg-blue-50 rounded"
         >
-          <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 border border-red-200 text-center animate-fadeInUp">
-            <h2 class="text-xl font-semibold text-red-600 mb-4">Abort Simulation?</h2>
-            <p class="text-gray-700 mb-6">
-              This will permanently terminate the ongoing simulation process associated with Execution ID
-              <strong>{{ executionIdInput }}</strong>. Are you sure you want to continue?
-            </p>
+          <p class="text-sm text-gray-800">
+            <strong>ID:</strong> {{ notice.executionId }}<br />
+            <strong>Status:</strong> {{ notice.status }}<br />
+            <strong>By:</strong> {{ notice.initiatedBy }}<br />
+            <strong>At:</strong> {{ formatTime(notice.timestamp) }}
+          </p>
+        </li>
+      </ul>
+    </div>
 
-            <div class="flex justify-center gap-4">
-              <button
-                @click="confirmAbort"
-                class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold"
-              >
-                Yes, Abort
-              </button>
-              <button
-                @click="showConfirmModal = false"
-                class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg font-semibold"
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <p v-if="errorMsg" class="mt-4 text-red-500">{{ errorMsg }}</p>
-        <p v-if="successMsg" class="mt-4 text-green-600">{{ successMsg }}</p>
+    <!-- MIDDLE: Main Trip Charting Section (was RIGHT) -->
+    <div class="order-2 lg:order-2 flex flex-col items-center justify-center h-full">
+      <RouterLink
+        to="/select-line"
+        class="group w-full h-60 p-8 rounded-2xl border-2 border-blue-400 bg-blue-100 shadow-xl hover:shadow-2xl transition hover:-translate-y-1 hover:bg-blue-200 flex flex-col items-center justify-center animate-pulse"
+      >
+        <div class="text-6xl text-blue-700 mb-4 group-hover:scale-110 transition">🚇</div>
+        <h3 class="text-2xl font-bold text-blue-900 text-center">Enter Trip Charting Solution</h3>
+      </RouterLink>
+      <div class="flex gap-4 mt-8 w-full">
+        <!-- Watch Demo -->
+        <RouterLink
+          to="/demo"
+          class="group flex-1 flex flex-col items-center justify-center h-36 p-5 rounded-xl shadow-md border bg-white hover:bg-blue-50 transition"
+        >
+          <div class="text-4xl text-blue-600 mb-2 group-hover:scale-110 transition">🎥</div>
+          <h3 class="text-lg font-semibold text-gray-800 text-center">Watch Demo</h3>
+        </RouterLink>
+        <!-- Download Report -->
+        <RouterLink
+          to="/download-trip-chart"
+          class="group flex-1 flex flex-col items-center justify-center h-36 p-5 rounded-xl shadow-md border bg-white hover:bg-green-50 transition"
+        >
+          <div class="text-4xl text-green-600 mb-2 group-hover:scale-110 transition">📥</div>
+          <h3 class="text-lg font-semibold text-gray-800 text-center">Download Report by Execution ID</h3>
+        </RouterLink>
       </div>
-    </section>
+    </div>
+
+    <!-- RIGHT: Status Control (was MIDDLE) -->
+    <div class="order-1 lg:order-3 bg-white border border-gray-200 rounded-xl shadow-md p-6 flex flex-col justify-center items-center h-full space-y-6">
+      <h2 class="text-xl font-semibold text-gray-800 mb-2">🔍 Execution Control</h2>
+      <input
+        v-model="executionIdInput"
+        type="text"
+        placeholder="Enter Execution ID"
+        class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500"
+      />
+      <div class="flex flex-col gap-3 w-full">
+        <button
+          @click="goToStatus"
+          :disabled="!executionIdInput.trim()"
+          class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition disabled:opacity-50"
+        >
+          Check Status
+        </button>
+        <button
+          @click="showConfirmModal = true"
+          :disabled="!executionIdInput.trim() || isCancelling"
+          class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md transition disabled:opacity-50"
+        >
+          Abort Execution
+        </button>
+      </div>
+      <!-- Feedback -->
+      <p v-if="errorMsg" class="text-red-500 text-sm">{{ errorMsg }}</p>
+      <p v-if="successMsg" class="text-green-600 text-sm">{{ successMsg }}</p>
+    </div>
+
   </div>
+
+  <!-- Confirmation Modal -->
+  <div
+    v-if="showConfirmModal"
+    class="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm flex items-center justify-center z-50"
+  >
+    <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 border border-red-200 text-center">
+      <h2 class="text-xl font-semibold text-red-600 mb-4">Abort Simulation?</h2>
+      <p class="text-gray-700 mb-6">
+        This will permanently stop execution ID <strong>{{ executionIdInput }}</strong>.
+        Are you sure?
+      </p>
+      <div class="flex justify-center gap-4">
+        <button
+          @click="confirmAbort"
+          class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md"
+        >
+          Yes, Abort
+        </button>
+        <button
+          @click="showConfirmModal = false"
+          class="px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-md"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
 </template>
 
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
@@ -134,6 +144,42 @@ const successMsg = ref('')
 const isCancelling = ref(false)
 const showConfirmModal = ref(false)
 
+// 🔔 Dummy Live Notice Board Data
+const liveNotices = ref([])
+
+const fetchDummyNotices = () => {
+  liveNotices.value = [
+    {
+      id: 1,
+      executionId: 'EXE-1024',
+      status: 'Running',
+      initiatedBy: 'john.doe@dmrc.com',
+      timestamp: new Date().toISOString(),
+    },
+    {
+      id: 2,
+      executionId: 'EXE-1023',
+      status: 'Completed',
+      initiatedBy: 'jane.singh@dmrc.com',
+      timestamp: new Date(Date.now() - 3600000).toISOString(),
+    },
+    {
+      id: 3,
+      executionId: 'EXE-1022',
+      status: 'Aborted',
+      initiatedBy: 'admin@dmrc.com',
+      timestamp: new Date(Date.now() - 7200000).toISOString(),
+    },
+  ]
+}
+
+// 🔁 Format timestamp to readable
+const formatTime = (timestamp) => {
+  const date = new Date(timestamp)
+  return date.toLocaleString()
+}
+
+// ✅ Check Status
 const goToStatus = () => {
   const id = executionIdInput.value.trim()
   if (!id) {
@@ -144,11 +190,13 @@ const goToStatus = () => {
   router.push({ name: 'TripChartingStatus', params: { executionId: id } })
 }
 
+// 🚨 Cancel Confirmation
 const confirmAbort = async () => {
   showConfirmModal.value = false
   await cancelSimulation()
 }
 
+// ❌ Cancel Simulation API
 const cancelSimulation = async () => {
   const id = executionIdInput.value.trim()
   if (!id) {
@@ -162,7 +210,7 @@ const cancelSimulation = async () => {
 
   try {
     const res = await fetch(`http://localhost:8000/cancel/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
     })
 
     if (!res.ok) {
@@ -179,4 +227,10 @@ const cancelSimulation = async () => {
     isCancelling.value = false
   }
 }
+
+// ⏳ Load dummy notices on mount
+onMounted(() => {
+  fetchDummyNotices()
+})
 </script>
+

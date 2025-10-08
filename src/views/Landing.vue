@@ -1,35 +1,34 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
     <!-- Header / Hero Section -->
-    <header class="relative overflow-hidden py-12 px-6 bg-gradient-to-br from-indigo-900 via-blue-900 to-teal-800 text-white shadow-2xl">
-<!-- <header class="relative overflow-hidden py-12 px-6 bg-gradient-to-br from-indigo-300 via-blue-200 to-teal-200 text-gray-900 shadow-lg"> -->
+<header class="relative overflow-hidden py-10 px-6 text-center bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300">
+  <!-- Decorative Circles -->
+  <div class="absolute -top-16 -left-16 w-64 h-64 bg-blue-600 rounded-full opacity-0 blur-3xl animate-pulse"></div>
+  <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-indigo-600 rounded-full opacity-0 blur-3xl animate-pulse"></div>
 
-      <!-- Floating circles -->
-      <div class="absolute -top-32 -left-32 w-80 h-80 bg-indigo-500 rounded-full opacity-20 blur-3xl animate-spin"></div>
-      <div class="absolute -bottom-32 -right-32 w-96 h-96 bg-teal-400 rounded-full opacity-15 blur-3xl animate-[spin_90s_linear_infinite]"></div>
+  <!-- Content -->
+  <div class="relative z-10 max-w-4xl mx-auto">
+    
+    <!-- Tagline -->
+    <p class="mb-4 text-base md:text-xl font-medium text-gray-700 animate-pulse tracking-wider uppercase">
+      A DMRC CSS Cell Innovation
+    </p>
 
-      <!-- Heading -->
-      <div class="text-center relative z-10 max-w-5xl mx-auto">
-        <p class="mb-3 text-sm font-medium tracking-widest uppercase text-gray-300 animate-pulse">
-          A DMRC CSS Cell Innovation
-        </p>
+    <!-- Main Heading -->
+    <h1 class="text-4xl md:text-7xl font-extrabold text-gray-900 mb-4 flex items-center justify-center gap-2">
+      CREW SCHEDULING
+      <span class="text-indigo-600 text-3xl relative animate-fade-in-up">
+        V2
+      </span>
+    </h1>
 
-        <h1 class="text-5xl md:text-7xl font-black mb-4 leading-snug drop-shadow-lg transform transition-transform duration-700 hover:scale-105">
-          <span class="block text-teal-400">Next-Gen</span> Crew Scheduling
-        </h1>
+    <!-- Subtext -->
+    <p class="text-2xl md:text-2xl text-gray-800 font-light animate-fade-in-up delay-50">
+      The DMRC-developed system redefining operational efficiency
+    </p>
+  </div>
+</header>
 
-        <p class="text-lg md:text-2xl text-gray-300 font-light max-w-3xl mx-auto animate-pulse">
-          The DMRC-developed system redefining operational management for high-demand environments.
-        </p>
-
-        <a href="#features" class="mt-8 inline-flex items-center text-teal-400 hover:text-teal-300 transition-colors font-semibold group">
-          Explore Features
-          <svg class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-          </svg>
-        </a>
-      </div>
-    </header>
 
     <!-- Highlights Section -->
     <section class="flex-1 max-w-6xl mx-auto py-16 px-6">
@@ -102,6 +101,52 @@
       </ul>
     </section>
   </div>
+
+<footer class="bg-white-300 text-gray-700 text-sm border-t border-gray-0">
+  <div class="max-w-7xl mx-auto px-0 py-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-32">
+    
+    <!-- Logo + Address -->
+    <div>
+      <img
+        src="https://www.delhimetrorail.com/static/media/logo-passenger.d3afd408.svg"
+        alt="Delhi Metro"
+        class="w-32 mb-4"
+      />
+      <h3 class="font-semibold text-base mb-1">Get In Touch</h3>
+      <p class="text-gray-600 leading-relaxed">
+        Regional Office - Mayur Vihar Phase 1<br />
+        New Delhi, India
+      </p>
+    </div>
+
+    <!-- Quick Links -->
+    <div>
+      <h3 class="font-semibold text-base mb-3">Quick Links</h3>
+      <ul class="space-y-2">
+        <li><a href="/faq" class="hover:underline text-gray-600">FAQ’s</a></li>
+        <li><a href="/contact-us" class="hover:underline text-gray-600">Help & Contact</a></li>
+        <li><a href="/disclaimer" class="hover:underline text-gray-600">Disclaimer</a></li>
+        <li><a href="/privacy-policy" class="hover:underline text-gray-600">Privacy Policy</a></li>
+      </ul>
+    </div>
+
+    <!-- Contact Info -->
+    <div>
+      <h3 class="font-semibold text-base mb-3">Helplines</h3>
+      <div class="space-y-3 text-gray-600">
+        <p>
+          CSS Helpline:<br />
+          <strong class="text-gray-800">520205</strong>
+        </p>
+        <p>
+          Reach Out:<br />
+          <strong class="text-gray-800">8888888888</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+
+</footer>
 </template>
 
 
