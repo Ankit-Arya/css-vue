@@ -31,9 +31,14 @@
         >
           <p class="text-sm text-gray-800">
             <strong>ID:</strong> {{ notice.executionId }}<br />
-            <strong>Status:</strong> {{ notice.status }}<br />
             <strong>By:</strong> {{ notice.initiatedBy }}<br />
-            <strong>At:</strong> {{ formatTime(notice.timestamp) }}
+            <strong>At:</strong> {{ formatTime(notice.timestamp) }}<br/>
+            <button
+                  @click="downloadFile(notice.file_id)"
+                  class="ml-4 px-3 py-1 bg-green-300 text-black rounded hover:bg-green-600 text-sm"
+                >
+                  Download Time Table File 
+                </button>
           </p>
         </li>
       </ul>
@@ -144,34 +149,22 @@ const successMsg = ref('')
 const isCancelling = ref(false)
 const showConfirmModal = ref(false)
 
-// 🔔 Dummy Live Notice Board Data
+
 const liveNotices = ref([])
 
-const fetchDummyNotices = () => {
-  liveNotices.value = [
-    {
-      id: 1,
-      executionId: 'EXE-1024',
-      status: 'Running',
-      initiatedBy: 'john.doe@dmrc.com',
-      timestamp: new Date().toISOString(),
-    },
-    {
-      id: 2,
-      executionId: 'EXE-1023',
-      status: 'Completed',
-      initiatedBy: 'jane.singh@dmrc.com',
-      timestamp: new Date(Date.now() - 3600000).toISOString(),
-    },
-    {
-      id: 3,
-      executionId: 'EXE-1022',
-      status: 'Aborted',
-      initiatedBy: 'admin@dmrc.com',
-      timestamp: new Date(Date.now() - 7200000).toISOString(),
-    },
-  ]
+const fetchNotices = async () => {
+  try {
+    const res = await fetch('http://localhost:8000/notices')
+    if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
+    liveNotices.value = await res.json()
+  } catch (err) {
+    console.error('Failed to fetch notices:', err)
+  }
 }
+
+onMounted(() => {
+  fetchNotices()
+})
 
 // 🔁 Format timestamp to readable
 const formatTime = (timestamp) => {
@@ -228,9 +221,30 @@ const cancelSimulation = async () => {
   }
 }
 
-// ⏳ Load dummy notices on mount
-onMounted(() => {
-  fetchDummyNotices()
-})
+const downloadFile = async (fileId) => {
+  try {
+    const res = await fetch(`http://localhost:8000/files/${fileId}`)
+    if (!res.ok) throw new Error('Failed to download file')
+    const blob = await res.blob()
+    const url = URL.createObjectURL(blob)
+
+    // Get filename from Content-Disposition header
+    const disposition = res.headers.get('Content-Disposition')
+    let filename = 'downloaded_file'
+    if (disposition && disposition.includes('filename=')) {
+      filename = disposition.split('filename=')[1].replace(/['"]/g, '')
+    }
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download = filename  // Use extracted filename here
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 </script>
 
