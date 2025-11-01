@@ -172,7 +172,9 @@ const login = async () => {
     return
   }
   try {
-    const res = await axios.post('http://127.0.0.1:8000/login', {
+    // const res = await axios.post('http://127.0.0.1:8000/login', {
+    const res = await axios.post('http://34.131.115.69:8000/login', {
+
       email: loginEmail.value,
       password: loginPassword.value,
       captcha: loginCaptchaToken.value,
@@ -193,7 +195,7 @@ const signup = async () => {
     return
   }
   try {
-    await axios.post('http://127.0.0.1:8000/signup', {
+    await axios.post('http://34.131.115.69/signup', {
       email: signupEmail.value,
       password: signupPassword.value,
       captcha: signupCaptchaToken.value,
