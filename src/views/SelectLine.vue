@@ -46,7 +46,7 @@ const lines = [
     border: 'border-blue-300',
     hover: 'hover:bg-blue-600',
     textHover: 'hover:text-white',
-    locked: true,
+    // locked: true,
   },
   {
     name: 'Yellow Line',

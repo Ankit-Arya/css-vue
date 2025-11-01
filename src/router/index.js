@@ -5,6 +5,7 @@ import Landing from '../views/Landing.vue'
 import MetroHome from '../views/MetroHome.vue'
 import Demo from '../views/Demo.vue'
 import TripCharting from '../views/TripCharting.vue'
+import TripChartingBlue from '../views/TripChartingBlue.vue'
 import TripChartingStatus from '../views/TripChartingStatus.vue'
 import DownloadTripChart from '../views/DownloadTripChart.vue'
 import SelectLine from '../views/SelectLine.vue'
@@ -23,6 +24,7 @@ const routes = [
   { path: '/disclaimer', component: Disclaimer },
   { path: '/privacy-policy', component: PrivacyPolicy },
   { path: '/trip-charting-red', name: 'TripCharting', component: TripCharting, meta: { requiresAuth: true }},
+  { path: '/trip-charting-blue', name: 'TripChartingBlue', component: TripChartingBlue, meta: { requiresAuth: true }},
   // { path: '/trip-charting-status', name: 'TripChartingStatus', component: TripChartingStatus, meta: { requiresAuth: true }},
   { 
     path: '/trip-charting-status/:executionId', 
