@@ -102,7 +102,7 @@
         >&times;</button>
         <h2 class="text-2xl font-bold mb-4 text-gray-800">Sign Up</h2>
         <form @submit.prevent="signup" class="space-y-3">
-          <input v-model="signupEmail" type="email" placeholder="Email" class="w-full p-2 border rounded" required />
+          <input v-model="signupEmail" type="email" placeholder="Enter DMRC mail ID" class="w-full p-2 border rounded" required />
           <input v-model="signupPassword" type="password" placeholder="Password" class="w-full p-2 border rounded" required />
 
           <!-- reCAPTCHA -->
@@ -188,15 +188,18 @@ const login = async () => {
 }
 
 // Signup
+
 const signup = async () => {
   signupError.value = ''
   if (!signupCaptchaToken.value) {
     signupError.value = 'Please complete the reCAPTCHA.'
     return
   }
+  // Build full email
+  const fullEmail = `${signupEmail.value}@dmrc.org`
   try {
     await axios.post('http://34.131.163.51/signup', {
-      email: signupEmail.value,
+      email: fullEmail,
       password: signupPassword.value,
       captcha: signupCaptchaToken.value,
     })
