@@ -75,7 +75,7 @@
   
   
   
-  <script setup>
+  <!-- <script setup>
   import { ref, reactive } from 'vue'
   import { useRouter } from 'vue-router'
   import { useAuthStore } from '@/stores/auth'
@@ -137,5 +137,181 @@
   /* subtle fade-in for file selection */
   .animate-fadeIn { animation: fadeIn 0.6s ease-in-out forwards; }
   @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-  </style>
-  
+  </style> -->
+  <script setup>
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
+
+const router = useRouter()
+const fileInput = ref(null)
+const fileObj = ref(null)
+const fileName = ref('')
+const form = reactive({ steppingBack: [] })
+const auth = useAuthStore()
+
+/**
+ * Generate a UUID safely across all browsers & environments.
+ * Uses native crypto.randomUUID() if available, else falls back.
+ */
+function generateUUID() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID()
+  }
+  // fallback (RFC4122 version 4 compliant)
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+    const r = (Math.random() * 16) | 0
+    const v = c === 'x' ? r : (r & 0x3) | 0x8
+    return v.toString(16)
+  })
+}
+
+const triggerFileInput = () => fileInput.value.click()
+
+const handleFileUpload = (e) => {
+  const file = e.target.files?.[0]
+  if (file) {
+    fileObj.value = file
+    fileName.value = file.name
+  }
+}
+
+const handleDrop = (e) => {
+  const file = e.dataTransfer.files?.[0]
+  if (file) {
+    fileObj.value = file
+    fileName.value = file.name
+  }
+}
+
+const addEntry = () => form.steppingBack.push({ station: '', start: '', end: '' })
+const removeEntry = (idx) => form.steppingBack.splice(idx, 1)
+
+const submitSimulation = async () => {
+  if (!fileObj.value) {
+    alert('Please upload a timetable file')
+    return
+  }
+
+  const executionId = generateUUID()
+  const payload = new FormData()
+  payload.append('execution_id', executionId)
+  payload.append('file', fileObj.value)
+  payload.append('user_id', auth.user?.id || '')
+  payload.append('user_name', auth.user?.username || '')
+  payload.append('user_email', auth.user?.email || '')
+  payload.append('stepping_back', JSON.stringify(form.steppingBack))
+
+  try {
+    const res = await fetch('http://34.131.163.51:8000/simulateL34', {
+      method: 'POST',
+      body: payload,
+    })
+    const data = await res.json()
+
+    if (!data.execution_id) throw new Error('No execution ID returned')
+
+    router.push({
+      name: 'TripChartingStatus',
+      params: { executionId: data.execution_id },
+    })
+  } catch (err) {
+    console.error('Submission failed', err)
+    alert('Failed to submit simulation')
+  }
+}
+</script>
+
+<template>
+  <div class="trip-charting">
+    <h2>Trip Chart Simulation</h2>
+
+    <div class="file-upload">
+      <input
+        type="file"
+        ref="fileInput"
+        accept=".csv,.xlsx,.xls"
+        class="hidden"
+        @change="handleFileUpload"
+      />
+      <button @click="triggerFileInput">Upload Timetable File</button>
+      <span v-if="fileName" class="animate-fadeIn">Selected: {{ fileName }}</span>
+    </div>
+
+    <div class="stepping-back-section">
+      <h3>Stepping Back Entries</h3>
+      <div
+        v-for="(entry, idx) in form.steppingBack"
+        :key="idx"
+        class="entry animate-fadeIn"
+      >
+        <input v-model="entry.station" placeholder="Station" />
+        <input v-model="entry.start" placeholder="Start Time" />
+        <input v-model="entry.end" placeholder="End Time" />
+        <button @click="removeEntry(idx)">Remove</button>
+      </div>
+      <button @click="addEntry">Add Entry</button>
+    </div>
+
+    <button class="submit-btn" @click="submitSimulation">Submit Simulation</button>
+  </div>
+</template>
+
+<style>
+.trip-charting {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hidden {
+  display: none;
+}
+
+.stepping-back-section {
+  border-top: 1px solid #ddd;
+  padding-top: 1rem;
+}
+
+.entry {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.submit-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Subtle fade-in for file selection and entries */
+.animate-fadeIn {
+  animation: fadeIn 0.6s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
