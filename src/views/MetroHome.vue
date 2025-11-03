@@ -154,7 +154,7 @@ const liveNotices = ref([])
 
 const fetchNotices = async () => {
   try {
-    const res = await fetch('http://34.131.115.69:8000/notices')
+    const res = await fetch('http://34.131.163.51:8000/notices')
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
     liveNotices.value = await res.json()
   } catch (err) {
@@ -202,7 +202,7 @@ const cancelSimulation = async () => {
   isCancelling.value = true
 
   try {
-    const res = await fetch(`http://34.131.115.69:8000/cancel/${id}`, {
+    const res = await fetch(`http://34.131.163.51:8000/cancel/${id}`, {
       method: 'DELETE',
     })
 
@@ -223,7 +223,7 @@ const cancelSimulation = async () => {
 
 const downloadFile = async (fileId) => {
   try {
-    const res = await fetch(`http://34.131.115.69:8000/files/${fileId}`)
+    const res = await fetch(`http://34.131.163.51:8000/files/${fileId}`)
     if (!res.ok) throw new Error('Failed to download file')
     const blob = await res.blob()
     const url = URL.createObjectURL(blob)

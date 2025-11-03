@@ -119,7 +119,7 @@
     payload.append('stepping_back', JSON.stringify(form.steppingBack))
   
     try {
-      const res = await fetch('http://34.131.115.69:8000/simulateL34', {
+      const res = await fetch('http://34.131.163.51:8000/simulateL34', {
         method: 'POST',
         body: payload,
       })

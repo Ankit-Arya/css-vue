@@ -119,7 +119,7 @@ const submitSimulation = async () => {
   payload.append('stepping_back', JSON.stringify(form.steppingBack))
 
   try {
-    const res = await fetch('http://34.131.115.69:8000/simulate', {
+    const res = await fetch('http://34.131.163.51:8000/simulate', {
       method: 'POST',
       body: payload,
     })

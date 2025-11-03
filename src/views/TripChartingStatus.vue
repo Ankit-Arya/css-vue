@@ -51,7 +51,7 @@ let polling = null
 
 const fetchStatus = async () => {
   try {
-    const res = await fetch(`http://34.131.115.69:8000/status/${executionId.value}`)
+    const res = await fetch(`http://34.131.163.51:8000/status/${executionId.value}`)
     if (!res.ok) throw new Error('Bad response from server')
     const data = await res.json()
     steps.value = data.steps
@@ -76,7 +76,7 @@ const fetchStatus = async () => {
 
 const downloadOutputFile = async () => {
   try {
-    const res = await fetch(`http://34.131.115.69:8000/download/${executionId.value}`)
+    const res = await fetch(`http://34.131.163.51:8000/download/${executionId.value}`)
     if (!res.ok) throw new Error('File not ready')
     const blob = await res.blob()
     const url = window.URL.createObjectURL(blob)
