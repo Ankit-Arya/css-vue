@@ -12,7 +12,6 @@
           :key="idx"
           class="flex items-start space-x-3 p-3 rounded-lg bg-gray-800 animate-fade-in"
         >
-          <!-- Icon -->
           <div class="text-xl w-6 flex-shrink-0">
             <span v-if="step.status === 'completed'" class="text-green-400">✅</span>
             <span v-else-if="step.status === 'running' || step.status === 'WIP'" class="text-yellow-400 animate-spin">🔄</span>
@@ -21,7 +20,6 @@
             <span v-else class="text-gray-500">•</span>
           </div>
 
-          <!-- Message -->
           <div>
             <p
               :class="[step.status === 'error' ? 'text-red-300 font-medium' : 'text-gray-300', 'text-sm md:text-base']"
@@ -45,121 +43,98 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const executionId = ref(route.params.executionId)
-const steps = ref([]) 
+
+const steps = ref([])
 const fileDownloaded = ref(false)
 const fileError = ref('')
 
-let polling = null
 const POLLING_INTERVAL = 2000
-const FILE_DOWNLOAD_RETRIES = 10
-const FILE_RETRY_DELAY = 2000
 
-// Fetch simulation steps
+let statusPolling = null
+let filePolling = null
+
+// --- Fetch simulation status ---
 const fetchStatus = async () => {
   try {
     const res = await fetch(`http://34.131.163.51:8000/status/${executionId.value}`)
-    if (!res.ok) throw new Error('Bad response from server')
+    if (!res.ok) throw new Error('Failed to fetch status')
     const data = await res.json()
     steps.value = data.steps
 
     const hasError = data.steps.some(s => s.status === 'error')
-    const allCompleted = data.steps.every(s => s.status === 'completed')
-
     if (hasError) {
-      clearInterval(polling)
-      polling = null
-      fileError.value = 'Simulation failed. File will not be generated.'
-      return
-    }
-
-    // Check if trip chart file exists
-    if (allCompleted) {
-      const fileAvailable = await checkFileAvailability()
-      const tripChartStep = steps.value.find(s => s.name.toLowerCase().includes('trip chart'))
-      if (tripChartStep) {
-        tripChartStep.status = fileAvailable ? 'completed' : 'running'
-      }
-
-      if (fileAvailable) {
-        clearInterval(polling)
-        polling = null
-        await downloadFileWithRetry()
-      }
+      clearInterval(statusPolling)
+      statusPolling = null
+      fileError.value = 'Simulation failed. File may not be generated.'
     }
   } catch (err) {
-    console.error('Failed to fetch status', err)
+    console.error('Status polling error:', err)
   }
 }
 
-// Check if file is available on server
+// --- Check if trip chart file exists ---
 const checkFileAvailability = async () => {
+  const fileName = `trip_chart_${executionId.value}.xlsx`
   try {
-    const res = await fetch(`http://34.131.163.51:8000/download/${executionId.value}`, { method: 'HEAD' })
-    return res.ok
+    const res = await fetch(`http://34.131.163.51:8000/download/${fileName}`, { method: 'HEAD' })
+    return res.ok ? fileName : false
   } catch {
     return false
   }
 }
 
-// Download file with retry
-const downloadFileWithRetry = async () => {
-  let attempt = 0
-  const tryDownload = async () => {
-    try {
-      const res = await fetch(`http://34.131.163.51:8000/download/${executionId.value}`)
-      if (!res.ok) throw new Error('File not ready')
-
-      const blob = await res.blob()
-      const url = window.URL.createObjectURL(blob)
-      const a = document.createElement('a')
-      a.href = url
-      a.download = `trip_chart_${executionId.value}.xlsx`
-      document.body.appendChild(a)
-      a.click()
-      a.remove()
-      window.URL.revokeObjectURL(url)
-
-      fileDownloaded.value = true
-      console.log('✅ File downloaded successfully')
-    } catch (err) {
-      attempt++
-      console.log(`File not ready yet (attempt ${attempt})`)
-      if (attempt < FILE_DOWNLOAD_RETRIES) {
-        setTimeout(tryDownload, FILE_RETRY_DELAY)
-      } else {
-        fileError.value = 'Failed to download file after multiple attempts.'
-        console.error('Download failed:', err)
-      }
-    }
+// --- Download the trip chart ---
+const downloadFile = async (fileName) => {
+  try {
+    const res = await fetch(`http://34.131.163.51:8000/download/${fileName}`)
+    if (!res.ok) throw new Error('File not ready')
+    const blob = await res.blob()
+    const url = window.URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = fileName
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    window.URL.revokeObjectURL(url)
+    fileDownloaded.value = true
+    console.log('✅ File downloaded successfully')
+  } catch (err) {
+    console.error('File download failed:', err)
   }
-
-  tryDownload()
 }
 
-// Helper for status message
+// --- Poll file infinitely until downloaded ---
+const pollFile = async () => {
+  if (fileDownloaded.value) return
+  const fileName = await checkFileAvailability()
+  if (fileName) {
+    await downloadFile(fileName)
+  }
+}
+
+// --- Status message helper ---
 const getStatusMessage = (step) => {
   switch (step.status) {
-    case 'completed':
-      return `${step.name} — Completed successfully`
+    case 'completed': return `${step.name} — Completed successfully`
     case 'running':
-    case 'WIP':
-      return `${step.name} — In progress...`
-    case 'pending':
-      return `${step.name} — Queued`
-    case 'error':
-      return `${step.name} — Failed to complete`
-    default:
-      return `${step.name} — Unknown status`
+    case 'WIP': return `${step.name} — In progress...`
+    case 'pending': return `${step.name} — Queued`
+    case 'error': return `${step.name} — Failed to complete`
+    default: return `${step.name} — Unknown status`
   }
 }
 
 onMounted(() => {
+  statusPolling = setInterval(fetchStatus, POLLING_INTERVAL)
+  filePolling = setInterval(pollFile, POLLING_INTERVAL)
   fetchStatus()
-  polling = setInterval(fetchStatus, POLLING_INTERVAL)
+  pollFile()
 })
 
 onUnmounted(() => {
-  if (polling) clearInterval(polling)
+  if (statusPolling) clearInterval(statusPolling)
+  if (filePolling) clearInterval(filePolling)
 })
 </script>
 
