@@ -33,7 +33,7 @@
       </div>
 
       <p v-if="fileError" class="mt-4 text-red-500 text-sm">❌ {{ fileError }}</p>
-      <p v-if="fileDownloaded" class="mt-4 text-green-400 text-sm">✅ File downloaded successfully</p>
+      <p v-if="fileDownloaded" class="mt-4 text-green-400 text-sm">✅ Trip chart downloaded successfully</p>
 
     </div>
   </section>
@@ -45,16 +45,16 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const executionId = ref(route.params.executionId)
-const steps = ref([])
+const steps = ref([]) 
 const fileDownloaded = ref(false)
 const fileError = ref('')
 
 let polling = null
-const POLLING_INTERVAL = 2000 // 2 seconds
-const FILE_DOWNLOAD_RETRIES = 10 // max attempts to download file
-const FILE_RETRY_DELAY = 2000 // retry every 2 seconds
+const POLLING_INTERVAL = 2000
+const FILE_DOWNLOAD_RETRIES = 10
+const FILE_RETRY_DELAY = 2000
 
-// Fetch simulation status
+// Fetch simulation steps
 const fetchStatus = async () => {
   try {
     const res = await fetch(`http://34.131.163.51:8000/status/${executionId.value}`)
@@ -72,20 +72,38 @@ const fetchStatus = async () => {
       return
     }
 
+    // Check if trip chart file exists
     if (allCompleted) {
-      clearInterval(polling)
-      polling = null
-      await downloadFileWithRetry()
+      const fileAvailable = await checkFileAvailability()
+      const tripChartStep = steps.value.find(s => s.name.toLowerCase().includes('trip chart'))
+      if (tripChartStep) {
+        tripChartStep.status = fileAvailable ? 'completed' : 'running'
+      }
+
+      if (fileAvailable) {
+        clearInterval(polling)
+        polling = null
+        await downloadFileWithRetry()
+      }
     }
   } catch (err) {
     console.error('Failed to fetch status', err)
   }
 }
 
-// Polling + retry logic for file download
+// Check if file is available on server
+const checkFileAvailability = async () => {
+  try {
+    const res = await fetch(`http://34.131.163.51:8000/download/${executionId.value}`, { method: 'HEAD' })
+    return res.ok
+  } catch {
+    return false
+  }
+}
+
+// Download file with retry
 const downloadFileWithRetry = async () => {
   let attempt = 0
-
   const tryDownload = async () => {
     try {
       const res = await fetch(`http://34.131.163.51:8000/download/${executionId.value}`)
@@ -118,7 +136,7 @@ const downloadFileWithRetry = async () => {
   tryDownload()
 }
 
-// Helper to display status messages
+// Helper for status message
 const getStatusMessage = (step) => {
   switch (step.status) {
     case 'completed':
