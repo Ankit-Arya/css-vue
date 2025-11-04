@@ -1,4 +1,3 @@
-
 <template>
   <section class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-900 via-gray-900 to-red-700 text-white p-6">
     <div class="w-full max-w-3xl bg-black bg-opacity-70 rounded-xl shadow-2xl p-8">
@@ -25,16 +24,16 @@
           <!-- Message -->
           <div>
             <p
-              :class="[
-                'text-sm md:text-base',
-                step.status === 'error' ? 'text-red-300 font-medium' : 'text-gray-300'
-              ]"
+              :class="[step.status === 'error' ? 'text-red-300 font-medium' : 'text-gray-300', 'text-sm md:text-base']"
             >
               {{ getStatusMessage(step) }}
             </p>
           </div>
         </div>
       </div>
+
+      <p v-if="fileError" class="mt-4 text-red-500 text-sm">❌ {{ fileError }}</p>
+      <p v-if="fileDownloaded" class="mt-4 text-green-400 text-sm">✅ File downloaded successfully</p>
 
     </div>
   </section>
@@ -46,9 +45,16 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const executionId = ref(route.params.executionId)
-const steps = ref([]) 
-let polling = null
+const steps = ref([])
+const fileDownloaded = ref(false)
+const fileError = ref('')
 
+let polling = null
+const POLLING_INTERVAL = 2000 // 2 seconds
+const FILE_DOWNLOAD_RETRIES = 10 // max attempts to download file
+const FILE_RETRY_DELAY = 2000 // retry every 2 seconds
+
+// Fetch simulation status
 const fetchStatus = async () => {
   try {
     const res = await fetch(`http://34.131.163.51:8000/status/${executionId.value}`)
@@ -59,39 +65,60 @@ const fetchStatus = async () => {
     const hasError = data.steps.some(s => s.status === 'error')
     const allCompleted = data.steps.every(s => s.status === 'completed')
 
-    if (hasError || allCompleted) {
+    if (hasError) {
       clearInterval(polling)
       polling = null
+      fileError.value = 'Simulation failed. File will not be generated.'
+      return
+    }
 
-      if (allCompleted) {
-        downloadOutputFile()
-      }
+    if (allCompleted) {
+      clearInterval(polling)
+      polling = null
+      await downloadFileWithRetry()
     }
   } catch (err) {
     console.error('Failed to fetch status', err)
-    clearInterval(polling)
-    polling = null
   }
 }
 
-const downloadOutputFile = async () => {
-  try {
-    const res = await fetch(`http://34.131.163.51:8000/download/${executionId.value}`)
-    if (!res.ok) throw new Error('File not ready')
-    const blob = await res.blob()
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `trip_chart_${executionId.value}.xlsx`
-    document.body.appendChild(a)
-    a.click()
-    a.remove()
-    window.URL.revokeObjectURL(url)
-  } catch (err) {
-    console.error('Download failed:', err)
+// Polling + retry logic for file download
+const downloadFileWithRetry = async () => {
+  let attempt = 0
+
+  const tryDownload = async () => {
+    try {
+      const res = await fetch(`http://34.131.163.51:8000/download/${executionId.value}`)
+      if (!res.ok) throw new Error('File not ready')
+
+      const blob = await res.blob()
+      const url = window.URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `trip_chart_${executionId.value}.xlsx`
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      window.URL.revokeObjectURL(url)
+
+      fileDownloaded.value = true
+      console.log('✅ File downloaded successfully')
+    } catch (err) {
+      attempt++
+      console.log(`File not ready yet (attempt ${attempt})`)
+      if (attempt < FILE_DOWNLOAD_RETRIES) {
+        setTimeout(tryDownload, FILE_RETRY_DELAY)
+      } else {
+        fileError.value = 'Failed to download file after multiple attempts.'
+        console.error('Download failed:', err)
+      }
+    }
   }
+
+  tryDownload()
 }
 
+// Helper to display status messages
 const getStatusMessage = (step) => {
   switch (step.status) {
     case 'completed':
@@ -109,9 +136,8 @@ const getStatusMessage = (step) => {
 }
 
 onMounted(() => {
-  console.log('Route params:', route.params)
   fetchStatus()
-  polling = setInterval(fetchStatus, 2000)
+  polling = setInterval(fetchStatus, POLLING_INTERVAL)
 })
 
 onUnmounted(() => {
@@ -119,7 +145,6 @@ onUnmounted(() => {
 })
 </script>
 
-<!-- Fade-in animation (can be added to Tailwind config too) -->
 <style>
 @keyframes fadeIn {
   from {
