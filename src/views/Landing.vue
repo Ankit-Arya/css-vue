@@ -147,7 +147,7 @@
         <!-- Developer Info -->
         <div>
           <p class="text-gray-700">
-            <strong class="text-gray-800">Developer:</strong>
+            <strong class="text-gray-800">Developed by: </strong>
             <span class="text-gray-700 text-base font-normal">Ankit Arya</span>
           </p>
           <p class="text-gray-800 font-semibold mt-1">CSS CELL</p>
