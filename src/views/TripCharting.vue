@@ -42,37 +42,27 @@
           <h2 class="text-2xl font-bold text-blue-800 mb-4">🕒 Stepping Back Configuration</h2>
           <p class="text-gray-600 mb-4">Add stations and times where stepping back logic applies.</p>
 
+          <!-- Hint Box -->
+          <div class="bg-blue-50 border-l-4 border-blue-500 rounded-md p-4 mb-6 shadow-sm">
+            <h3 class="text-blue-800 font-semibold text-lg mb-1">💡 Stepping Back Hints</h3>
+            <ul class="text-blue-700 text-sm space-y-1">
+              <li><span class="font-semibold">SBC1</span> → DSG</li>
+              <li><span class="font-semibold">SBC2</span> → RI</li>
+            </ul>
+          </div>
+
           <transition-group name="fade" tag="div">
             <div
               v-for="(entry, idx) in form.steppingBack"
               :key="idx"
-              class="relative bg-white border-2 rounded-xl p-5 mb-5 shadow-sm hover:shadow-lg transition-all duration-300"
-              :class="{
-                'border-blue-400 ring-2 ring-blue-200': entry.station.toUpperCase() === 'SBC1',
-                'border-green-400 ring-2 ring-green-200': entry.station.toUpperCase() === 'SBC2'
-              }"
+              class="relative bg-white border-2 border-blue-200 rounded-xl p-5 mb-5 shadow-sm hover:shadow-lg transition-all duration-300"
             >
               <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
-                <div class="relative">
-                  <input
-                    v-model="entry.station"
-                    placeholder="Station Name (e.g. SBC1)"
-                    class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
-                  />
-                  <div
-                    v-if="entry.station.toUpperCase() === 'SBC1'"
-                    class="absolute -top-7 text-xs text-blue-600 font-medium"
-                  >
-                    💡 Hint: SBC1 = DSG
-                  </div>
-                  <div
-                    v-if="entry.station.toUpperCase() === 'SBC2'"
-                    class="absolute -top-7 text-xs text-green-600 font-medium"
-                  >
-                    💡 Hint: SBC2 = RI
-                  </div>
-                </div>
-
+                <input
+                  v-model="entry.station"
+                  placeholder="Station Name (e.g. SBC1)"
+                  class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
+                />
                 <input
                   v-model="entry.start"
                   type="time"
@@ -85,7 +75,7 @@
                 />
               </div>
 
-              <!-- Bigger & clearer remove button -->
+              <!-- Larger and clearer remove button -->
               <button
                 type="button"
                 @click="removeEntry(idx)"
@@ -104,6 +94,7 @@
             ➕ Add Stepping Back Entry
           </button>
         </div>
+
 
 
         <!-- Submit Button -->
