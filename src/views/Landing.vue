@@ -138,17 +138,23 @@
           CSS Helpline:<br />
           <strong class="text-gray-800">520205</strong>
         </p>
+
         <p>
           Reach Out:<br />
           <strong class="text-gray-800">+91-8800460307</strong>
         </p>
-        <p>
-          App Developed by:<br />
-          <h4>Ankit Arya</h4><br />
-          <strong class="text-gray-800">CSS CELL</strong>
-        </p>
+
+        <!-- Developer Info -->
+        <div>
+          <p class="text-gray-700">
+            <strong class="text-gray-800">Developer:</strong>
+            <span class="text-gray-700 text-base font-normal">Ankit Arya</span>
+          </p>
+          <p class="text-gray-800 font-semibold mt-1">CSS CELL</p>
+        </div>
       </div>
     </div>
+
   </div>
 
 </footer>
