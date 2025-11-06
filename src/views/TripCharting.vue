@@ -41,18 +41,70 @@
         <div>
           <h2 class="text-2xl font-bold text-blue-800 mb-4">🕒 Stepping Back Configuration</h2>
           <p class="text-gray-600 mb-4">Add stations and times where stepping back logic applies.</p>
-          <div v-for="(entry, idx) in form.steppingBack" :key="idx" class="bg-white p-4 rounded border border-blue-200 shadow-sm mb-4 relative">
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <input v-model="entry.station" placeholder="Station Name" class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200" />
-              <input v-model="entry.start" type="time" class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200" />
-              <input v-model="entry.end" type="time" class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200" />
+
+          <transition-group name="fade" tag="div">
+            <div
+              v-for="(entry, idx) in form.steppingBack"
+              :key="idx"
+              class="relative bg-white border-2 rounded-xl p-5 mb-5 shadow-sm hover:shadow-lg transition-all duration-300"
+              :class="{
+                'border-blue-400 ring-2 ring-blue-200': entry.station.toUpperCase() === 'SBC1',
+                'border-green-400 ring-2 ring-green-200': entry.station.toUpperCase() === 'SBC2'
+              }"
+            >
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 items-center">
+                <div class="relative">
+                  <input
+                    v-model="entry.station"
+                    placeholder="Station Name (e.g. SBC1)"
+                    class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
+                  />
+                  <div
+                    v-if="entry.station.toUpperCase() === 'SBC1'"
+                    class="absolute -top-7 text-xs text-blue-600 font-medium"
+                  >
+                    💡 Hint: SBC1 = DSG
+                  </div>
+                  <div
+                    v-if="entry.station.toUpperCase() === 'SBC2'"
+                    class="absolute -top-7 text-xs text-green-600 font-medium"
+                  >
+                    💡 Hint: SBC2 = RI
+                  </div>
+                </div>
+
+                <input
+                  v-model="entry.start"
+                  type="time"
+                  class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
+                />
+                <input
+                  v-model="entry.end"
+                  type="time"
+                  class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
+                />
+              </div>
+
+              <!-- Bigger & clearer remove button -->
+              <button
+                type="button"
+                @click="removeEntry(idx)"
+                class="absolute -top-3 -right-3 bg-red-500 hover:bg-red-600 text-white rounded-full w-8 h-8 flex items-center justify-center shadow-md text-lg font-bold transition-transform hover:scale-110"
+              >
+                ×
+              </button>
             </div>
-            <button type="button" @click="removeEntry(idx)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold text-xl">×</button>
-          </div>
-          <button type="button" @click="addEntry" class="mt-2 py-2 px-4 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold transition">
-           Add Stepping Back Entry
+          </transition-group>
+
+          <button
+            type="button"
+            @click="addEntry"
+            class="mt-4 py-2 px-6 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold shadow-md hover:shadow-lg transition-all duration-300 flex items-center gap-2"
+          >
+            ➕ Add Stepping Back Entry
           </button>
         </div>
+
 
         <!-- Submit Button -->
         <div class="text-center">
@@ -74,70 +126,6 @@
 </template>
 
 
-
-<!-- <script setup>
-import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
-
-const router = useRouter()
-const fileInput = ref(null)
-const fileObj = ref(null)
-const fileName = ref('')
-const form = reactive({ steppingBack: [] })
-const auth = useAuthStore()
-
-const triggerFileInput = () => fileInput.value.click()
-const handleFileUpload = (e) => {
-  if (e.target.files[0]) {
-    fileObj.value = e.target.files[0]
-    fileName.value = e.target.files[0].name
-  }
-}
-const handleDrop = (e) => {
-  if (e.dataTransfer.files[0]) {
-    fileObj.value = e.dataTransfer.files[0]
-    fileName.value = e.dataTransfer.files[0].name
-  }
-}
-
-const addEntry = () => form.steppingBack.push({ station: '', start: '', end: '' })
-const removeEntry = (idx) => form.steppingBack.splice(idx, 1)
-
-const submitSimulation = async () => {
-  if (!fileObj.value) {
-    alert('Please upload a timetable file')
-    return
-  }
-  const executionId = crypto.randomUUID()
-  const payload = new FormData()
-  payload.append('execution_id', executionId)
-  payload.append('file', fileObj.value)
-  payload.append('user_id', auth.user?.id || '')
-  payload.append('user_name', auth.user?.username || '')
-  payload.append('user_name', auth.user?.email || '')
-  payload.append('stepping_back', JSON.stringify(form.steppingBack))
-
-  try {
-    const res = await fetch('http://34.131.163.51:8000/simulate', {
-      method: 'POST',
-      body: payload,
-    })
-    const data = await res.json()
-    if (!data.execution_id) throw new Error('No execution ID returned')
-    router.push({ name: 'TripChartingStatus', params: { executionId: data.execution_id } })
-  } catch (err) {
-    console.error('Submission failed', err)
-    alert('Failed to submit simulation')
-  }
-}
-</script>
-
-<style>
-/* subtle fade-in for file selection */
-.animate-fadeIn { animation: fadeIn 0.6s ease-in-out forwards; }
-@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-</style> -->
 <script setup>
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
