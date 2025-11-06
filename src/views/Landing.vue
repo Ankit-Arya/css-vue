@@ -140,7 +140,12 @@
         </p>
         <p>
           Reach Out:<br />
-          <strong class="text-gray-800">8888888888</strong>
+          <strong class="text-gray-800">+91-8800460307</strong>
+        </p>
+        <p>
+          App Developed by:<br />
+          <h4>Ankit Arya</h4><br />
+          <strong class="text-gray-800">CSS CELL</strong>
         </p>
       </div>
     </div>
@@ -154,4 +159,6 @@
 <script setup>
 // No script needed for static animations
 </script>
+
+
 
