@@ -65,25 +65,39 @@ const fetchStatus = async () => {
     if (hasError) {
       clearInterval(statusPolling)
       statusPolling = null
-      fileError.value = 'Simulation failed. File may not be generated.'
+      fileError.value = 'Simulation failed. Files may not be generated.'
     }
   } catch (err) {
     console.error('Status polling error:', err)
   }
 }
 
-// --- Check if trip chart file exists ---
+// --- Check if multiple files exist ---
 const checkFileAvailability = async () => {
-  const fileName = `trip_chart_${executionId.value}.xlsx`
-  try {
-    const res = await fetch(`http://34.131.163.51:8000/download/${fileName}`, { method: 'HEAD' })
-    return res.ok ? fileName : false
-  } catch {
-    return false
+  const baseUrl = 'http://34.131.163.51:8000/download/'
+  const possibleFiles = [
+    `trip_chart_${executionId.value}.xlsx`,
+    `duty_trip_break_summary_${executionId.value}.xlsx`,
+    `log_${executionId.value}.txt`
+  ]
+
+  const availableFiles = []
+
+  for (const fileName of possibleFiles) {
+    try {
+      const res = await fetch(`${baseUrl}${fileName}`, { method: 'HEAD' })
+      if (res.ok) {
+        availableFiles.push(fileName)
+      }
+    } catch (err) {
+      console.warn(`⚠️ Could not check ${fileName}:`, err)
+    }
   }
+
+  return availableFiles
 }
 
-// --- Download the trip chart ---
+// --- Download a single file ---
 const downloadFile = async (fileName) => {
   try {
     const res = await fetch(`http://34.131.163.51:8000/download/${fileName}`)
@@ -97,19 +111,42 @@ const downloadFile = async (fileName) => {
     a.click()
     a.remove()
     window.URL.revokeObjectURL(url)
-    fileDownloaded.value = true
-    console.log('✅ File downloaded successfully')
+    console.log('✅ File downloaded successfully:', fileName)
   } catch (err) {
     console.error('File download failed:', err)
   }
 }
 
-// --- Poll file infinitely until downloaded ---
-const pollFile = async () => {
-  if (fileDownloaded.value) return
-  const fileName = await checkFileAvailability()
-  if (fileName) {
+// --- Download multiple files ---
+const downloadAllFiles = async (fileNames) => {
+  for (const fileName of fileNames) {
     await downloadFile(fileName)
+  }
+}
+
+// --- Handle file download logic ---
+const handleDownload = async () => {
+  const availableFiles = await checkFileAvailability()
+
+  if (availableFiles.length === 0) {
+    alert('No downloadable files found yet.')
+    return
+  }
+
+  if (confirm(`Found ${availableFiles.length} file(s):\n\n${availableFiles.join('\n')}\n\nDownload all?`)) {
+    await downloadAllFiles(availableFiles)
+  }
+}
+
+// --- Poll for file availability ---
+const pollFile = async () => {
+  const availableFiles = await checkFileAvailability()
+
+  if (availableFiles.length > 0) {
+    await downloadAllFiles(availableFiles)
+    fileDownloaded.value = true
+  } else {
+    console.log('No files available yet.')
   }
 }
 
@@ -125,6 +162,7 @@ const getStatusMessage = (step) => {
   }
 }
 
+// --- Mounting logic ---
 onMounted(() => {
   statusPolling = setInterval(fetchStatus, POLLING_INTERVAL)
   filePolling = setInterval(pollFile, POLLING_INTERVAL)
@@ -132,6 +170,7 @@ onMounted(() => {
   pollFile()
 })
 
+// --- Cleanup ---
 onUnmounted(() => {
   if (statusPolling) clearInterval(statusPolling)
   if (filePolling) clearInterval(filePolling)
@@ -153,3 +192,4 @@ onUnmounted(() => {
   animation: fadeIn 0.4s ease-out both;
 }
 </style>
+
