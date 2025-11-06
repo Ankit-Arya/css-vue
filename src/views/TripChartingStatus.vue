@@ -102,6 +102,7 @@ const downloadFile = async (fileName) => {
   try {
     const res = await fetch(`http://34.131.163.51:8000/download/${fileName}`)
     if (!res.ok) throw new Error('File not ready')
+
     const blob = await res.blob()
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -111,6 +112,7 @@ const downloadFile = async (fileName) => {
     a.click()
     a.remove()
     window.URL.revokeObjectURL(url)
+
     console.log('✅ File downloaded successfully:', fileName)
   } catch (err) {
     console.error('File download failed:', err)
@@ -124,7 +126,7 @@ const downloadAllFiles = async (fileNames) => {
   }
 }
 
-// --- Handle file download logic ---
+// --- Manual trigger (optional button) ---
 const handleDownload = async () => {
   const availableFiles = await checkFileAvailability()
 
@@ -138,15 +140,25 @@ const handleDownload = async () => {
   }
 }
 
-// --- Poll for file availability ---
+// --- Poll for file availability (silent unless success) ---
 const pollFile = async () => {
-  const availableFiles = await checkFileAvailability()
+  try {
+    const availableFiles = await checkFileAvailability()
 
-  if (availableFiles.length > 0) {
-    await downloadAllFiles(availableFiles)
-    fileDownloaded.value = true
-  } else {
-    console.log('No files available yet.')
+    if (availableFiles.length > 0) {
+      console.log(`✅ ${availableFiles.length} file(s) found:`, availableFiles.join(', '))
+      await downloadAllFiles(availableFiles)
+      fileDownloaded.value = true
+
+      // stop polling once downloaded
+      if (filePolling) {
+        clearInterval(filePolling)
+        filePolling = null
+      }
+    }
+    // silent on empty result — no spam logs
+  } catch (err) {
+    console.error('File polling error:', err)
   }
 }
 
@@ -164,6 +176,7 @@ const getStatusMessage = (step) => {
 
 // --- Mounting logic ---
 onMounted(() => {
+  console.log('⏳ Waiting for files to be generated...')
   statusPolling = setInterval(fetchStatus, POLLING_INTERVAL)
   filePolling = setInterval(pollFile, POLLING_INTERVAL)
   fetchStatus()
@@ -192,4 +205,5 @@ onUnmounted(() => {
   animation: fadeIn 0.4s ease-out both;
 }
 </style>
+
 
