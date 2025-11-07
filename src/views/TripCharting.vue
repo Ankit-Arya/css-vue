@@ -36,7 +36,29 @@
             <p v-if="fileName" class="mt-2 text-green-600 font-medium">{{ fileName }} selected</p>
           </div>
         </div>
+        <!-- 🧭 Timetable Type Selection (NEW UI) -->
+        <div>
+          <h2 class="text-2xl font-bold text-blue-800 mb-4">🗓️ Timetable Type</h2>
+          <p class="text-gray-600 mb-4">
+            Select whether the uploaded timetable is for a large run (like a weekend) or a small run (like Holi or other holidays).
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <label
+              class="flex items-center gap-2 bg-white border border-blue-300 rounded-md px-4 py-2 shadow-sm hover:bg-blue-100 cursor-pointer transition"
+            >
+              <input type="radio" value="large" v-model="form.timetableType" />
+              <span class="text-blue-800 font-medium">Large Run (Weekend)</span>
+            </label>
 
+            <label
+              class="flex items-center gap-2 bg-white border border-blue-300 rounded-md px-4 py-2 shadow-sm hover:bg-blue-100 cursor-pointer transition"
+            >
+              <input type="radio" value="small" v-model="form.timetableType" />
+              <span class="text-blue-800 font-medium">Small Run (Holiday)</span>
+            </label>
+          </div>
+        </div>
+        
         <!-- Stepping Back Entries -->
         <div>
           <h2 class="text-2xl font-bold text-blue-800 mb-4">🕒 Stepping Back Configuration</h2>
@@ -126,7 +148,10 @@ const router = useRouter()
 const fileInput = ref(null)
 const fileObj = ref(null)
 const fileName = ref('')
-const form = reactive({ steppingBack: [] })
+const form = reactive({
+  steppingBack: [],
+  timetableType: 'large', // 🆕 default selection
+})
 const auth = useAuthStore()
 
 /**
@@ -180,6 +205,8 @@ const submitSimulation = async () => {
   payload.append('user_name', auth.user?.username || '')
   payload.append('user_email', auth.user?.email || '')
   payload.append('stepping_back', JSON.stringify(form.steppingBack))
+  payload.append('timetable_type', form.timetableType) // 🆕 Pass selected option to backend
+
 
   try {
     const res = await fetch('http://34.131.163.51:8000/simulate', {
