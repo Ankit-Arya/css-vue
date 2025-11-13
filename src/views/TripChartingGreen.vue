@@ -68,8 +68,8 @@
           <div class="bg-blue-50 border-l-4 border-blue-500 rounded-md p-4 mb-6 shadow-sm">
             <h3 class="text-blue-800 font-semibold text-lg mb-1">💡 Stepping Back Hints</h3>
             <ul class="text-blue-700 text-sm space-y-1">
-              <li><span class="font-semibold">SBC1</span> → DSG</li>
-              <li><span class="font-semibold">SBC2</span> → RI</li>
+              <li><span class="font-semibold">SBC1</span> → ILOK</li>
+              <li><span class="font-semibold">SBC2</span> → KTNR</li>
             </ul>
           </div>
 
