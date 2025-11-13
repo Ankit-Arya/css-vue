@@ -196,7 +196,7 @@ const signup = async () => {
     return
   }
   // Build full email
-  const fullEmail = `${signupEmail.value}@dmrc.org`
+  const fullEmail = signupEmail.value
   try {
     await axios.post('http://34.131.163.51:8000/signup', {
       email: fullEmail,
