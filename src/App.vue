@@ -198,7 +198,7 @@ const signup = async () => {
   // Build full email
   const fullEmail = `${signupEmail.value}@dmrc.org`
   try {
-    await axios.post('http://34.131.163.51/signup', {
+    await axios.post('http://34.131.163.51:8000/signup', {
       email: fullEmail,
       password: signupPassword.value,
       captcha: signupCaptchaToken.value,
