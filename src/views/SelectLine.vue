@@ -62,7 +62,6 @@ const lines = [
     border: 'border-green-300',
     hover: 'hover:bg-green-600',
     textHover: 'hover:text-white',
-    locked: true,
   },
   {
     name: 'Pink Line',
