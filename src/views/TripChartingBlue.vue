@@ -47,7 +47,7 @@
               class="flex items-center gap-2 bg-white border border-blue-300 rounded-md px-4 py-2 shadow-sm hover:bg-blue-100 cursor-pointer transition"
             >
               <input type="radio" value="large" v-model="form.timetableType" />
-              <span class="text-blue-800 font-medium">Large Run (Weekend)</span>
+              <span class="text-blue-800 font-medium">Large Run (Weekday)</span>
             </label>
 
             <label
@@ -208,7 +208,8 @@ const submitSimulation = async () => {
 
 
   try {
-    const res = await fetch('http://34.131.163.51:8000/simulateL34', {
+    // const res = await fetch('http://34.131.163.51:8000/simulateL34', {
+    const res = await fetch('http://localhost:8000/simulateL34', {
       method: 'POST',
       body: payload,
     })

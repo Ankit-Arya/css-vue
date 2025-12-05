@@ -114,7 +114,7 @@
       />
       <h3 class="font-semibold text-base mb-1">Get In Touch</h3>
       <p class="text-gray-600 leading-relaxed">
-        Regional Office - Mayur Vihar Phase 1<br />
+        Regional Office - Kashmere Gate<br />
         New Delhi, India
       </p>
     </div>
@@ -136,7 +136,7 @@
       <div class="space-y-3 text-gray-600">
         <p>
           CSS Helpline:<br />
-          <strong class="text-gray-800">520205</strong>
+          <strong class="text-gray-800">113755</strong>
         </p>
 
         <p>
@@ -148,9 +148,9 @@
         <div>
           <p class="text-gray-700">
             <strong class="text-gray-800">Developed by: </strong>
-            <span class="text-gray-700 text-base font-normal">Ankit Arya</span>
+            <span class="text-gray-700 text-base font-normal">CSS CELL</span>
           </p>
-          <p class="text-gray-800 font-semibold mt-1">CSS CELL</p>
+          <p class="text-gray-800 font-semibold mt-1">IT CELL OPS </p>
         </div>
       </div>
     </div>

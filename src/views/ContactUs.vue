@@ -8,9 +8,9 @@
       </p>
 
       <ul class="space-y-2 text-gray-700">
-        <li><strong>Email:</strong> support@dmrc.com</li>
-        <li><strong>Phone:</strong> +91-11-23417910</li>
-        <li><strong>Working Hours:</strong> Mon–Fri, 9:30 AM – 6:00 PM IST</li>
+        <li><strong>Email:</strong> ankit.19591@dmrc.org</li>
+        <li><strong>Phone:</strong> +91-8800460307 / Ext - 113755</li>
+        <li><strong>Working Hours:</strong> Mon–Fri, 9:30 AM – 5:30 PM IST</li>
       </ul>
 
       <p class="mt-6 text-gray-600 text-sm">

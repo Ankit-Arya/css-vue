@@ -172,8 +172,8 @@ const login = async () => {
     return
   }
   try {
-    // const res = await axios.post('http://127.0.0.1:8000/login', {
-    const res = await axios.post('http://34.131.163.51:8000/login', {
+    const res = await axios.post('http://127.0.0.1:8000/login', {
+    // const res = await axios.post('http://34.131.163.51:8000/login', {
 
       email: loginEmail.value,
       password: loginPassword.value,
@@ -198,7 +198,8 @@ const signup = async () => {
   // Build full email
   const fullEmail = signupEmail.value
   try {
-    await axios.post('http://34.131.163.51:8000/signup', {
+    // await axios.post('http://34.131.163.51:8000/signup', {
+    await axios.post('http://localhost:8000/signup', {
       email: fullEmail,
       password: signupPassword.value,
       captcha: signupCaptchaToken.value,

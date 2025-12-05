@@ -47,7 +47,7 @@
               class="flex items-center gap-2 bg-white border border-blue-300 rounded-md px-4 py-2 shadow-sm hover:bg-blue-100 cursor-pointer transition"
             >
               <input type="radio" value="large" v-model="form.timetableType" />
-              <span class="text-blue-800 font-medium">Large Run (Weekend)</span>
+              <span class="text-blue-800 font-medium">Large Run (Weekday)</span>
             </label>
 
             <label
@@ -117,6 +117,59 @@
           </button>
         </div>
 
+        <!-- Additional Time Configurations -->
+<div>
+  <h2 class="text-2xl font-bold text-blue-800 mb-4">⏱️ Additional Time Settings</h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+    <div>
+      <label class="font-semibold text-blue-700">Duty Hours</label>
+      <input
+        type="time"
+        v-model="form.dutyHours"
+        @input="validateHH($event, 'dutyHours')"
+        class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
+      />
+
+    </div>
+
+    <div>
+      <label class="font-semibold text-blue-700">Running Hours</label>
+      <input
+            type="time"
+            v-model="form.runningHours"
+            @input="validateHH($event, 'runningHours')"
+            class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
+          />
+    </div>
+
+    <div>
+      <label class="font-semibold text-blue-700">Single Run Max</label>
+      <input
+            type="time"
+            v-model="form.singleRunMax"
+            @input="validateHH($event, 'singleRunMax')"
+            class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
+          />
+    </div>
+
+    <!-- Minute-only fields -->
+    <div>
+      <label class="font-semibold text-blue-700">Break Small (minutes)</label>
+      <input type="number" min="0" v-model.number="form.breakSmall"
+             class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200">
+    </div>
+
+    <div>
+      <label class="font-semibold text-blue-700">Break Large (minutes)</label>
+      <input type="number" min="0" v-model.number="form.breakLarge"
+             class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200">
+    </div>
+
+  </div>
+</div>
+
 
 
         <!-- Submit Button -->
@@ -151,6 +204,12 @@ const fileName = ref('')
 const form = reactive({
   steppingBack: [],
   timetableType: 'large', // 🆕 default selection
+
+  dutyHours: '',
+  runningHours: '',
+  singleRunMax: '',
+  breakSmall: 0,
+  breakLarge: 0,
 })
 const auth = useAuthStore()
 
@@ -188,6 +247,25 @@ const handleDrop = (e) => {
   }
 }
 
+function validateHH(event, field) {
+  let value = event.target.value; // "HH:MM"
+
+  if (!value) return;
+
+  const [hh, mm] = value.split(":");
+  let hour = parseInt(hh);
+
+  if (hour > 12) {
+    hour = 12; // force max 12
+  }
+  if (hour < 0) {
+    hour = 0;
+  }
+
+  // Set corrected value back into v-model
+  form[field] = `${hour.toString().padStart(2, '0')}:${mm}`;
+}
+
 const addEntry = () => form.steppingBack.push({ station: '', start: '', end: '' })
 const removeEntry = (idx) => form.steppingBack.splice(idx, 1)
 
@@ -207,9 +285,16 @@ const submitSimulation = async () => {
   payload.append('stepping_back', JSON.stringify(form.steppingBack))
   payload.append('timetable_type', form.timetableType) // 🆕 Pass selected option to backend
 
+  payload.append('duty_hours', form.dutyHours)
+  payload.append('running_hours', form.runningHours)
+  payload.append('single_run_max', form.singleRunMax)
+  payload.append('break_small', form.breakSmall.toString())
+  payload.append('break_large', form.breakLarge.toString())
+
 
   try {
-    const res = await fetch('http://34.131.163.51:8000/simulateL5', {
+    // const res = await fetch('http://34.131.163.51:8000/simulateL5', {
+    const res = await fetch('http://localhost:8000/simulateL5', {
       method: 'POST',
       body: payload,
     })
