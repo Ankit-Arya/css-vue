@@ -29,7 +29,7 @@
           :key="notice.id"
           class="border-l-4 border-blue-600 pl-4 py-2 bg-blue-50 rounded"
         >
-          <p class="text-sm text-gray-800">
+          <!-- <p class="text-sm text-gray-800">
             <strong>ID:</strong> {{ notice.executionId }}<br />
             <strong>By:</strong> {{ notice.initiatedBy }}<br />
             <strong>At:</strong> {{ formatTime(notice.timestamp) }}<br/>
@@ -39,7 +39,33 @@
                 >
                   Download Time Table File 
                 </button>
+          </p> -->
+
+          <p class="text-sm text-gray-800">
+            <strong>ID:</strong> 
+            {{ notice.executionId }}
+
+            <!-- Copy Button -->
+            <button 
+              @click="copyText(notice.executionId)"
+              class="ml-2 text-blue-600 hover:text-blue-800"
+              title="Copy ID"
+            >
+              📋
+            </button>
+            <br />
+
+            <strong>By:</strong> {{ notice.initiatedBy }}<br />
+            <strong>At:</strong> {{ formatTime(notice.timestamp) }}<br/>
+
+            <button
+              @click="downloadFile(notice.file_id)"
+              class="ml-4 px-3 py-1 bg-green-300 text-black rounded hover:bg-green-600 text-sm"
+            >
+              Download Time Table File
+            </button>
           </p>
+
         </li>
       </ul>
     </div>
@@ -166,6 +192,19 @@ const fetchNotices = async () => {
 onMounted(() => {
   fetchNotices()
 })
+
+
+function copyText(text) {
+  navigator.clipboard.writeText(text)
+    .then(() => {
+      // alert('Copied: ' + text)
+    })
+    .catch(() => {
+      // alert('Failed to copy')
+    })
+}
+
+
 
 // 🔁 Format timestamp to readable
 const formatTime = (timestamp) => {

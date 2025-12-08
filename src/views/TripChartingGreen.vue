@@ -128,6 +128,7 @@
       <input
         type="time"
         v-model="form.dutyHours"
+        value="00:00"
         @input="validateHH($event, 'dutyHours')"
         class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
       />
@@ -139,6 +140,7 @@
       <input
             type="time"
             v-model="form.runningHours"
+            value="00:00"
             @input="validateHH($event, 'runningHours')"
             class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
           />
@@ -149,6 +151,7 @@
       <input
             type="time"
             v-model="form.singleRunMax"
+            value="00:00"
             @input="validateHH($event, 'singleRunMax')"
             class="p-2 rounded border border-gray-300 w-full focus:ring focus:ring-blue-200"
           />
@@ -205,9 +208,9 @@ const form = reactive({
   steppingBack: [],
   timetableType: 'large', // 🆕 default selection
 
-  dutyHours: '',
-  runningHours: '',
-  singleRunMax: '',
+  dutyHours: '00:00',
+  runningHours: '00:00',
+  singleRunMax: '00:00',
   breakSmall: 0,
   breakLarge: 0,
 })
@@ -228,6 +231,8 @@ function generateUUID() {
     return v.toString(16)
   })
 }
+
+
 
 const triggerFileInput = () => fileInput.value.click()
 

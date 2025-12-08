@@ -3,7 +3,7 @@
     <div class="w-full max-w-3xl bg-black bg-opacity-70 rounded-xl shadow-2xl p-8">
       
       <h1 class="text-3xl font-extrabold text-center mb-6 text-red-400 animate-pulse">
-        🛠️ Simulation Status
+        🛠️ Real-Time Status
       </h1>
 
       <div class="space-y-3">
