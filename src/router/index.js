@@ -14,6 +14,8 @@ import Faq from '@/views/Faq.vue'
 import ContactUs from '@/views/ContactUs.vue'
 import Disclaimer from '@/views/Disclaimer.vue'
 import PrivacyPolicy from '@/views/PrivacyPolicy.vue'
+import ExecutionControlPage from '../views/ExecutionControlPage.vue'
+import LiveNoticeBoardPage from '../views/LiveNoticeBoardPage.vue'
 
 const routes = [
 
@@ -27,6 +29,8 @@ const routes = [
   { path: '/trip-charting-red', name: 'TripCharting', component: TripCharting, meta: { requiresAuth: true }},
   { path: '/trip-charting-blue', name: 'TripChartingBlue', component: TripChartingBlue, meta: { requiresAuth: true }},
   { path: '/trip-charting-green', name: 'TripChartingGreen', component: TripChartingGreen, meta: { requiresAuth: true }},
+  { path: '/execution-control', name: 'ExecutionControlPage', component: ExecutionControlPage },
+  { path: '/live-notice-board', name: 'LiveNoticeBoardPage', component: LiveNoticeBoardPage },
   // { path: '/trip-charting-status', name: 'TripChartingStatus', component: TripChartingStatus, meta: { requiresAuth: true }},
   { 
     path: '/trip-charting-status/:executionId', 
