@@ -1,73 +1,71 @@
 <template>
       <div class="min-h-screen flex bg-zinc-50">
     <!-- Sidebar -->
-    <!-- Sidebar -->
-    <aside class="w-72 bg-slate-900 text-slate-200 flex flex-col">
+    <aside class="w-72 bg-blue-800 text-slate-200 flex flex-col">
       <!-- Brand -->
       <div class="px-6 py-5 border-b border-slate-800">
         <h1 class="text-xl font-semibold text-white">
-          Work Dashboard
+          CSS Dashboard
         </h1>
-        <p class="text-xs text-slate-400 mt-1">
-          Core Redirect Index
-        </p>
+
       </div>
 
       <!-- Navigation -->
       <nav class="flex-1 px-4 py-6">
-        <p class="px-2 mb-3 text-xs font-semibold text-slate-400 uppercase">
-          Core Actions
-        </p>
+
 
         <ul class="space-y-1">
           <!-- Execution Control -->
           <RouterLink
             to="/execution-control"
-            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
+            class="flex items-center gap-3 px-3 py-2 rounded-md text-l font-medium
                    text-slate-300 transition
                    hover:bg-slate-800 hover:text-white"
             active-class="bg-slate-800 text-white"
           >
-            Execution Control
+            Trip Chart Status/Control
           </RouterLink>
 
           <!-- Past Executions -->
           <RouterLink
             to="/live-notice-board"
-            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
+            class="flex items-center gap-3 px-3 py-2 rounded-md text-l font-medium
                    text-slate-300 transition
                    hover:bg-slate-800 hover:text-white"
             active-class="bg-slate-800 text-white"
           >
-            Past Executions
+            Trip Chart/Time Table Archive
+          </RouterLink>
+
+
+
+          <!-- Download -->
+          <RouterLink
+            to="/download-trip-chart"
+            class="flex items-center gap-3 px-3 py-2 rounded-md text-l font-medium
+                   text-slate-300 transition
+                   hover:bg-slate-800 hover:text-white"
+            active-class="bg-slate-800 text-white"
+          >
+            Download Trip Chart
           </RouterLink>
 
           <!-- Demo -->
           <RouterLink
             to="/demo"
-            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
+            class="flex items-center gap-3 px-3 py-2 rounded-md text-l font-medium
                    text-slate-300 transition
                    hover:bg-slate-800 hover:text-white"
             active-class="bg-slate-800 text-white"
           >
             Watch Demo
           </RouterLink>
-
-          <!-- Download -->
-          <RouterLink
-            to="/download-trip-chart"
-            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
-                   text-slate-300 transition
-                   hover:bg-slate-800 hover:text-white"
-            active-class="bg-slate-800 text-white"
-          >
-            Download Report
-          </RouterLink>
         </ul>
       </nav>
 
 
     </aside>
+
     <!-- Main Content -->
     <main class="flex-1 p-10 bg-white-300 border border-gray-900">
   
@@ -76,10 +74,10 @@
         
         <div class="mb-8">
         <h1 class="text-3xl font-semibold text-gray-800">
-            Execution Control
+            Trip Chart Status/Control
         </h1>
         <p class="text-gray-500 mt-1">
-            Monitor, inspect, and abort running executions
+            Monitor, inspect, and abort running Trip Chart executions 
         </p>
         </div>
 
@@ -87,7 +85,7 @@
       <input
         v-model="executionIdInput"
         type="text"
-        placeholder="Enter Execution ID"
+        placeholder="Enter Trip Chart ID (To be copied from Trip Chart/Time Table Archive)"
         class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 mb-4"
       />
       <div class="flex flex-col gap-3">
@@ -119,7 +117,7 @@
         <div class="bg-white rounded-lg shadow-lg max-w-md w-full p-6 border border-red-200 text-center">
           <h2 class="text-xl font-semibold text-red-600 mb-4">Abort Simulation?</h2>
           <p class="text-gray-700 mb-6">
-            This will permanently stop execution ID <strong>{{ executionIdInput }}</strong>.
+            This will permanently stop Trip Chart execution ID <strong>{{ executionIdInput }}</strong>.
             Are you sure?
           </p>
           <div class="flex justify-center gap-4">

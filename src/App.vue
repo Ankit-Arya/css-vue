@@ -1,54 +1,71 @@
 <template>
   <div class="min-h-screen bg-gray-100 flex flex-col">
     <!-- Navbar -->
-    <nav class="bg-white text-gray-900 border-b border-gray-200 shadow-sm sticky top-0 z-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-20">
-          <RouterLink to="/" class="flex items-center">
-            <img
-              src="https://www.delhimetrorail.com/static/media/logo-passenger.d3afd408.svg"
-              alt="Delhi Metro Rail"
-              class="h-12 sm:h-14 object-contain"
-            />
-          </RouterLink>
-
-          <div class="flex flex-wrap items-center justify-end gap-2 sm:gap-3 font-semibold">
-            <template v-if="!isLoggedIn">
-              <button
-                @click="openLogin"
-                class="px-4 py-2 rounded-md bg-gray-100 border hover:bg-gray-200"
-              >
-                Login
-              </button>
-              <button
-                @click="openSignup"
-                class="px-4 py-2 rounded-md border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
-              >
-                Sign Up
-              </button>
-            </template>
-
-            <template v-else>
-              <span class="hidden sm:inline-block mr-2 text-gray-700">
-                Welcome, {{ userEmail }}
-              </span>
-              <RouterLink
-                to="/metro-home"
-                class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
-              >
-                Work Space
-              </RouterLink>
-              <button
-                @click="logout"
-                class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700"
-              >
-                Logout
-              </button>
-            </template>
-          </div>
-        </div>
+<nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
+  <div class="w-full px-3 sm:px-4 lg:px-6">
+    <div class="grid grid-cols-3 items-center h-20">
+      
+      <!-- Left: Logo -->
+      <div class="flex items-center">
+        <RouterLink to="/" class="flex items-center">
+          <img
+            src="https://www.delhimetrorail.com/static/media/logo-passenger.d3afd408.svg"
+            alt="Delhi Metro Rail"
+            class="h-12 object-contain"
+          />
+        </RouterLink>
       </div>
-    </nav>
+
+      <!-- Center: App Title -->
+      <div class="text-center">
+        <h1 class="text-lg md:text-xl font-extrabold text-gray-900 flex items-center justify-center gap-2">
+          CREW SCHEDULING SOFTWARE
+          <span class="text-indigo-600 text-sm font-semibold">
+            v02
+          </span>
+        </h1>
+      </div>
+
+      <!-- Right: Actions -->
+      <div class="flex items-center justify-end gap-3 font-medium">
+        <template v-if="!isLoggedIn">
+          <button
+            @click="openLogin"
+            class="px-4 py-2 rounded-md bg-gray-100 border hover:bg-gray-200"
+          >
+            Login
+          </button>
+          <button
+            @click="openSignup"
+            class="px-4 py-2 rounded-md border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+          >
+            Sign Up
+          </button>
+        </template>
+
+        <template v-else>
+          <span class="hidden sm:inline-block text-gray-600 text-sm mr-2">
+            {{ userEmail }}
+          </span>
+          <RouterLink
+            to="/metro-home"
+            class="px-4 py-2 rounded-md bg-blue-600 text-white hover:bg-blue-700"
+          >
+            Home
+          </RouterLink>
+          <button
+            @click="logout"
+            class="px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700"
+          >
+            Logout
+          </button>
+        </template>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
 
     <main class="flex-1">
       <router-view />

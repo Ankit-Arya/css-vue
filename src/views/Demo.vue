@@ -1,73 +1,71 @@
 <template>
     <div class="min-h-screen flex bg-gray-50">
     <!-- Sidebar -->
-    <!-- Sidebar -->
-    <aside class="w-72 bg-slate-900 text-slate-200 flex flex-col">
+    <aside class="w-72 bg-blue-800 text-slate-200 flex flex-col">
       <!-- Brand -->
       <div class="px-6 py-5 border-b border-slate-800">
         <h1 class="text-xl font-semibold text-white">
-          Work Dashboard
+          CSS Dashboard
         </h1>
-        <p class="text-xs text-slate-400 mt-1">
-          Core Redirect Index
-        </p>
+
       </div>
 
       <!-- Navigation -->
       <nav class="flex-1 px-4 py-6">
-        <p class="px-2 mb-3 text-xs font-semibold text-slate-400 uppercase">
-          Core Actions
-        </p>
+
 
         <ul class="space-y-1">
           <!-- Execution Control -->
           <RouterLink
             to="/execution-control"
-            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
+            class="flex items-center gap-3 px-3 py-2 rounded-md text-l font-medium
                    text-slate-300 transition
                    hover:bg-slate-800 hover:text-white"
             active-class="bg-slate-800 text-white"
           >
-            Execution Control
+            Trip Chart Status/Control
           </RouterLink>
 
           <!-- Past Executions -->
           <RouterLink
             to="/live-notice-board"
-            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
+            class="flex items-center gap-3 px-3 py-2 rounded-md text-l font-medium
                    text-slate-300 transition
                    hover:bg-slate-800 hover:text-white"
             active-class="bg-slate-800 text-white"
           >
-            Past Executions
+            Trip Chart/Time Table Archive
+          </RouterLink>
+
+
+
+          <!-- Download -->
+          <RouterLink
+            to="/download-trip-chart"
+            class="flex items-center gap-3 px-3 py-2 rounded-md text-l font-medium
+                   text-slate-300 transition
+                   hover:bg-slate-800 hover:text-white"
+            active-class="bg-slate-800 text-white"
+          >
+            Download Trip Chart
           </RouterLink>
 
           <!-- Demo -->
           <RouterLink
             to="/demo"
-            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
+            class="flex items-center gap-3 px-3 py-2 rounded-md text-l font-medium
                    text-slate-300 transition
                    hover:bg-slate-800 hover:text-white"
             active-class="bg-slate-800 text-white"
           >
             Watch Demo
           </RouterLink>
-
-          <!-- Download -->
-          <RouterLink
-            to="/download-trip-chart"
-            class="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium
-                   text-slate-300 transition
-                   hover:bg-slate-800 hover:text-white"
-            active-class="bg-slate-800 text-white"
-          >
-            Download Report
-          </RouterLink>
         </ul>
       </nav>
 
 
     </aside>
+
   <main class="flex-1 p-10 bg-white-300 border border-gray-900 px-4 py-4">
   <section class="bg-white-300 ">
     <div class="max-w-6xl mx-auto">

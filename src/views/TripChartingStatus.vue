@@ -1,71 +1,175 @@
 <template>
-  <section class="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-blue-900 via-gray-900 to-red-700 text-white p-6">
-    <div class="w-full max-w-3xl bg-black bg-opacity-70 rounded-xl shadow-2xl p-8">
-      
-      <h1 class="text-3xl font-extrabold text-center mb-6 text-red-400 animate-pulse">
-        🛠️ Real-Time Status
+  <section
+    class="min-h-screen flex flex-col items-center justify-center
+           bg-gradient-to-r from-blue-300 via-gray-300 to-red-300
+           p-6"
+  >
+    <div
+      class="relative w-full max-w-3xl
+             bg-indigo-400 bg-opacity-70
+             rounded-xl shadow-2xl p-8"
+    >
+      <!-- Header -->
+      <h1 class="text-3xl font-extrabold text-center mb-6 text-black">
+        🛠️ Real-Time Trip Chart Execution Status
       </h1>
 
-      <div class="space-y-3">
+      <!-- Status List -->
+      <div class="space-y-3 max-h-[420px] overflow-y-auto pr-2">
         <div
           v-for="(step, idx) in steps"
           :key="idx"
-          class="flex items-start space-x-3 p-3 rounded-lg bg-gray-800 animate-fade-in"
+          class="flex items-start gap-3 p-3
+                 rounded-lg bg-white text-gray-900
+                 animate-fade-in"
         >
-          <div class="text-xl w-6 flex-shrink-0">
-            <span v-if="step.status === 'completed'" class="text-green-400">✅</span>
-            <span v-else-if="step.status === 'running' || step.status === 'WIP'" class="text-yellow-400 animate-spin">🔄</span>
-            <span v-else-if="step.status === 'pending'" class="text-gray-400">⏳</span>
-            <span v-else-if="step.status === 'error'" class="text-red-400">❌</span>
-            <span v-else class="text-gray-500">•</span>
+          <div class="text-xl w-6 flex-shrink-0 font-bold">
+            <span v-if="step.status === 'completed'" class="text-green-500 font-bold">✅</span>
+            <span
+              v-else-if="step.status === 'running' || step.status === 'WIP'"
+              class="text-yellow-500 animate-spin font-bold"
+            >🔄</span>
+            <span v-else-if="step.status === 'pending'" class="text-gray-400 font-bold">⏳</span>
+            <span v-else-if="step.status === 'error'" class="text-red-500">❌</span>
+            <span v-else class="text-gray-500 font-bold">•</span>
           </div>
 
-          <div>
-            <p
-              :class="[step.status === 'error' ? 'text-red-300 font-medium' : 'text-gray-300', 'text-sm md:text-base']"
-            >
-              {{ getStatusMessage(step) }}
-            </p>
-          </div>
+        <p
+          :class="[
+            'transition-all',
+            step.status === 'completed' && 'text-green-700 font-bold text-lg',
+            (step.status === 'running' || step.status === 'WIP') && 'text-yellow-700 font-bold text-base ',
+            step.status === 'pending' && 'text-gray-600 italic text-sm',
+            step.status === 'error' && 'text-red-800 font-extrabold text-lg'
+          ]"
+        >
+          {{ getStatusMessage(step) }}
+        </p>
+
         </div>
       </div>
 
-      <p v-if="fileError" class="mt-4 text-red-500 text-sm">❌ {{ fileError }}</p>
-      <p v-if="fileDownloaded" class="mt-4 text-green-400 text-sm">✅ Trip chart downloaded successfully</p>
+      <!-- File Feedback -->
+      <p v-if="fileError" class="mt-4 text-red-600 text-sm text-center">
+        ❌ {{ fileError }}
+      </p>
+      <p v-if="fileDownloaded" class="mt-4 text-green-700 text-sm text-center">
+        ✅ Trip chart downloaded successfully
+      </p>
 
+      <!-- Divider -->
+      <div class="my-6 border-t border-gray-500"></div>
+
+      <!-- Execution Control -->
+      <div class="text-center">
+        <p class="text-sm text-gray-900 mb-3">
+          Execution ID:
+          <span class="font-semibold">{{ executionId }}</span>
+        </p>
+
+        <button
+          @click="showConfirmModal = true"
+          :disabled="isCancelling || isExecutionCompleted"
+          class="inline-flex items-center gap-2
+                 px-6 py-2.5 rounded-lg
+                 bg-red-600 hover:bg-red-700
+                 text-white font-semibold
+                 transition disabled:opacity-50"
+        >
+          ⛔ Abort Execution
+        </button>
+
+        <p v-if="isExecutionCompleted" class="text-xs text-gray-800 mt-2">
+          Execution already completed — abort disabled
+        </p>
+
+        <p v-if="errorMsg" class="mt-3 text-red-700 text-sm">
+          ❌ {{ errorMsg }}
+        </p>
+        <p v-if="successMsg" class="mt-3 text-green-700 text-sm">
+          ✅ {{ successMsg }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div
+      v-if="showConfirmModal"
+      class="fixed inset-0 bg-black bg-opacity-50
+             backdrop-blur-sm flex items-center justify-center z-50"
+    >
+      <div
+        class="bg-white rounded-lg shadow-lg
+               max-w-md w-full p-6
+               border border-red-300 text-center"
+      >
+        <h2 class="text-xl font-semibold text-red-600 mb-4">
+          Abort Execution?
+        </h2>
+        <p class="text-gray-700 mb-6">
+          This will permanently stop execution
+          <strong>{{ executionId }}</strong>.
+          Are you sure?
+        </p>
+
+        <div class="flex justify-center gap-4">
+          <button
+            @click="confirmAbort"
+            class="px-4 py-2 bg-red-600 hover:bg-red-700
+                   text-white rounded-md"
+          >
+            Yes, Abort
+          </button>
+          <button
+            @click="showConfirmModal = false"
+            class="px-4 py-2 bg-gray-300 hover:bg-gray-400
+                   text-gray-800 rounded-md"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
     </div>
   </section>
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 
+/* ---------------- Route ---------------- */
 const route = useRoute()
 const executionId = ref(route.params.executionId)
 
+/* ---------------- State ---------------- */
 const steps = ref([])
 const fileDownloaded = ref(false)
 const fileError = ref('')
+
+const isAborting = ref(false)
+const abortSuccess = ref('')
+const abortError = ref('')
+const showAbortConfirm = ref(false)
 
 const POLLING_INTERVAL = 2000
 
 let statusPolling = null
 let filePolling = null
 
-// --- Fetch simulation status ---
+/* ---------------- Status Polling ---------------- */
 const fetchStatus = async () => {
+  if (isAborting.value) return
+
   try {
-    // const res = await fetch(`http://34.131.163.51:8000/status/${executionId.value}`)
     const res = await fetch(`http://localhost:8000/status/${executionId.value}`)
     if (!res.ok) throw new Error('Failed to fetch status')
+
     const data = await res.json()
     steps.value = data.steps
 
     const hasError = data.steps.some(s => s.status === 'error')
     if (hasError) {
-      clearInterval(statusPolling)
-      statusPolling = null
+      stopPolling()
       fileError.value = 'Simulation failed. Files may not be generated.'
     }
   } catch (err) {
@@ -73,9 +177,8 @@ const fetchStatus = async () => {
   }
 }
 
-// --- Check if multiple files exist ---
+/* ---------------- File Availability ---------------- */
 const checkFileAvailability = async () => {
-  // const baseUrl = 'http://34.131.163.51:8000/download/'
   const baseUrl = 'http://localhost:8000/download/'
   const possibleFiles = [
     `trip_chart_${executionId.value}.xlsx`,
@@ -88,9 +191,7 @@ const checkFileAvailability = async () => {
   for (const fileName of possibleFiles) {
     try {
       const res = await fetch(`${baseUrl}${fileName}`, { method: 'HEAD' })
-      if (res.ok) {
-        availableFiles.push(fileName)
-      }
+      if (res.ok) availableFiles.push(fileName)
     } catch (err) {
       console.warn(`⚠️ Could not check ${fileName}:`, err)
     }
@@ -99,10 +200,9 @@ const checkFileAvailability = async () => {
   return availableFiles
 }
 
-// --- Download a single file ---
+/* ---------------- File Download ---------------- */
 const downloadFile = async (fileName) => {
   try {
-    // const res = await fetch(`http://34.131.163.51:8000/download/${fileName}`)
     const res = await fetch(`http://localhost:8000/download/${fileName}`)
     if (!res.ok) throw new Error('File not ready')
 
@@ -115,57 +215,83 @@ const downloadFile = async (fileName) => {
     a.click()
     a.remove()
     window.URL.revokeObjectURL(url)
-
-    console.log('✅ File downloaded successfully:', fileName)
   } catch (err) {
     console.error('File download failed:', err)
   }
 }
 
-// --- Download multiple files ---
 const downloadAllFiles = async (fileNames) => {
   for (const fileName of fileNames) {
     await downloadFile(fileName)
   }
 }
 
-// --- Manual trigger (optional button) ---
-const handleDownload = async () => {
-  const availableFiles = await checkFileAvailability()
-
-  if (availableFiles.length === 0) {
-    alert('No downloadable files found yet.')
-    return
-  }
-
-  if (confirm(`Found ${availableFiles.length} file(s):\n\n${availableFiles.join('\n')}\n\nDownload all?`)) {
-    await downloadAllFiles(availableFiles)
-  }
-}
-
-// --- Poll for file availability (silent unless success) ---
+/* ---------------- File Polling ---------------- */
 const pollFile = async () => {
+  if (isAborting.value) return
+
   try {
     const availableFiles = await checkFileAvailability()
 
     if (availableFiles.length > 0) {
-      console.log(`✅ ${availableFiles.length} file(s) found:`, availableFiles.join(', '))
       await downloadAllFiles(availableFiles)
       fileDownloaded.value = true
-
-      // stop polling once downloaded
-      if (filePolling) {
-        clearInterval(filePolling)
-        filePolling = null
-      }
+      stopPolling()
     }
-    // silent on empty result — no spam logs
   } catch (err) {
     console.error('File polling error:', err)
   }
 }
 
-// --- Status message helper ---
+/* ---------------- Abort Execution ---------------- */
+const abortExecution = async () => {
+  isAborting.value = true
+  abortError.value = ''
+  abortSuccess.value = ''
+
+  try {
+    const res = await fetch(
+      `http://localhost:8000/cancel/${executionId.value}`,
+      { method: 'DELETE' }
+    )
+
+    if (!res.ok) {
+      const err = await res.json()
+      throw new Error(err.detail || 'Abort failed')
+    }
+
+    const data = await res.json()
+    abortSuccess.value = data.message || 'Execution aborted successfully.'
+
+    stopPolling()
+  } catch (err) {
+    abortError.value = err.message || 'Abort failed.'
+    isAborting.value = false
+  }
+}
+
+const confirmAbort = async () => {
+  showAbortConfirm.value = false
+  await abortExecution()
+}
+
+/* ---------------- Helpers ---------------- */
+const stopPolling = () => {
+  if (statusPolling) {
+    clearInterval(statusPolling)
+    statusPolling = null
+  }
+  if (filePolling) {
+    clearInterval(filePolling)
+    filePolling = null
+  }
+}
+
+const isExecutionCompleted = computed(() =>
+  steps.value.length > 0 &&
+  steps.value.every(step => step.status === 'completed')
+)
+
 const getStatusMessage = (step) => {
   switch (step.status) {
     case 'completed': return `${step.name} — Completed successfully`
@@ -177,21 +303,19 @@ const getStatusMessage = (step) => {
   }
 }
 
-// --- Mounting logic ---
+/* ---------------- Lifecycle ---------------- */
 onMounted(() => {
-  console.log('⏳ Waiting for files to be generated...')
   statusPolling = setInterval(fetchStatus, POLLING_INTERVAL)
   filePolling = setInterval(pollFile, POLLING_INTERVAL)
   fetchStatus()
   pollFile()
 })
 
-// --- Cleanup ---
 onUnmounted(() => {
-  if (statusPolling) clearInterval(statusPolling)
-  if (filePolling) clearInterval(filePolling)
+  stopPolling()
 })
 </script>
+
 
 <style>
 @keyframes fadeIn {
