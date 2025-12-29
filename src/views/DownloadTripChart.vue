@@ -129,8 +129,8 @@ const downloadFile = async () => {
   console.log('executionId--',executionId)
   console.log('executionId.value--',executionId.value)
   try {
-    // const response = await fetch(`http://34.131.163.51:8000/download/${executionId.value}`)
-    const response = await fetch(`http://localhost:8000/download/${executionId.value}`)
+    const response = await fetch(`http://10.27.3.172:8000/download/${executionId.value}`)
+    // const response = await fetch(`http://localhost:8000/download/${executionId.value}`)
     if (!response.ok) {
       const data = await response.json()
       error.value = data?.error || 'Unknown error'

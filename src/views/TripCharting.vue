@@ -209,8 +209,8 @@ const submitSimulation = async () => {
 
 
   try {
-    // const res = await fetch('http://34.131.163.51:8000/simulate', {
-    const res = await fetch('http://localhost:8000/simulate', {
+    const res = await fetch('http://10.27.3.172:8000/simulate', {
+    // const res = await fetch('http://localhost:8000/simulate', {
       method: 'POST',
       body: payload,
     })

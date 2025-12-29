@@ -173,7 +173,8 @@
     isCancelling.value = true
   
     try {
-      const res = await fetch(`http://localhost:8000/cancel/${id}`, { method: 'DELETE' })
+      const res = await fetch(`http://10.27.3.172:8000/cancel/${id}`, { method: 'DELETE' })
+      // const res = await fetch(`http://localhost:8000/cancel/${id}`, { method: 'DELETE' })
       if (!res.ok) {
         const errData = await res.json()
         throw new Error(errData.detail || 'Failed to cancel simulation.')

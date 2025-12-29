@@ -219,7 +219,8 @@ const login = async () => {
   }
 
   try {
-    const res = await axios.post('http://127.0.0.1:8000/login', {
+    const res = await axios.post('http://10.27.3.172:8000/login', {
+    // const res = await axios.post('http://127.0.0.1:8000/login', {
       email: loginEmail.value,
       password: loginPassword.value
     })
@@ -243,7 +244,7 @@ const signup = async () => {
   }
 
   try {
-    await axios.post('http://localhost:8000/signup', {
+    await axios.post('http://10.27.3.172:8000/signup', {
       email: signupEmail.value,
       password: signupPassword.value
     })

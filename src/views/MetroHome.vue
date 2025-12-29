@@ -75,9 +75,9 @@
       >
         <!-- Image Icon -->
         <img
-          src="@/assets/metro.jpg"
+          src="/metro.png"
           alt="Metro Icon"
-          class="w-24 h-24 mb-4 object-contain"
+          class="w-32 h-32 md:w-40 md:h-40 mb-4 object-contain"
         />
 
         <h3 class="text-xl font-bold text-blue-900 text-center animate-pulse">Click Here</h3>
@@ -136,8 +136,8 @@ const liveNotices = ref([])
 
 const fetchNotices = async () => {
   try {
-    // const res = await fetch('http://34.131.163.51:8000/notices')
-    const res = await fetch('http://localhost:8000/notices')
+    const res = await fetch('http://10.27.3.172:8000/notices')
+    // const res = await fetch('http://localhost:8000/notices')
     if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`)
     liveNotices.value = await res.json()
   } catch (err) {
@@ -198,8 +198,8 @@ const cancelSimulation = async () => {
   isCancelling.value = true
 
   try {
-    // const res = await fetch(`http://34.131.163.51:8000/cancel/${id}`, {
-    const res = await fetch(`http://localhost:8000/cancel/${id}`, {
+    const res = await fetch(`http://10.27.3.172:8000/cancel/${id}`, {
+    // const res = await fetch(`http://localhost:8000/cancel/${id}`, {
       method: 'DELETE',
     })
 
@@ -220,8 +220,8 @@ const cancelSimulation = async () => {
 
 const downloadFile = async (fileId) => {
   try {
-    // const res = await fetch(`http://34.131.163.51:8000/files/${fileId}`)
-    const res = await fetch(`http://localhost:8000/files/${fileId}`)
+    const res = await fetch(`http://10.27.3.172:8000/files/${fileId}`)
+    // const res = await fetch(`http://localhost:8000/files/${fileId}`)
     if (!res.ok) throw new Error('Failed to download file')
     const blob = await res.blob()
     const url = URL.createObjectURL(blob)
