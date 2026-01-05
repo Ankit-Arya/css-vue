@@ -301,7 +301,7 @@
 
           <!-- File Upload -->
           <div>
-            <h2 class="text-2xl font-bold text-blue-800 mb-2">📁 Upload Time Table</h2>
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">📁 Upload Time Table (in Template format)</h2>
             <div
               class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-6 text-center cursor-pointer bg-white transition hover:bg-blue-100 py-5"
               @dragover.prevent
@@ -323,24 +323,35 @@
                 {{ fileName }} selected
               </p>
             </div>
+            <div class="mt-4 text-center">
+              <button
+                @click="submitSimulation"
+                class="px-12 py-4 rounded-md bg-emerald-600 hover:bg-emerald-700 
+                      text-white text-sm font-semibold shadow-sm hover:shadow-md 
+                      transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-emerald-300"
+              >
+                Submit 
+              </button>
+            </div>
           </div>
 
           <!-- Download Sample Template -->
           <div>
-            <h2 class="text-2xl font-bold text-blue-800 mb-2">⬇️ Sample Time Table</h2>
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">⬇️ Download Time Table Template:</h2>
 
-            <div class="border-2 border-blue-300 rounded-lg p-6 bg-white text-center">
-              <p class="text-gray-600 text-lg mb-4">
-                Download a sample time table template.
+            <div class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-5 text-center bg-white">
+              <p class="text-gray-600 text-xl">
+              Download a sample Time Table template file.
               </p>
-
-              <a
-                href="/L5-timetable.csv"
-                download
-                class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition"
-              >
-                Download Template
-              </a>
+            </div>
+            <div class="mt-4 text-center">
+            <a
+              href="/L5-timetable.csv"
+              download
+              class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-12 py-4 rounded-lg transition"
+            >
+              Download Template
+            </a>
             </div>
           </div>
 
@@ -348,19 +359,7 @@
 
 
         <!-- Submit Button -->
-        <div class="text-center">
-          <button
-            @click="submitSimulation"
-            class="px-8 py-2 rounded-md bg-emerald-600 hover:bg-emerald-700 
-                  text-white text-sm font-semibold shadow-sm hover:shadow-md 
-                  transition-all duration-300 ease-in-out focus:outline-none focus:ring-4 focus:ring-emerald-300"
-          >
-            Submit 
-          </button>
-
-
-
-        </div>
+        
       </div>
     </section>
   </div>
