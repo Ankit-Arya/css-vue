@@ -281,7 +281,7 @@
 
 
         <!-- File Upload -->
-        <div>
+        <!-- <div>
           <h2 class="text-2xl font-bold text-blue-800 mb-2">📁 Upload Time Table</h2>
           <div
             class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-6 text-center cursor-pointer bg-white transition hover:bg-blue-300 py-5"
@@ -295,6 +295,55 @@
             </p>
             <p v-if="fileName" class="mt-2 text-green-600 font-medium">{{ fileName }} selected</p>
           </div>
+        </div> -->
+        <!-- Upload & Download Section Wrapper -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+          <!-- File Upload -->
+          <div>
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">📁 Upload Time Table</h2>
+            <div
+              class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-6 text-center cursor-pointer bg-white transition hover:bg-blue-100 py-5"
+              @dragover.prevent
+              @drop.prevent="handleDrop"
+              @click="triggerFileInput"
+            >
+              <input
+                type="file"
+                ref="fileInput"
+                class="hidden"
+                @change="handleFileUpload"
+              />
+
+              <p class="text-gray-600 text-xl">
+                Drag & drop Time Table template file here, or click to browse
+              </p>
+
+              <p v-if="fileName" class="mt-2 text-green-600 font-medium">
+                {{ fileName }} selected
+              </p>
+            </div>
+          </div>
+
+          <!-- Download Sample Template -->
+          <div>
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">⬇️ Sample Time Table</h2>
+
+            <div class="border-2 border-blue-300 rounded-lg p-6 bg-white text-center">
+              <p class="text-gray-600 text-lg mb-4">
+                Download a sample time table template.
+              </p>
+
+              <a
+                href="/L5-timetable.csv"
+                download
+                class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-lg transition"
+              >
+                Download Template
+              </a>
+            </div>
+          </div>
+
         </div>
 
 
