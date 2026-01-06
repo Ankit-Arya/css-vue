@@ -154,6 +154,7 @@ const isAborting = ref(false)
 const abortSuccess = ref('')
 const abortError = ref('')
 const showAbortConfirm = ref(false)
+const showConfirmModal = ref(false)
 
 const POLLING_INTERVAL = 2000
 
@@ -279,8 +280,9 @@ const abortExecution = async () => {
 }
 
 const confirmAbort = async () => {
-  showAbortConfirm.value = false
+  showConfirmModal.value = false
   await abortExecution()
+  window.location.reload()
 }
 
 /* ---------------- Helpers ---------------- */
