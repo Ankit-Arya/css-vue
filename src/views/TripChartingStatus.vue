@@ -95,17 +95,19 @@
     <!-- Confirmation Modal -->
     <div
       v-if="showConfirmModal"
+      @click.self="showConfirmModal = false"
       class="fixed inset-0 bg-black bg-opacity-50
-             backdrop-blur-sm flex items-center justify-center z-50"
+            backdrop-blur-sm flex items-center justify-center z-50"
     >
       <div
         class="bg-white rounded-lg shadow-lg
-               max-w-md w-full p-6
-               border border-red-300 text-center"
+              max-w-md w-full p-6
+              border border-red-300 text-center"
       >
         <h2 class="text-xl font-semibold text-red-600 mb-4">
           Abort Execution?
         </h2>
+
         <p class="text-gray-700 mb-6">
           This will permanently stop execution
           <strong>{{ executionId }}</strong>.
@@ -116,20 +118,22 @@
           <button
             @click="confirmAbort"
             class="px-4 py-2 bg-red-600 hover:bg-red-700
-                   text-white rounded-md"
+                  text-white rounded-md"
           >
             Yes, Abort
           </button>
+
           <button
             @click="showConfirmModal = false"
             class="px-4 py-2 bg-gray-300 hover:bg-gray-400
-                   text-gray-800 rounded-md"
+                  text-gray-800 rounded-md"
           >
             Cancel
           </button>
         </div>
       </div>
     </div>
+
   </section>
 </template>
 
