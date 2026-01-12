@@ -342,16 +342,16 @@
             <div class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-5 text-center bg-white">
               <p class="text-gray-600 text-xl">
               Download a sample Time Table template file.
-              </p>
+              </p>                                      
             </div>
             <div class="mt-4 text-center">
-            <a
-              href="/L5-timetable.csv"
-              download
+              <a
+                href="/L5-timetable.csv"
+                download
               class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-12 py-4 rounded-lg transition"
-            >
-              Download Template
-            </a>
+              >
+                Download Template
+              </a>
             </div>
           </div>
 
@@ -476,9 +476,9 @@ const submitSimulation = async () => {
   payload.append('single_run_max', form.singleRunMax)
   payload.append('break_small', String(form.breakSmall))
   payload.append('break_large', String(form.breakLarge))
-
+  const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
   try {
-    const res = await fetch('http://10.27.3.172:8000/simulateL5', {
+    const res = await fetch(`${API_BASE_URL}/simulateL5`, {
       method: 'POST',
       body: payload,
     })

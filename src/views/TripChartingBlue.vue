@@ -206,10 +206,10 @@ const submitSimulation = async () => {
   payload.append('stepping_back', JSON.stringify(form.steppingBack))
   payload.append('timetable_type', form.timetableType) // 🆕 Pass selected option to backend
 
-
+  const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
   try {
     // const res = await fetch('http://34.131.163.51:8000/simulateL34', {
-    const res = await fetch('http://localhost:8000/simulateL34', {
+    const res = await fetch(`${API_BASE_URL}/simulateL34`, {
       method: 'POST',
       body: payload,
     })

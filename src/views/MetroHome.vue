@@ -217,11 +217,10 @@ const cancelSimulation = async () => {
     isCancelling.value = false
   }
 }
-
+const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
 const downloadFile = async (fileId) => {
   try {
-    const res = await fetch(`http://10.27.3.172:8000/files/${fileId}`)
-    // const res = await fetch(`http://localhost:8000/files/${fileId}`)
+    const res = await fetch(`${API_BASE_URL}/files/${fileId}`)
     if (!res.ok) throw new Error('Failed to download file')
     const blob = await res.blob()
     const url = URL.createObjectURL(blob)

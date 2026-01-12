@@ -128,9 +128,10 @@ const downloadFile = async () => {
   success.value = false
   console.log('executionId--',executionId)
   console.log('executionId.value--',executionId.value)
+  const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
+  
   try {
-    const response = await fetch(`http://10.27.3.172:8000/download/${executionId.value}`)
-    // const response = await fetch(`http://localhost:8000/download/${executionId.value}`)
+    const response = await fetch(`${API_BASE_URL}/download/${executionId.value}`)
     if (!response.ok) {
       const data = await response.json()
       error.value = data?.error || 'Unknown error'

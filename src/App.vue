@@ -218,9 +218,13 @@ const login = async () => {
     return
   }
 
+const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
+
+console.log('Backend API Base URL:', API_BASE_URL)
+console.log('Login endpoint:', `${API_BASE_URL}/login`)
+
   try {
-    const res = await axios.post('http://10.27.3.172:8000/login', {
-    // const res = await axios.post('http://127.0.0.1:8000/login', {
+    const res = await axios.post(`${API_BASE_URL}/login`, {
       email: loginEmail.value,
       password: loginPassword.value
     })
@@ -244,7 +248,7 @@ const signup = async () => {
   }
 
   try {
-    await axios.post('http://10.27.3.172:8000/signup', {
+    await axios.post(`${API_BASE_URL}/signup`, {
       email: signupEmail.value,
       password: signupPassword.value
     })
