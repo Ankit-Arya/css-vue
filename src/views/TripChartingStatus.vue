@@ -154,16 +154,17 @@ const isAborting = ref(false)
 const abortSuccess = ref('')
 const abortError = ref('')
 const showAbortConfirm = ref(false)
+const showConfirmModal = ref(false)
 
 const POLLING_INTERVAL = 2000
 
 let statusPolling = null
 let filePolling = null
-
+const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
 /* ---------------- Status Polling ---------------- */
 const fetchStatus = async () => {
   if (isAborting.value) return
-const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
+
   try {
     const res = await fetch(`${API_BASE_URL}/status/${executionId.value}`)
     if (!res.ok) throw new Error('Failed to fetch status')
@@ -249,9 +250,10 @@ const pollFile = async () => {
 
 /* ---------------- Abort Execution ---------------- */
 const abortExecution = async () => {
-  isAborting.value = true
-  abortError.value = ''
-  abortSuccess.value = ''
+  
+  isAborting.value = true;
+  abortError.value = '';
+  abortSuccess.value = '';
 
   try {
     const res = await fetch(
@@ -275,8 +277,12 @@ const abortExecution = async () => {
 }
 
 const confirmAbort = async () => {
-  showAbortConfirm.value = false
+  showConfirmModal.value = false
+  // showAbortConfirm.value = false
   await abortExecution()
+  window.location.reload();
+
+
 }
 
 /* ---------------- Helpers ---------------- */
