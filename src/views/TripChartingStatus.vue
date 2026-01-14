@@ -67,7 +67,7 @@
           <span class="font-semibold">{{ executionId }}</span>
         </p>
 
-        <button
+        <button v-if="!steps.some(step => step.name === 'STAGE 4 Complete' && step.status === 'completed')"
           @click="showConfirmModal = true"
           :disabled="isCancelling || isExecutionCompleted"
           class="inline-flex items-center gap-2
