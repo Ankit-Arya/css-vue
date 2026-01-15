@@ -15,7 +15,9 @@
       </h1>
 
       <!-- Status List -->
-      <div class="space-y-3 max-h-[420px] overflow-y-auto pr-2">
+      <div
+        ref="statusContainer"
+        class="space-y-3 max-h-[420px] overflow-y-auto pr-2">
         <div
           v-for="(step, idx) in steps"
           :key="idx"
@@ -78,6 +80,16 @@
         >
           ⛔ Abort Execution
         </button>
+        <button v-if="steps.some(step => step.name === 'STAGE 4 Complete' && step.status === 'completed')"
+          @click="pollFile"
+          class="inline-flex items-center gap-2
+                 px-6 py-2.5 rounded-lg
+                 bg-green-600 hover:bg-green-700
+                 text-white font-semibold
+                 transition disabled:opacity-50"
+        >
+          DOWNLOAD SOLUTION
+        </button>
 
         <p v-if="isExecutionCompleted" class="text-xs text-gray-800 mt-2">
           Execution already completed — abort disabled
@@ -138,7 +150,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { ref, onMounted, onUnmounted, computed, watch, nextTick , watchEffect} from 'vue'
 import { useRoute } from 'vue-router'
 
 /* ---------------- Route ---------------- */
@@ -156,11 +168,32 @@ const abortError = ref('')
 const showAbortConfirm = ref(false)
 const showConfirmModal = ref(false)
 
-const POLLING_INTERVAL = 2000
+const POLLING_INTERVAL = 10000 // 10 seconds
 
 let statusPolling = null
 let filePolling = null
 const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
+
+/* ---------------- status container ---------------- */
+const statusContainer = ref(null);
+watch(steps, async () => {
+  await nextTick();
+  if (statusContainer.value) {
+    statusContainer.value.scrollTop = statusContainer.value.scrollHeight;
+  }
+});
+
+/* ---------------- stop polling after completion ---------------- */
+const isStage4Complete = computed(() =>
+  steps.value.some(step => step.name === "STAGE 4 Complete" && step.status === "completed")
+);
+
+watchEffect(() => {
+  if (isStage4Complete.value) {
+    stopPolling();
+  }
+});
+
 /* ---------------- Status Polling ---------------- */
 const fetchStatus = async () => {
   if (isAborting.value) return
@@ -175,7 +208,7 @@ const fetchStatus = async () => {
     const hasError = data.steps.some(s => s.status === 'error')
     if (hasError) {
       stopPolling()
-      fileError.value = 'Simulation failed. Files may not be generated.'
+      fileError.value = 'Execution failed. Files may not be generated.'
     }
   } catch (err) {
     console.error('Status polling error:', err)
@@ -316,9 +349,9 @@ const getStatusMessage = (step) => {
 /* ---------------- Lifecycle ---------------- */
 onMounted(() => {
   statusPolling = setInterval(fetchStatus, POLLING_INTERVAL)
-  filePolling = setInterval(pollFile, POLLING_INTERVAL)
+  // filePolling = setInterval(pollFile, POLLING_INTERVAL)
   fetchStatus()
-  pollFile()
+  // pollFile()
 })
 
 onUnmounted(() => {
