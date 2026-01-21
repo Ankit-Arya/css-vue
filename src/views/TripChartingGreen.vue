@@ -60,8 +60,8 @@
 <div class="grid grid-cols-2 gap-1 text-sm">
   <!-- Pair 1 -->
   <div class="flex justify-between items-center border rounded p-1">
-    <div class="text-slate-600">Duty Hours Max</div>
-    <div class="font-medium text-slate-900 text-right">~ 08:30</div>
+    <div class="text-slate-600">Duty Hours (Max.)</div>
+    <div class="font-medium text-slate-900 text-right">08:30 Hrs</div>
   </div>
 
   <!-- Pair 2 -->
@@ -72,19 +72,19 @@
 
   <!-- Pair 3 -->
   <div class="flex justify-between items-center border rounded p-1">
-    <div class="text-slate-600">Single Run Max</div>
-    <div class="font-medium text-slate-900 text-right">03:00</div>
+    <div class="text-slate-600">Single Run (Max.)</div>
+    <div class="font-medium text-slate-900 text-right">03:00 Hrs</div>
   </div>
 
   <!-- Pair 4 -->
   <div class="flex justify-between items-center border rounded p-1">
-    <div class="text-slate-600">Short Break</div>
+    <div class="text-slate-600">Short Break (Min.)</div>
     <div class="font-medium text-slate-900 text-right">30 min</div>
   </div>
 
   <!-- Pair 5 -->
   <div class="flex justify-between items-center border rounded p-1">
-    <div class="text-slate-600">Long Break</div>
+    <div class="text-slate-600">Long Break (Min.)</div>
     <div class="font-medium text-slate-900 text-right">50 min</div>
   </div>
 </div>
