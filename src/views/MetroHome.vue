@@ -75,9 +75,9 @@
       >
         <!-- Image Icon -->
         <img
-          src="/metro.png"
+          src="/L5-metro-img.png"
           alt="Metro Icon"
-          class="w-32 h-32 md:w-40 md:h-40 mb-4 object-contain"
+          class="w-200 h-60 md:w-200 md:h-200 mb-4 object-contain"
         />
 
         <h3 class="text-xl font-bold text-blue-900 text-center animate-pulse">Click Here</h3>
