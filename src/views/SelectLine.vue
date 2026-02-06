@@ -69,7 +69,7 @@ const lines = [
     border: 'border-pink-300',
     hover: 'hover:bg-pink-500',
     textHover: 'hover:text-white',
-    locked: true,
+    // locked: true,
   },
   {
     name: 'Magenta Line',
