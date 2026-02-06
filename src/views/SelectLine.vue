@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white text-gray-900 flex flex-col items-center justify-start px-4 py-12">
+  <div class="min-h-screen bg-white text-gray-900 flex flex-col items-center justify-start px-4 py-10">
     <!-- Title -->
     <h1 class="text-3xl md:text-4xl font-bold mb-10 text-center">
       🚇 Select a Metro Line to Proceed
@@ -9,6 +9,30 @@
     <div class="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <div
         v-for="line in lines"
+        :key="line.name"
+        @click="!line.locked && goToTripChart(line.path)"
+        :class="[
+          'group rounded-xl p-6 text-xl font-semibold flex items-center justify-center border-2 transition-all duration-300 shadow-sm',
+          line.border,
+          {
+            'cursor-not-allowed opacity-50': line.locked,
+            'cursor-pointer hover:scale-[1.02] hover:shadow-md': !line.locked,
+            [line.hover]: !line.locked,
+            [line.textHover]: !line.locked,
+          }
+        ]"
+      >
+        {{ line.name }}
+      </div>
+    </div>
+    <h1 class="text-3xl md:text-4xl font-bold mb-10 text-center mt-10">
+      Other Metro Lines
+    </h1>
+    <!-- Other Metro Lines Section -->
+    <!-- Grid of Metro Lines -->
+    <div class="w-full max-w-6xl grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      <div
+        v-for="line in other_lines"
         :key="line.name"
         @click="!line.locked && goToTripChart(line.path)"
         :class="[
@@ -87,14 +111,7 @@ const lines = [
     textHover: 'hover:text-black',
     locked: true,
   },
-  {
-    name: 'Aqua Line',
-    path: 'aqua',
-    border: 'border-cyan-300',
-    hover: 'hover:bg-cyan-500',
-    textHover: 'hover:text-black',
-    locked: true,
-  },
+
   {
     name: 'Golden Line (Coming Soon)',
     path: 'golden',
@@ -105,6 +122,33 @@ const lines = [
   },
 ]
 
+const other_lines = [
+  
+  {
+    name: 'Aqua Line',
+    path: 'aqua',
+    border: 'border-cyan-300',
+    hover: 'hover:bg-cyan-500',
+    textHover: 'hover:text-black',
+    locked: true,
+  },
+    {
+    name: 'RGML',
+    path: 'rgml',
+    border: 'border-red-300',
+    hover: 'hover:bg-red-600',
+    textHover: 'hover:text-white',
+    locked: true,
+  },
+    {
+    name: 'Chennai MRCL',
+    path: 'chennai-mrcl',
+    border: 'border-red-300',
+    hover: 'hover:bg-red-600',
+    textHover: 'hover:text-white',
+    locked: true,
+  },
+]
 function goToTripChart(linePath) {
   router.push(`/trip-charting-${linePath}`)
 }
