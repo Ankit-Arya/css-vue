@@ -42,7 +42,8 @@
             step.status === 'completed' && 'text-green-700 font-bold text-lg',
             (step.status === 'running' || step.status === 'WIP') && 'text-yellow-700 font-bold text-base ',
             step.status === 'pending' && 'text-gray-600 italic text-sm',
-            step.status === 'error' && 'text-red-800 font-extrabold text-lg'
+            step.status === 'error' && 'text-red-800 font-extrabold text-lg',
+            idx === steps.length - 1 && 'animate-blink'
           ]"
         >
           {{ getStatusMessage(step) }}

@@ -26,7 +26,7 @@
   <!-- LEFT COLUMN -->
   <div>
     <h2 class="text-2xl font-bold text-blue-800 mb-4">
-      ⏱️ Approved Input Parameters (ATO)
+      ⏱️ Approved Input Parameters (UTO)
     </h2>
 
     <div class="bg-slate-50 border border-slate-200 rounded-lg p-5">
@@ -60,8 +60,8 @@
 <div class="grid grid-cols-2 gap-1 text-sm">
   <!-- Pair 1 -->
   <div class="flex justify-between items-center border rounded p-1">
-    <div class="text-slate-600">Duty Hours Max</div>
-    <div class="font-medium text-slate-900 text-right">~ 08:30</div>
+    <div class="text-slate-600">Duty Hours (Max.)</div>
+    <div class="font-medium text-slate-900 text-right">08:30 Hrs</div>
   </div>
 
   <!-- Pair 2 -->
@@ -72,19 +72,19 @@
 
   <!-- Pair 3 -->
   <div class="flex justify-between items-center border rounded p-1">
-    <div class="text-slate-600">Single Run Max</div>
-    <div class="font-medium text-slate-900 text-right">02:50</div>
+    <div class="text-slate-600">Single Run (Max.)</div>
+    <div class="font-medium text-slate-900 text-right">03:00 Hrs</div>
   </div>
 
   <!-- Pair 4 -->
   <div class="flex justify-between items-center border rounded p-1">
-    <div class="text-slate-600">Short Break</div>
+    <div class="text-slate-600">Short Break (Min.)</div>
     <div class="font-medium text-slate-900 text-right">30 min</div>
   </div>
 
   <!-- Pair 5 -->
   <div class="flex justify-between items-center border rounded p-1">
-    <div class="text-slate-600">Long Break</div>
+    <div class="text-slate-600">Long Break (Min.)</div>
     <div class="font-medium text-slate-900 text-right">50 min</div>
   </div>
 </div>
@@ -206,7 +206,7 @@
   </h2>
 
   <p class="text-sm text-gray-600 mb-3">
-    Configure stepping back timings for SBC1 (DSG) and SBC2 (RI).
+    Configure stepping back timings for SBC1 (MKPR) and SBC2 (MUPR).
   </p>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -214,7 +214,7 @@
     <!-- SBC1 -->
     <div class="bg-white border border-blue-200 rounded-lg p-3 shadow-sm">
       <h3 class="text-xs font-semibold text-blue-800 mb-2">
-        SBC1 → DSTO
+        SBC1 → MKPR
       </h3>
 
       <div class="space-y-2">
@@ -246,7 +246,7 @@
     <!-- SBC2 -->
     <div class="bg-white border border-blue-200 rounded-lg p-3 shadow-sm">
       <h3 class="text-xs font-semibold text-blue-800 mb-2">
-        SBC2 → VASI
+        SBC2 → MUPR
       </h3>
 
       <div class="space-y-2">
@@ -275,38 +275,6 @@
       </div>
     </div>
 
-    <!-- SBC3 -->
-    <div class="bg-white border border-blue-200 rounded-lg p-3 shadow-sm">
-      <h3 class="text-xs font-semibold text-blue-800 mb-2">
-        SBC3 → NECC
-      </h3>
-
-      <div class="space-y-2">
-        <select
-          v-model="form.sbc3.enabled"
-          class="w-full p-1 text-sm border rounded focus:ring focus:ring-blue-200"
-        >
-          <option :value="false">Disabled</option>
-          <option :value="true">Enabled</option>
-        </select>
-
-        <div class="grid grid-cols-2 gap-2">
-          <input
-            v-model="form.sbc3.start"
-            type="time"
-            :disabled="!form.sbc3.enabled"
-            class="p-1 text-sm border rounded focus:ring focus:ring-blue-200"
-          />
-          <input
-            v-model="form.sbc3.end"
-            type="time"
-            :disabled="!form.sbc3.enabled"
-            class="p-1.5 text-sm border rounded focus:ring focus:ring-blue-200"
-          />
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
 
@@ -329,11 +297,11 @@
           </div>
         </div> -->
         <!-- Upload & Download Section Wrapper -->
-        <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           <!-- File Upload -->
           <div>
-            <h2 class="text-2xl font-bold text-blue-800 mb-2">📁 Upload Time Table <a href="/L5-timetable.csv" class="text-orange-600 animate-pulse"><u>in Template format</u></a></h2>
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">📁 Upload Time Table (in Template format)</h2>
             <div
               class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-6 text-center cursor-pointer bg-white transition hover:bg-blue-100 py-5"
               @dragover.prevent
@@ -368,7 +336,7 @@
           </div>
 
           <!-- Download Sample Template -->
-          <!-- <div>
+          <div>
             <h2 class="text-2xl font-bold text-blue-800 mb-2">⬇️ Download Time Table Template:</h2>
 
             <div class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-5 text-center bg-white">
@@ -378,14 +346,14 @@
             </div>
             <div class="mt-4 text-center">
               <a
-                href="/L5-timetable.csv"
+                href="/L7-CIRCULAR-TT.xlsx"
                 download
               class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-12 py-4 rounded-lg transition"
               >
                 Download Template
               </a>
             </div>
-          </div> -->
+          </div>
 
         </div>
 
@@ -451,11 +419,6 @@ const form = reactive({
     start: '',
     end: '',
   },
-  sbc3: {
-    enabled: false,
-    start: '',
-    end: '',
-  },
 
   // Other configuration
   timetableType: 'large',
@@ -504,7 +467,6 @@ const submitSimulation = async () => {
     JSON.stringify({
       SBC1: form.sbc1,
       SBC2: form.sbc2,
-      SBC3: form.sbc3,
     })
   )
 
@@ -516,8 +478,7 @@ const submitSimulation = async () => {
   payload.append('break_large', String(form.breakLarge))
   const API_BASE_URL = `${window.location.protocol}//${window.location.hostname}:8000`
   try {
-    // const res = await fetch('http://34.131.163.51:8000/simulateL34', {
-    const res = await fetch(`${API_BASE_URL}/simulateL342`, {
+    const res = await fetch(`${API_BASE_URL}/simulateL7`, {
       method: 'POST',
       body: payload,
     })

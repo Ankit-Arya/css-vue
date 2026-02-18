@@ -7,6 +7,7 @@ import Demo from '../views/Demo.vue'
 import TripCharting from '../views/TripCharting.vue'
 import TripChartingBlue from '../views/TripChartingBlue.vue'
 import TripChartingGreen from '../views/TripChartingGreen.vue'
+import TripChartingPink from '../views/TripChartingPink.vue'
 import TripChartingStatus from '../views/TripChartingStatus.vue'
 import DownloadTripChart from '../views/DownloadTripChart.vue'
 import SelectLine from '../views/SelectLine.vue'
@@ -29,6 +30,7 @@ const routes = [
   { path: '/trip-charting-red', name: 'TripCharting', component: TripCharting, meta: { requiresAuth: true }},
   { path: '/trip-charting-blue', name: 'TripChartingBlue', component: TripChartingBlue, meta: { requiresAuth: true }},
   { path: '/trip-charting-green', name: 'TripChartingGreen', component: TripChartingGreen, meta: { requiresAuth: true }},
+  { path: '/trip-charting-pink', name: 'TripChartingPink', component: TripChartingPink, meta: { requiresAuth: true }},
   { path: '/execution-control', name: 'ExecutionControlPage', component: ExecutionControlPage },
   { path: '/live-notice-board', name: 'LiveNoticeBoardPage', component: LiveNoticeBoardPage },
   // { path: '/trip-charting-status', name: 'TripChartingStatus', component: TripChartingStatus, meta: { requiresAuth: true }},
