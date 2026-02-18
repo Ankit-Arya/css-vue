@@ -132,7 +132,15 @@
     }
   }
   
-  const copyText = (text) => navigator.clipboard.writeText(text).catch(() => {})
+  const copyText = async (text) => {
+  try {
+    await navigator.clipboard.writeText(text)
+    console.log("Copied:", text)
+  } catch (err) {
+    console.error("Clipboard error:", err)
+  }
+}
+
   
   const formatTime = (timestamp) => new Date(timestamp).toLocaleString()
   
