@@ -297,11 +297,11 @@
           </div>
         </div> -->
         <!-- Upload & Download Section Wrapper -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-1 gap-6">
 
           <!-- File Upload -->
           <div>
-            <h2 class="text-2xl font-bold text-blue-800 mb-2">📁 Upload Time Table (in Template format)</h2>
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">📁 Upload Time Table <a href="/L7-CIRCULAR-TT.xlsx" class="text-orange-600 animate-pulse"><u>in Template format</u></a></h2>
             <div
               class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-6 text-center cursor-pointer bg-white transition hover:bg-blue-100 py-5"
               @dragover.prevent
@@ -332,26 +332,6 @@
               >
                 Submit 
               </button>
-            </div>
-          </div>
-
-          <!-- Download Sample Template -->
-          <div>
-            <h2 class="text-2xl font-bold text-blue-800 mb-2">⬇️ Download Time Table Template:</h2>
-
-            <div class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-5 text-center bg-white">
-              <p class="text-gray-600 text-xl">
-              Download a sample Time Table template file.
-              </p>                                      
-            </div>
-            <div class="mt-4 text-center">
-              <a
-                href="/L7-CIRCULAR-TT.xlsx"
-                download
-              class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold px-12 py-4 rounded-lg transition"
-              >
-                Download Template
-              </a>
             </div>
           </div>
 
