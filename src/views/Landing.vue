@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-gray-50 flex flex-col">
     <!-- Header / Hero Section -->
-<header class="relative overflow-hidden py-10 px-6 text-center bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300">
+<header class="relative overflow-hidden py-4 px-6 text-center bg-gradient-to-r from-blue-100 via-blue-200 to-blue-300">
   <!-- Decorative Circles -->
   <div class="absolute -top-16 -left-16 w-64 h-64 bg-blue-600 rounded-full opacity-0 blur-3xl animate-pulse"></div>
   <div class="absolute -bottom-20 -right-20 w-72 h-72 bg-indigo-600 rounded-full opacity-0 blur-3xl animate-pulse"></div>
@@ -10,20 +10,20 @@
   <div class="relative z-10 max-w-4xl mx-auto">
     
     <!-- Tagline -->
-    <p class="mb-4 text-base md:text-xl font-medium text-gray-700 animate-pulse tracking-wider uppercase">
-      A DMRC CSS Cell Innovation
+    <p class="mb-4 text-base md:text-xl font-medium text-gray-700 animate-pulse tracking-wider ">
+      Innovation by - IT Cell Operations
     </p>
 
     <!-- Main Heading -->
-    <h1 class="text-4xl md:text-7xl font-extrabold text-gray-900 mb-4 flex items-center justify-center gap-2">
-      CREW SCHEDULING
-      <span class="text-indigo-600 text-3xl relative animate-fade-in-up">
-        V2
-      </span>
+    <h1 class="text-4xl md:text-4xl font-extrabold text-gray-900 mb-4 flex items-center justify-center gap-2">
+      Trip Charting Solution
+      <!-- <span class="text-indigo-600 text-s relative animate-fade-in-up">
+        Ver 02
+      </span> -->
     </h1>
 
     <!-- Subtext -->
-    <p class="text-2xl md:text-2xl text-gray-800 font-light animate-fade-in-up delay-50">
+    <p class="text-xl md:text-xl text-gray-800 font-light animate-fade-in-up delay-50">
       The DMRC-developed system redefining operational efficiency
     </p>
   </div>

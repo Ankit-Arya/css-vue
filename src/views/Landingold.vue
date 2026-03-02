@@ -6,7 +6,7 @@
 
       <!-- Heading -->
       <div class="text-center max-w-4xl mx-auto">
-        <h1 class="text-4xl font-extrabold mb-4 animate-fadeIn">Crew Scheduling Software</h1>
+        <h1 class="text-4xl font-extrabold mb-4 animate-fadeIn">Smart Crew Scheduling Software</h1>
         <p class="text-lg text-gray-200 animate-fadeIn delay-200">
           Designed and developed by the CSS Cell at DMRC, this fast, efficient and user-friendly system is transforming crew scheduling.
         </p>
