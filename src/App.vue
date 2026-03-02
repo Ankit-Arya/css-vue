@@ -1,4 +1,5 @@
 <template>
+  <CinematicReveal />
   <div class="min-h-screen bg-gray-100 flex flex-col">
     <!-- Navbar -->
     <nav class="bg-white text-gray-900 border-b border-gray-200 shadow-sm sticky top-0 z-50">
@@ -135,6 +136,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 import { useAuthStore } from './stores/auth.js'
+import CinematicReveal from './views/CinematicReveal.vue'
 
 const router = useRouter()
 const auth = useAuthStore()
