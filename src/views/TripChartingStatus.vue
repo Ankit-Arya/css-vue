@@ -221,6 +221,7 @@ const checkFileAvailability = async () => {
   const baseUrl = `${API_BASE_URL}/download/`
   const possibleFiles = [
     `trip_chart_${executionId.value}.xlsx`,
+    `trip_chart_summary_${executionId.value}.xlsx`,
     `duty_trip_break_summary_${executionId.value}.xlsx`,
     `log_${executionId.value}.txt`
   ]
