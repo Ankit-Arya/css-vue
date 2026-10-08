@@ -12,7 +12,7 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     initFromStorage() {
       const token = localStorage.getItem('token')
-      console.log('🔁 initFromStorage called, token:', token)
+      // console.log('🔁 initFromStorage called, token:', token)
 
       if (token) {
         try {
@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('auth', {
     },
 
     login(token) {
-      console.log('➡️ login() called with token:', token)
+      // console.log('➡️ login() called with token:', token)
 
       try {
         const decoded = jwtDecode(token)

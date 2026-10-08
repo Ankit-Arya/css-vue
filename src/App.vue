@@ -1,5 +1,5 @@
 <template>
-  <CinematicReveal />
+  <!-- <CinematicReveal /> -->
   <div class="min-h-screen bg-gray-100 flex flex-col">
     <!-- Navbar -->
 <nav class="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
@@ -36,7 +36,7 @@
           >
             Login
           </button>
-          <button
+          <button v-bind:disabled="true"
             @click="openSignup"
             class="px-4 py-2 rounded-md border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
           >
@@ -205,9 +205,9 @@ const openLogin = () => {
   generateLoginCaptcha()
 }
 const openSignup = () => {
-  showSignup.value = true
-  showLogin.value = false
-  generateSignupCaptcha()
+  //showSignup.value = true
+  //showLogin.value = false
+  //generateSignupCaptcha()
 }
 
 /* ---------- LOGIN ---------- */
@@ -248,6 +248,7 @@ const signup = async () => {
     generateSignupCaptcha()
     return
   }
+  alert(`${API_BASE_URL}/signup`);
 
   try {
     await axios.post(`${API_BASE_URL}/signup`, {

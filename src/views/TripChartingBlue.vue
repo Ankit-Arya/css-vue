@@ -26,7 +26,7 @@
   <!-- LEFT COLUMN -->
   <div>
     <h2 class="text-2xl font-bold text-blue-800 mb-4">
-      ⏱️ Approved Input Parameters (ATO)
+      ⏱️ Approved Input Parameters (ATP)
     </h2>
 
     <div class="bg-slate-50 border border-slate-200 rounded-lg p-5">
@@ -333,7 +333,7 @@
 
           <!-- File Upload -->
           <div>
-            <h2 class="text-2xl font-bold text-blue-800 mb-2">📁 Upload Time Table <a href="/L5-timetable.csv" class="text-orange-600 animate-pulse"><u>in Template format</u></a></h2>
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">📁 Upload Time Table <a href="/LINE 34 TT TEMPLATE 26-JAN 15min.xlsx" class="text-orange-600 animate-pulse"><u>in Template format</u></a></h2>
             <div
               class="border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg p-6 text-center cursor-pointer bg-white transition hover:bg-blue-100 py-5"
               @dragover.prevent

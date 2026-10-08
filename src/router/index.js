@@ -57,13 +57,20 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(),
   routes,
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { top: 0 }
+    }
+  }
 })
 
 router.beforeEach((to, from, next) => {
   const auth = useAuthStore()
   console.log('Route Guard - Destination:', to.path)
   console.log('isLoggedIn:', auth.isLoggedIn)
-  console.log('Token:', auth.token)
+  // console.log('Token:', auth.token)
 
   if (to.meta.requiresAuth && !auth.isLoggedIn) {
     console.warn('Blocked: Not logged in. Redirecting to Landing.')
